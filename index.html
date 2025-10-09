@@ -1,7 +1,308 @@
 <!DOCTYPE html>
-<html>
-  <body>
-    <h1>Hello World</h1>
-    <p>I'm hosted with GitHub Pages.</p>
-  </body>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>多智能体团队协作模拟系统</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue@3/dist/vue.global.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body class="bg-gray-50">
+    <div id="app" class="h-screen flex flex-col">
+        <!-- Header -->
+        <header class="bg-gradient-to-r from-blue-600 to-purple-600 text-white p-4 shadow-lg">
+            <div class="container mx-auto flex items-center justify-between">
+                <h1 class="text-2xl font-bold flex items-center">
+                    <i class="fas fa-users-cog mr-3"></i>
+                    多智能体团队协作模拟系统
+                </h1>
+                <button @click="showSettings = true" class="bg-white/20 hover:bg-white/30 px-4 py-2 rounded-lg transition">
+                    <i class="fas fa-cog mr-2"></i>API 设置
+                </button>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <div class="flex-1 flex overflow-hidden">
+            <!-- Left Panel: Agent List -->
+            <div class="w-80 bg-white border-r border-gray-200 flex flex-col">
+                <div class="p-4 border-b border-gray-200">
+                    <h2 class="text-lg font-semibold mb-3 flex items-center">
+                        <i class="fas fa-robot mr-2 text-blue-600"></i>
+                        智能体角色
+                    </h2>
+                    <button @click="addAgent" class="w-full bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg transition">
+                        <i class="fas fa-plus mr-2"></i>添加角色
+                    </button>
+                </div>
+
+                <div class="flex-1 overflow-y-auto p-4 space-y-3">
+                    <div v-for="(agent, index) in agents" :key="index"
+                         class="bg-gradient-to-r p-4 rounded-lg shadow-sm border-l-4"
+                         :class="agent.color || 'from-blue-50 to-blue-100 border-blue-500'">
+                        <div class="flex justify-between items-start mb-2">
+                            <h3 class="font-semibold text-gray-800">{{ agent.name }}</h3>
+                            <button @click="removeAgent(index)" class="text-red-500 hover:text-red-700">
+                                <i class="fas fa-trash-alt"></i>
+                            </button>
+                        </div>
+                        <p class="text-sm text-gray-600 mb-2">{{ agent.role }}</p>
+                        <div class="text-xs text-gray-500 flex items-center">
+                            <i class="fas fa-brain mr-1"></i>
+                            {{ agent.model }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Center Panel: Discussion Area -->
+            <div class="flex-1 flex flex-col bg-gray-50">
+                <!-- Topic Input -->
+                <div class="bg-white border-b border-gray-200 p-4">
+                    <label class="block text-sm font-medium text-gray-700 mb-2">讨论主题</label>
+                    <input v-model="topic"
+                           type="text"
+                           placeholder="例如：确定宫颈癌根治术的手术方案"
+                           class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                           :disabled="isRunning">
+                </div>
+
+                <!-- Discussion Messages -->
+                <div class="flex-1 overflow-y-auto p-6 space-y-4" ref="chatContainer">
+                    <div v-if="discussion.length === 0" class="text-center text-gray-400 mt-20">
+                        <i class="fas fa-comments text-6xl mb-4"></i>
+                        <p>设置讨论主题和角色，点击"开始讨论"启动协作</p>
+                    </div>
+
+                    <div v-for="(msg, index) in discussion" :key="index" class="animate-fade-in">
+                        <!-- Round Divider -->
+                        <div v-if="msg.round && (index === 0 || discussion[index-1].round !== msg.round)"
+                             class="text-center my-6">
+                            <span class="bg-purple-100 text-purple-700 px-4 py-1 rounded-full text-sm font-medium">
+                                <i class="fas fa-sync-alt mr-2"></i>第 {{ msg.round }} 轮讨论
+                            </span>
+                        </div>
+
+                        <!-- Message Bubble -->
+                        <div class="flex items-start space-x-3">
+                            <div class="w-10 h-10 rounded-full flex items-center justify-center text-white font-bold"
+                                 :style="{backgroundColor: getAgentColor(msg.speaker)}">
+                                {{ msg.speaker.charAt(0) }}
+                            </div>
+                            <div class="flex-1">
+                                <div class="flex items-center space-x-2 mb-1">
+                                    <span class="font-semibold text-gray-800">{{ msg.speaker }}</span>
+                                    <span v-if="msg.round" class="text-xs text-gray-500">轮次 {{ msg.round }}</span>
+                                </div>
+                                <div class="bg-white p-4 rounded-lg shadow-sm border border-gray-200 prose prose-sm max-w-none"
+                                     v-html="formatMessage(msg.text)">
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Summary Highlight -->
+                        <div v-if="msg.isSummary" class="mt-6 mb-4">
+                            <div class="bg-gradient-to-r from-green-50 to-emerald-50 border-l-4 border-green-500 p-6 rounded-r-lg shadow-md">
+                                <h3 class="text-lg font-bold text-green-800 mb-3 flex items-center">
+                                    <i class="fas fa-check-circle mr-2"></i>
+                                    最终总结方案
+                                </h3>
+                                <div class="prose prose-sm max-w-none text-gray-700" v-html="formatMessage(msg.text)"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div v-if="isRunning" class="flex items-center space-x-2 text-blue-600">
+                        <i class="fas fa-spinner fa-spin"></i>
+                        <span>{{ currentAgent }} 正在思考...</span>
+                    </div>
+                </div>
+
+                <!-- Control Panel -->
+                <div class="bg-white border-t border-gray-200 p-4">
+                    <div class="flex items-center space-x-4">
+                        <div class="flex-1 flex items-center space-x-4">
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">讨论轮数</label>
+                                <input v-model.number="maxRounds"
+                                       type="number"
+                                       min="1"
+                                       max="10"
+                                       class="w-20 px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                                       :disabled="isRunning">
+                            </div>
+                            <div class="flex-1">
+                                <label class="block text-sm font-medium text-gray-700 mb-1">状态</label>
+                                <div class="flex items-center space-x-2">
+                                    <span class="w-2 h-2 rounded-full" :class="isRunning ? 'bg-green-500 animate-pulse' : 'bg-gray-400'"></span>
+                                    <span class="text-sm text-gray-600">{{ isRunning ? '讨论进行中' : '就绪' }}</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="flex space-x-2">
+                            <button @click="startDiscussion"
+                                    :disabled="isRunning || !topic || agents.length < 2"
+                                    class="bg-green-600 hover:bg-green-700 disabled:bg-gray-400 text-white px-6 py-2 rounded-lg transition flex items-center">
+                                <i class="fas fa-play mr-2"></i>
+                                {{ isRunning ? '讨论中...' : '开始讨论' }}
+                            </button>
+                            <button @click="stopDiscussion"
+                                    :disabled="!isRunning"
+                                    class="bg-red-600 hover:bg-red-700 disabled:bg-gray-400 text-white px-6 py-2 rounded-lg transition">
+                                <i class="fas fa-stop mr-2"></i>
+                                停止
+                            </button>
+                            <button @click="clearDiscussion"
+                                    :disabled="isRunning"
+                                    class="bg-gray-600 hover:bg-gray-700 disabled:bg-gray-400 text-white px-6 py-2 rounded-lg transition">
+                                <i class="fas fa-trash mr-2"></i>
+                                清空
+                            </button>
+                            <button @click="exportDiscussion"
+                                    :disabled="discussion.length === 0"
+                                    class="bg-purple-600 hover:bg-purple-700 disabled:bg-gray-400 text-white px-6 py-2 rounded-lg transition">
+                                <i class="fas fa-download mr-2"></i>
+                                导出
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Settings Modal -->
+        <div v-if="showSettings" class="fixed inset-0 bg-black/50 flex items-center justify-center z-50" @click.self="showSettings = false">
+            <div class="bg-white rounded-xl shadow-2xl w-full max-w-2xl max-h-[80vh] overflow-y-auto">
+                <div class="sticky top-0 bg-white border-b border-gray-200 p-6 flex justify-between items-center">
+                    <h2 class="text-xl font-bold">API 配置</h2>
+                    <button @click="showSettings = false" class="text-gray-500 hover:text-gray-700">
+                        <i class="fas fa-times text-xl"></i>
+                    </button>
+                </div>
+
+                <div class="p-6 space-y-6">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">
+                            <i class="fas fa-key mr-2 text-green-600"></i>OpenAI API Key
+                        </label>
+                        <input v-model="apiKeys.openai"
+                               type="password"
+                               placeholder="sk-..."
+                               class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500">
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">
+                            <i class="fas fa-key mr-2 text-purple-600"></i>Claude API Key
+                        </label>
+                        <input v-model="apiKeys.claude"
+                               type="password"
+                               placeholder="sk-ant-..."
+                               class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500">
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">
+                            <i class="fas fa-key mr-2 text-blue-600"></i>DeepSeek API Key
+                        </label>
+                        <input v-model="apiKeys.deepseek"
+                               type="password"
+                               placeholder="sk-..."
+                               class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500">
+                    </div>
+
+                    <div class="bg-yellow-50 border border-yellow-200 rounded-lg p-4">
+                        <p class="text-sm text-yellow-800">
+                            <i class="fas fa-exclamation-triangle mr-2"></i>
+                            API Key 仅保存在本地浏览器，不会上传到服务器
+                        </p>
+                    </div>
+
+                    <button @click="saveApiKeys" class="w-full bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg transition">
+                        <i class="fas fa-save mr-2"></i>保存配置
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Add Agent Modal -->
+        <div v-if="showAddAgent" class="fixed inset-0 bg-black/50 flex items-center justify-center z-50" @click.self="showAddAgent = false">
+            <div class="bg-white rounded-xl shadow-2xl w-full max-w-2xl">
+                <div class="bg-gradient-to-r from-blue-600 to-purple-600 text-white p-6 rounded-t-xl">
+                    <h2 class="text-xl font-bold">添加智能体角色</h2>
+                </div>
+
+                <div class="p-6 space-y-4">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">角色名称</label>
+                        <input v-model="newAgent.name"
+                               type="text"
+                               placeholder="例如：SurgeonGPT"
+                               class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500">
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">AI 模型</label>
+                        <select v-model="newAgent.model" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500">
+                            <option value="gpt-4-turbo">GPT-4 Turbo</option>
+                            <option value="gpt-4">GPT-4</option>
+                            <option value="gpt-3.5-turbo">GPT-3.5 Turbo</option>
+                            <option value="claude-3-opus-20240229">Claude 3 Opus</option>
+                            <option value="claude-3-sonnet-20240229">Claude 3 Sonnet</option>
+                            <option value="deepseek-chat">DeepSeek Chat</option>
+                        </select>
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">角色描述</label>
+                        <textarea v-model="newAgent.role"
+                                  rows="4"
+                                  placeholder="例如：资深外科主任医师，擅长妇科肿瘤手术，有20年临床经验..."
+                                  class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"></textarea>
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">
+                            <input type="checkbox" v-model="newAgent.isSummarizer" class="mr-2">
+                            设为总结角色（最后发言并总结）
+                        </label>
+                    </div>
+
+                    <div class="flex space-x-3 pt-4">
+                        <button @click="confirmAddAgent" class="flex-1 bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg transition">
+                            <i class="fas fa-check mr-2"></i>确认添加
+                        </button>
+                        <button @click="showAddAgent = false" class="flex-1 bg-gray-300 hover:bg-gray-400 text-gray-700 px-4 py-2 rounded-lg transition">
+                            <i class="fas fa-times mr-2"></i>取消
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+
+    <style>
+        @keyframes fade-in {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .animate-fade-in {
+            animation: fade-in 0.3s ease-out;
+        }
+        .prose {
+            line-height: 1.6;
+        }
+        .prose p {
+            margin: 0.5em 0;
+        }
+        .prose ul, .prose ol {
+            margin: 0.5em 0;
+            padding-left: 1.5em;
+        }
+    </style>
+</body>
 </html>
