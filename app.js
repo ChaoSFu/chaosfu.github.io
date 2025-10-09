@@ -24,7 +24,7 @@ createApp({
             agents: [],
             newAgent: {
                 name: '',
-                model: 'gpt-4-turbo',
+                model: 'gpt-5',
                 role: '',
                 isSummarizer: false
             },
@@ -66,7 +66,7 @@ createApp({
         addAgent() {
             this.newAgent = {
                 name: '',
-                model: 'gpt-4-turbo',
+                model: 'gpt-5',
                 role: '',
                 isSummarizer: false
             };
@@ -109,28 +109,28 @@ createApp({
                 this.agents = [
                     {
                         name: 'SurgeonGPT',
-                        model: 'gpt-4-turbo',
+                        model: 'gpt-5',
                         role: '资深外科主任医师，擅长妇科肿瘤手术，有20年临床经验，负责制定手术方案',
                         color: 'from-blue-50 to-blue-100 border-blue-500',
                         isSummarizer: false
                     },
                     {
                         name: 'PathologistGPT',
-                        model: 'claude-3-opus-20240229',
+                        model: 'gpt-5-mini',
                         role: '病理科专家，负责分析病理报告，评估肿瘤分期和侵袭程度',
                         color: 'from-purple-50 to-purple-100 border-purple-500',
                         isSummarizer: false
                     },
                     {
                         name: 'RadiologistGPT',
-                        model: 'deepseek-chat',
+                        model: 'gpt-5-nano',
                         role: '影像科医生，负责解读CT、MRI等影像学检查，评估肿瘤范围',
                         color: 'from-pink-50 to-pink-100 border-pink-500',
                         isSummarizer: false
                     },
                     {
                         name: 'ChiefGPT',
-                        model: 'gpt-4-turbo',
+                        model: 'gpt-5',
                         role: '科室主任，负责综合各专家意见，做出最终决策和总结',
                         color: 'from-green-50 to-green-100 border-green-500',
                         isSummarizer: true
