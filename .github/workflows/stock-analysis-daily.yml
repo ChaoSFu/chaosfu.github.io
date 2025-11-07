@@ -44,11 +44,16 @@ jobs:
             --days 7 \
             --out stock-analysis/site/data/history.json
 
-      - name: Deploy to GitHub Pages
-        uses: peaceiris/actions-gh-pages@v3
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_branch: gh-pages
-          publish_dir: stock-analysis/site
-          force_orphan: true
-          destination_dir: stock-analysis
+      - name: Commit and Push Data to Main Branch
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add stock-analysis/site/data/
+          git diff --staged --quiet || git commit -m "Auto-update stock data $(date +%Y-%m-%d)
+
+          📊 Updated by GitHub Actions
+          - Daily data: stock-analysis/site/data/daily.json
+          - History data: stock-analysis/site/data/history.json
+          - Archive: stock-analysis/site/data/archive/$(date +%Y-%m-%d).json
+          "
+          git push
