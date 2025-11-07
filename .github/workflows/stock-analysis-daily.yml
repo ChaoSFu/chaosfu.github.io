@@ -1,0 +1,40 @@
+name: Build & Deploy Daily Data
+
+on:
+  schedule:
+    - cron: '10 7 * * 1-5'   # UTC 07:10 ≈ 北京时间 15:10 工作日
+  workflow_dispatch: {}
+
+jobs:
+  etl:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install deps
+        run: pip install -r stock-analysis/scripts/requirements.txt
+
+      - name: Run ETL (Fetch Real Data from Eastmoney)
+        env:
+          MODE: "EASTMONEY"  # EASTMONEY=东方财富实时数据(推荐) / MOCK=测试数据 / CSV / API
+        run: |
+          python stock-analysis/scripts/etl_daily.py \
+            --mode "${MODE}" \
+            --top-boards 20 \
+            --stocks-per-board 10 \
+            --out "stock-analysis/site/data/daily.json"
+
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_branch: gh-pages
+          publish_dir: stock-analysis/site
+          force_orphan: true
+          destination_dir: stock-analysis

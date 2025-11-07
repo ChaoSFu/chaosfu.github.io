@@ -1,6 +1,19 @@
-# 多智能体团队协作模拟系统
+# 个人项目集合
+
+本仓库包含多个独立项目：
+
+## 📊 [A股板块热度分析系统](./stock-analysis/)
+基于 GitHub Pages + GitHub Actions 的 A 股板块热度、核心个股及市场节奏分析系统，每日自动更新。
+
+**在线访问**：[https://chaosfu.github.io/stock-analysis/](https://chaosfu.github.io/stock-analysis/)
+
+---
+
+## 🤖 多智能体团队协作模拟系统
 
 Multi-Agent Debate / Discussion Platform - 让不同 AI 模型以不同身份扮演专业角色，自动进行多轮讨论并生成总结方案。
+
+**在线访问**：[https://chaosfu.github.io/](https://chaosfu.github.io/)
 
 ## 🎯 功能特点
 

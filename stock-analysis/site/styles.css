@@ -1,0 +1,33 @@
+:root { --bg:#fff; --fg:#111; --muted:#667; --pill:#eef; --border:#ddd; --primary:#1677ff; }
+*{box-sizing:border-box} body{margin:0;background:var(--bg);color:var(--fg);font:16px/1.6 system-ui}
+.wrap{max-width:980px;margin:0 auto;padding:16px}
+h1,h2{margin:8px 0}
+section{margin:24px 0}
+
+/* Tabs */
+.tabs{display:flex;gap:8px;margin:16px 0;border-bottom:2px solid var(--border)}
+.tab{background:none;border:none;padding:12px 24px;cursor:pointer;font-size:15px;color:var(--muted);border-bottom:2px solid transparent;margin-bottom:-2px;transition:all 0.2s}
+.tab:hover{color:var(--fg)}
+.tab.active{color:var(--primary);border-bottom-color:var(--primary);font-weight:500}
+.tab-content{display:none}
+.tab-content.active{display:block}
+
+/* Boards */
+#board-list .card{border:1px solid #eee;border-radius:12px;padding:12px;margin:10px 0}
+.grid{display:grid;grid-template-columns:2fr 1fr 1fr 1fr 1fr;gap:8px}
+
+/* Pills & Badges */
+.pill{display:inline-block;border-radius:999px;background:var(--pill);padding:6px 10px;margin:6px 0}
+.badge{padding:2px 8px;border-radius:999px;font-size:12px}
+.badge.GREEN{background:#e6f7e8;color:#0a7a27}
+.badge.YELLOW{background:#fff6e0;color:#a57900}
+.badge.RED{background:#ffe7e7;color:#b21d1d}
+
+/* Hot boards */
+#hot-boards .hot-card{border:1px solid #eee;border-radius:8px;padding:10px;margin:8px 0;display:flex;justify-content:space-between;align-items:center}
+#hot-boards .trend-mini{display:inline-flex;gap:2px}
+#hot-boards .trend-bar{width:4px;height:16px;background:#ddd;border-radius:2px}
+#hot-boards .trend-bar.up{background:#52c41a}
+#hot-boards .trend-bar.down{background:#f5222d}
+
+.disclaimer{color:var(--muted)}

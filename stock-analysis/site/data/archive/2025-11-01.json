@@ -1,0 +1,332 @@
+{
+  "date": "2025-11-01",
+  "market": {
+    "risk_on": true,
+    "broad_strength": -0.1,
+    "advice": "DEFENSE"
+  },
+  "boards": [
+    {
+      "code": "BK1000",
+      "name": "光伏设备",
+      "ret": 0.030267,
+      "pop": 0.375396,
+      "persistence": 1,
+      "dispersion": 0.038954,
+      "breadth": 0.920794,
+      "score": 1.62817,
+      "stance": "BUY",
+      "core_stocks": [
+        {
+          "code": "613752",
+          "name": "股票1",
+          "ret": 0.001646,
+          "core": 1.73736
+        },
+        {
+          "code": "624277",
+          "name": "股票2",
+          "ret": 0.012119,
+          "core": 1.143243
+        },
+        {
+          "code": "643205",
+          "name": "股票3",
+          "ret": 0.02706,
+          "core": 0.889657
+        }
+      ]
+    },
+    {
+      "code": "BK1001",
+      "name": "化学原料",
+      "ret": 0.005549,
+      "pop": 1.401503,
+      "persistence": 3,
+      "dispersion": 0.047746,
+      "breadth": 0.8914,
+      "score": 2.697009,
+      "stance": "STRONG_BUY",
+      "core_stocks": [
+        {
+          "code": "630148",
+          "name": "股票1",
+          "ret": 0.048648,
+          "core": 1.378293
+        },
+        {
+          "code": "609940",
+          "name": "股票2",
+          "ret": 0.082004,
+          "core": 0.46616
+        },
+        {
+          "code": "657007",
+          "name": "股票3",
+          "ret": 0.003566,
+          "core": 0.958068
+        }
+      ]
+    },
+    {
+      "code": "BK1002",
+      "name": "半导体",
+      "ret": 0.031374,
+      "pop": 0.711086,
+      "persistence": 1,
+      "dispersion": 0.048308,
+      "breadth": 0.660392,
+      "score": 1.706868,
+      "stance": "WATCH",
+      "core_stocks": [
+        {
+          "code": "676712",
+          "name": "股票1",
+          "ret": 0.043032,
+          "core": 0.671373
+        },
+        {
+          "code": "603451",
+          "name": "股票2",
+          "ret": 0.094933,
+          "core": 0.636233
+        },
+        {
+          "code": "626774",
+          "name": "股票3",
+          "ret": 0.064489,
+          "core": 1.558229
+        }
+      ]
+    },
+    {
+      "code": "BK1003",
+      "name": "传媒",
+      "ret": 0.010613,
+      "pop": 0.884405,
+      "persistence": 3,
+      "dispersion": 0.012595,
+      "breadth": 0.959855,
+      "score": 1.388144,
+      "stance": "BUY",
+      "core_stocks": [
+        {
+          "code": "633209",
+          "name": "股票1",
+          "ret": 0.056801,
+          "core": 1.058647
+        },
+        {
+          "code": "638493",
+          "name": "股票2",
+          "ret": 0.092978,
+          "core": 0.277941
+        },
+        {
+          "code": "604508",
+          "name": "股票3",
+          "ret": 0.074796,
+          "core": 0.341807
+        }
+      ]
+    },
+    {
+      "code": "BK1004",
+      "name": "化学制品",
+      "ret": -0.00513,
+      "pop": 0.048223,
+      "persistence": 2,
+      "dispersion": 0.019006,
+      "breadth": 0.703213,
+      "score": 2.678931,
+      "stance": "BUY",
+      "core_stocks": [
+        {
+          "code": "657156",
+          "name": "股票1",
+          "ret": 0.045161,
+          "core": 1.203937
+        },
+        {
+          "code": "652460",
+          "name": "股票2",
+          "ret": 0.05481,
+          "core": 0.037369
+        },
+        {
+          "code": "676921",
+          "name": "股票3",
+          "ret": 0.084799,
+          "core": 0.329377
+        }
+      ]
+    },
+    {
+      "code": "BK1005",
+      "name": "游戏",
+      "ret": -0.002189,
+      "pop": 0.117097,
+      "persistence": 2,
+      "dispersion": 0.04826,
+      "breadth": 0.895736,
+      "score": -0.530304,
+      "stance": "STRONG_BUY",
+      "core_stocks": [
+        {
+          "code": "644772",
+          "name": "股票1",
+          "ret": 0.087628,
+          "core": 0.308608
+        },
+        {
+          "code": "636763",
+          "name": "股票2",
+          "ret": 0.002897,
+          "core": 1.151269
+        },
+        {
+          "code": "650455",
+          "name": "股票3",
+          "ret": 0.07057,
+          "core": 0.592293
+        }
+      ]
+    },
+    {
+      "code": "BK1006",
+      "name": "电力设备",
+      "ret": 0.007386,
+      "pop": 0.648537,
+      "persistence": 3,
+      "dispersion": 0.042078,
+      "breadth": 0.993534,
+      "score": -0.638266,
+      "stance": "WATCH",
+      "core_stocks": [
+        {
+          "code": "684501",
+          "name": "股票1",
+          "ret": 0.030807,
+          "core": 1.904717
+        },
+        {
+          "code": "671015",
+          "name": "股票2",
+          "ret": 0.05611,
+          "core": 0.420649
+        },
+        {
+          "code": "601917",
+          "name": "股票3",
+          "ret": 0.000226,
+          "core": 0.427842
+        }
+      ]
+    },
+    {
+      "code": "BK1007",
+      "name": "通信设备",
+      "ret": 0.014499,
+      "pop": 0.911485,
+      "persistence": 3,
+      "dispersion": 0.045398,
+      "breadth": 0.769295,
+      "score": -0.571495,
+      "stance": "BUY",
+      "core_stocks": [
+        {
+          "code": "683036",
+          "name": "股票1",
+          "ret": 0.078839,
+          "core": 1.306621
+        },
+        {
+          "code": "680136",
+          "name": "股票2",
+          "ret": 0.047075,
+          "core": 0.362426
+        },
+        {
+          "code": "646612",
+          "name": "股票3",
+          "ret": 0.094543,
+          "core": 0.171343
+        }
+      ]
+    },
+    {
+      "code": "BK1008",
+      "name": "中药",
+      "ret": -0.001693,
+      "pop": 1.013923,
+      "persistence": 2,
+      "dispersion": 0.045925,
+      "breadth": 0.872623,
+      "score": 0.494994,
+      "stance": "BUY",
+      "core_stocks": [
+        {
+          "code": "680464",
+          "name": "股票1",
+          "ret": 0.059794,
+          "core": 0.346652
+        },
+        {
+          "code": "686915",
+          "name": "股票2",
+          "ret": 0.095547,
+          "core": 1.368818
+        },
+        {
+          "code": "604175",
+          "name": "股票3",
+          "ret": 0.020775,
+          "core": 0.055948
+        }
+      ]
+    },
+    {
+      "code": "BK1009",
+      "name": "电池",
+      "ret": 0.005002,
+      "pop": 0.259237,
+      "persistence": 2,
+      "dispersion": 0.039428,
+      "breadth": 0.65632,
+      "score": -0.25171,
+      "stance": "BUY",
+      "core_stocks": [
+        {
+          "code": "617614",
+          "name": "股票1",
+          "ret": 0.016031,
+          "core": 0.833486
+        },
+        {
+          "code": "661534",
+          "name": "股票2",
+          "ret": 0.051924,
+          "core": 1.965332
+        },
+        {
+          "code": "626016",
+          "name": "股票3",
+          "ret": 0.081887,
+          "core": 1.614797
+        }
+      ]
+    }
+  ],
+  "indices": {
+    "hs300": {
+      "ret": -0.007084
+    },
+    "csi1000": {
+      "ret": -0.017502
+    },
+    "shcomp": {
+      "ret": 0.007538
+    }
+  },
+  "disclaimer": "本页面仅为个人研究与技术演示，不构成投资建议。"
+}

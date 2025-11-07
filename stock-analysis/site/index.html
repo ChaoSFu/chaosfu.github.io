@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>A股板块 & 核心个股（日更演示）</title>
+  <link rel="icon" href="./assets/icon.png">
+  <link rel="stylesheet" href="./styles.css">
+  <script src="https://cdn.jsdelivr.net/npm/echarts@5/dist/echarts.min.js"></script>
+</head>
+<body>
+  <header class="wrap">
+    <h1>板块热度 & 核心个股（日更）</h1>
+    <div id="regime" class="pill"></div>
+    <small id="date"></small>
+  </header>
+
+  <main class="wrap">
+    <!-- 标签切换 -->
+    <div class="tabs">
+      <button class="tab active" data-tab="today">今日数据</button>
+      <button class="tab" data-tab="history">历史趋势</button>
+    </div>
+
+    <!-- 今日数据 -->
+    <div id="tab-today" class="tab-content active">
+      <section>
+        <h2>今日板块 Top</h2>
+        <div id="board-list"></div>
+      </section>
+
+      <section>
+        <h2>宽基强弱（沪深300 - 中证1000）</h2>
+        <div id="broad" style="height:220px"></div>
+      </section>
+    </div>
+
+    <!-- 历史趋势 -->
+    <div id="tab-history" class="tab-content">
+      <section>
+        <h2>指数 7 日走势</h2>
+        <div id="indices-trend" style="height:280px"></div>
+      </section>
+
+      <section>
+        <h2>市场节奏变化</h2>
+        <div id="market-trend" style="height:200px"></div>
+      </section>
+
+      <section>
+        <h2>热门板块（连续上榜）</h2>
+        <div id="hot-boards"></div>
+      </section>
+
+      <section>
+        <h2>板块轮动热力图</h2>
+        <div id="board-rotation" style="height:350px"></div>
+      </section>
+    </div>
+
+    <section>
+      <h2>免责声明</h2>
+      <p id="disclaimer" class="disclaimer"></p>
+    </section>
+  </main>
+
+  <footer class="wrap">
+    <small>© 2025 YourName. For research only.</small>
+  </footer>
+
+  <script src="./app.js"></script>
+</body>
+</html>
