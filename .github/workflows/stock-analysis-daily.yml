@@ -30,6 +30,20 @@ jobs:
             --stocks-per-board 10 \
             --out "stock-analysis/site/data/daily.json"
 
+      - name: Archive Today's Data
+        run: |
+          TODAY=$(date +%Y-%m-%d)
+          mkdir -p stock-analysis/site/data/archive
+          cp stock-analysis/site/data/daily.json "stock-analysis/site/data/archive/${TODAY}.json"
+          echo "✅ Archived today's data to archive/${TODAY}.json"
+
+      - name: Generate History Data
+        run: |
+          python stock-analysis/scripts/generate_history.py \
+            --archive-dir stock-analysis/site/data/archive \
+            --days 7 \
+            --out stock-analysis/site/data/history.json
+
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
         with:
