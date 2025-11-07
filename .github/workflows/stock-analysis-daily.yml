@@ -28,32 +28,32 @@ jobs:
             --mode "${MODE}" \
             --top-boards 20 \
             --stocks-per-board 10 \
-            --out "docs/data/daily.json"
+            --out "stock-analysis/data/daily.json"
 
       - name: Archive Today's Data
         run: |
           TODAY=$(date +%Y-%m-%d)
-          mkdir -p docs/data/archive
-          cp docs/data/daily.json "docs/data/archive/${TODAY}.json"
+          mkdir -p stock-analysis/data/archive
+          cp stock-analysis/data/daily.json "stock-analysis/data/archive/${TODAY}.json"
           echo "✅ Archived today's data to archive/${TODAY}.json"
 
       - name: Generate History Data
         run: |
           python stock-analysis/scripts/generate_history.py \
-            --archive-dir docs/data/archive \
+            --archive-dir stock-analysis/data/archive \
             --days 7 \
-            --out docs/data/history.json
+            --out stock-analysis/data/history.json
 
       - name: Commit and Push Data to Main Branch
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add docs/data/
+          git add stock-analysis/data/
           git diff --staged --quiet || git commit -m "Auto-update stock data $(date +%Y-%m-%d)
 
           📊 Updated by GitHub Actions
-          - Daily data: docs/data/daily.json
-          - History data: docs/data/history.json
-          - Archive: docs/data/archive/$(date +%Y-%m-%d).json
+          - Daily data: stock-analysis/data/daily.json
+          - History data: stock-analysis/data/history.json
+          - Archive: stock-analysis/data/archive/$(date +%Y-%m-%d).json
           "
           git push
