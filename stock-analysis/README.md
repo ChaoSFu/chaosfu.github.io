@@ -57,25 +57,29 @@
 ## 项目结构
 
 ```
-stock-analysis/
-├── site/                      # 静态网站（部署到 gh-pages）
+chaosfu.github.io/
+├── docs/                      # 静态网站（部署到 GitHub Pages）
 │   ├── index.html            # 主页面
 │   ├── styles.css            # 样式
 │   ├── app.js                # 前端逻辑
-│   ├── data/
-│   │   └── daily.json        # 每日生成的数据
+│   ├── data/                 # 数据目录（工作流自动更新）
+│   │   ├── daily.json        # 每日数据
+│   │   ├── history.json      # 历史趋势
+│   │   └── archive/          # 历史存档
 │   └── assets/
 │       └── icon.png          # 网站图标（可选）
-├── scripts/                   # Python ETL 脚本
-│   ├── etl_daily.py          # 主脚本
-│   ├── sources.py            # 数据源适配
-│   ├── factors.py            # 指标计算
-│   ├── requirements.txt      # Python 依赖
-│   └── sample/               # CSV 样例数据
-│       ├── boards.csv
-│       ├── stocks.csv
-│       └── index.csv
-└── README.md
+├── stock-analysis/
+│   └── scripts/              # Python ETL 脚本
+│       ├── etl_daily.py      # 主脚本
+│       ├── sources.py        # 数据源适配
+│       ├── factors.py        # 指标计算
+│       ├── requirements.txt  # Python 依赖
+│       └── sample/           # CSV 样例数据
+│           ├── boards.csv
+│           ├── stocks.csv
+│           └── index.csv
+└── .github/workflows/
+    └── stock-analysis-daily.yml  # 自动化工作流
 ```
 
 ## 指标说明
@@ -110,26 +114,26 @@ stock-analysis/
 pip install -r stock-analysis/scripts/requirements.txt
 
 # 使用东方财富真实数据（推荐）
-python stock-analysis/scripts/etl_daily.py --mode EASTMONEY --out stock-analysis/site/data/daily.json
+python stock-analysis/scripts/etl_daily.py --mode EASTMONEY --out docs/data/daily.json
 
 # 自定义抓取参数
 python stock-analysis/scripts/etl_daily.py \
     --mode EASTMONEY \
     --top-boards 20 \
     --stocks-per-board 10 \
-    --out stock-analysis/site/data/daily.json
+    --out docs/data/daily.json
 
 # 或使用 Mock 测试数据
-python stock-analysis/scripts/etl_daily.py --mode MOCK --out stock-analysis/site/data/daily.json
+python stock-analysis/scripts/etl_daily.py --mode MOCK --out docs/data/daily.json
 
 # 或使用 CSV 模式
-python stock-analysis/scripts/etl_daily.py --mode CSV --out stock-analysis/site/data/daily.json
+python stock-analysis/scripts/etl_daily.py --mode CSV --out docs/data/daily.json
 ```
 
 ### 本地预览网站
 
 ```bash
-cd stock-analysis/site
+cd docs
 python -m http.server 8000
 # 访问 http://localhost:8000
 ```
