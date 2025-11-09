@@ -39,6 +39,22 @@ def archive_daily_data(data, archive_dir):
 
     print(f"   📁 存档: {archive_path}")
 
+def is_trading_day():
+    """
+    检测今天是否为交易日
+    简单判断：排除周末（周六、周日）
+    注意：不包含法定节假日判断，如需更精确请使用交易日历API
+    """
+    from datetime import datetime
+    today = datetime.today()
+    weekday = today.weekday()  # 0=Monday, 6=Sunday
+
+    # 周六(5)和周日(6)不是交易日
+    if weekday >= 5:
+        return False
+
+    return True
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--mode", choices=["EASTMONEY","MOCK","CSV","API"], default="EASTMONEY",
@@ -52,10 +68,23 @@ def main():
     ap.add_argument("--archive-dir", default="site/data/archive", help="历史数据存档目录")
     ap.add_argument("--enable-history", action="store_true", help="启用历史趋势数据生成")
     ap.add_argument("--history-days", type=int, default=7, help="历史数据天数")
+    ap.add_argument("--skip-trading-day-check", action="store_true", help="跳过交易日检测（用于测试）")
     args = ap.parse_args()
 
     print(f"🚀 ETL 模式: {args.mode}")
     print("=" * 60)
+
+    # 检测是否为交易日（MOCK模式和显式跳过检测时除外）
+    if args.mode != "MOCK" and not args.skip_trading_day_check:
+        if not is_trading_day():
+            from datetime import datetime
+            weekday_name = ['星期一', '星期二', '星期三', '星期四', '星期五', '星期六', '星期日']
+            today_name = weekday_name[datetime.today().weekday()]
+            print(f"\n⚠️  今天是 {today_name}，非交易日")
+            print("⚠️  跳过数据抓取和存档")
+            print("\n💡 如需强制运行，请使用 --skip-trading-day-check 参数")
+            print("=" * 60)
+            return
 
     if args.mode == "EASTMONEY":
         from sources import load_eastmoney

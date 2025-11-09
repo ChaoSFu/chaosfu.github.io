@@ -398,17 +398,21 @@ function displayRecent10Data(history) {
     const conceptContainer = document.createElement('div');
     conceptContainer.id = `concept-${dayData.date}`;
     daySection.appendChild(conceptContainer);
-    renderBoardListInline(dayData.concept_boards || [], conceptContainer);
+    renderBoardListInline(
+      dayData.concept_boards || [],
+      conceptContainer,
+      '暂无数据（历史数据未包含概念板块）'
+    );
 
     container.appendChild(daySection);
   });
 }
 
-function renderBoardListInline(boards, container) {
+function renderBoardListInline(boards, container, emptyMessage = '暂无数据') {
   container.innerHTML = '';
 
   if (!boards || boards.length === 0) {
-    container.innerHTML = '<p style="color: #999;">暂无数据</p>';
+    container.innerHTML = `<p style="color: #999; font-size: 0.875rem;">${emptyMessage}</p>`;
     return;
   }
 

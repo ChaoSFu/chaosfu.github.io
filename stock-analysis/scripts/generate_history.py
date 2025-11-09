@@ -24,7 +24,7 @@ def load_archive(archive_dir, date_str):
 
 def generate_history(archive_dir, days=7):
     """
-    生成最近N天的历史趋势数据
+    生成最近N个交易日的历史趋势数据
 
     返回:
     {
@@ -54,16 +54,30 @@ def generate_history(archive_dir, days=7):
         }
     }
     """
-    print(f"📊 生成最近 {days} 天的历史趋势数据...")
+    print(f"📊 生成最近 {days} 个交易日的历史趋势数据...")
     print("=" * 60)
 
-    # 获取日期列表（倒序：从今天往前推）
-    dates = []
-    today = date.today()
-    for i in range(days):
-        d = today - timedelta(days=i)
-        dates.append(d.isoformat())
+    # 获取存档目录中的所有可用日期（交易日）
+    archive_path = Path(archive_dir)
+    available_files = sorted(archive_path.glob("*.json"), reverse=True)  # 倒序排列
+
+    # 提取日期并过滤掉非日期格式的文件
+    all_dates = []
+    for f in available_files:
+        date_str = f.stem
+        try:
+            # 验证是否为有效的日期格式 YYYY-MM-DD
+            date.fromisoformat(date_str)
+            all_dates.append(date_str)
+        except ValueError:
+            continue
+
+    # 取最近N个交易日
+    dates = all_dates[:days]
     dates = list(reversed(dates))  # 正序排列
+
+    print(f"  找到 {len(all_dates)} 个交易日的存档数据")
+    print(f"  使用最近 {len(dates)} 个交易日")
 
     # 加载所有存档数据
     archives = {}
@@ -71,9 +85,12 @@ def generate_history(archive_dir, days=7):
         data = load_archive(archive_dir, date_str)
         if data:
             archives[date_str] = data
-            print(f"  ✅ {date_str}: {len(data.get('boards', []))} 个板块")
+            boards_count = len(data.get('industry_boards', [])) + len(data.get('concept_boards', []))
+            if boards_count == 0:
+                boards_count = len(data.get('boards', []))
+            print(f"  ✅ {date_str}: {boards_count} 个板块")
         else:
-            print(f"  ⚠️  {date_str}: 无存档数据")
+            print(f"  ⚠️  {date_str}: 无法读取数据")
 
     if not archives:
         print("\n❌ 无可用的历史数据")
@@ -222,10 +239,25 @@ def detect_new_boards(archive_dir, lookback_days=10):
             'concept': set(['BK0961', ...])     # 新上榜的概念板块代码
         }
     """
-    today = date.today()
+    # 获取存档目录中的所有可用日期（交易日），按时间倒序
+    archive_path = Path(archive_dir)
+    available_files = sorted(archive_path.glob("*.json"), reverse=True)
 
-    # 获取今天的数据
-    today_data = load_archive(archive_dir, today.isoformat())
+    all_dates = []
+    for f in available_files:
+        date_str = f.stem
+        try:
+            date.fromisoformat(date_str)
+            all_dates.append(date_str)
+        except ValueError:
+            continue
+
+    if len(all_dates) == 0:
+        return {'industry': set(), 'concept': set()}
+
+    # 最新交易日的数据
+    latest_date = all_dates[0]
+    today_data = load_archive(archive_dir, latest_date)
     if not today_data:
         return {'industry': set(), 'concept': set()}
 
@@ -245,13 +277,15 @@ def detect_new_boards(archive_dir, lookback_days=10):
             else:
                 today_industry.add(b['code'])
 
-    # 统计过去N天出现在Top10的板块
+    # 统计过去N个交易日出现在Top10的板块（从第2个交易日开始，跳过今天）
     historical_industry = set()
     historical_concept = set()
 
-    for i in range(1, lookback_days + 1):
-        past_date = today - timedelta(days=i)
-        past_data = load_archive(archive_dir, past_date.isoformat())
+    # 取过去N个交易日（跳过第一个，即今天）
+    past_dates = all_dates[1:lookback_days+1]
+
+    for past_date_str in past_dates:
+        past_data = load_archive(archive_dir, past_date_str)
 
         if past_data:
             if 'industry_boards' in past_data:

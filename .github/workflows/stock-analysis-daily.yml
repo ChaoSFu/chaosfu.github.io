@@ -28,21 +28,13 @@ jobs:
             --mode "${MODE}" \
             --top-boards 20 \
             --stocks-per-board 10 \
-            --out "stock-analysis/data/daily.json"
+            --out "stock-analysis/data/daily.json" \
+            --archive-dir "stock-analysis/data/archive" \
+            --enable-history \
+            --history-days 7
 
-      - name: Archive Today's Data
-        run: |
-          TODAY=$(date +%Y-%m-%d)
-          mkdir -p stock-analysis/data/archive
-          cp stock-analysis/data/daily.json "stock-analysis/data/archive/${TODAY}.json"
-          echo "✅ Archived today's data to archive/${TODAY}.json"
-
-      - name: Generate History Data
-        run: |
-          python stock-analysis/scripts/generate_history.py \
-            --archive-dir stock-analysis/data/archive \
-            --days 7 \
-            --out stock-analysis/data/history.json
+          # 注意：etl_daily.py 已内置交易日检测，非交易日会自动跳过
+          # 如果今天不是交易日，脚本会提前退出，不会生成或更新任何数据
 
       - name: Commit and Push Data to Main Branch
         run: |
