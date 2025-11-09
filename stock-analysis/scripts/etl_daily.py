@@ -78,6 +78,12 @@ def main():
     # 聚合输出（分别处理行业板块和概念板块）
     boards_df = boards_df.sort_values("score", ascending=False)
 
+    # 检测新上榜的板块
+    new_boards = {'industry': set(), 'concept': set()}
+    if args.enable_history:
+        from generate_history import detect_new_boards
+        new_boards = detect_new_boards(args.archive_dir, lookback_days=10)
+
     def process_boards(df, board_type, top_n=10):
         """处理指定类型的板块"""
         boards = []
@@ -88,6 +94,10 @@ def main():
             top_core = (stocks_df[stocks_df["bk_code"]==bcode]
                         .sort_values("core", ascending=False)
                         .head(3)[["ts_code","name","ret_1d","core"]])
+
+            # 检查是否是新上榜板块
+            is_new = bcode in new_boards.get(board_type, set())
+
             boards.append({
                 "code": bcode,
                 "name": row["bk_name"],
@@ -99,6 +109,7 @@ def main():
                 "breadth": round(float(row["breadth"]), 6) if pd.notna(row["breadth"]) else None,
                 "score": round(float(row["score"]), 6),
                 "stance": "STRONG_BUY" if row["score"]>1.5 else ("BUY" if row["score"]>0.5 else ("WATCH" if row["score"]>-0.5 else "AVOID")),
+                "is_new": is_new,  # 新增标记
                 "core_stocks": [
                     {"code": r["ts_code"], "name": r["name"], "ret": round(float(r["ret_1d"]),6), "core": round(float(r["core"]),6)}
                     for _, r in top_core.iterrows()

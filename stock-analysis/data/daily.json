@@ -17,6 +17,7 @@
       "breadth": 1.0,
       "score": 2.693273,
       "stance": "STRONG_BUY",
+      "is_new": false,
       "core_stocks": [
         {
           "code": "300437",
@@ -49,6 +50,7 @@
       "breadth": 1.0,
       "score": 2.532805,
       "stance": "STRONG_BUY",
+      "is_new": false,
       "core_stocks": [
         {
           "code": "002136",
@@ -81,6 +83,7 @@
       "breadth": 1.0,
       "score": 1.430745,
       "stance": "BUY",
+      "is_new": false,
       "core_stocks": [
         {
           "code": "920770",
@@ -113,6 +116,7 @@
       "breadth": 1.0,
       "score": 1.101406,
       "stance": "BUY",
+      "is_new": false,
       "core_stocks": [
         {
           "code": "920809",
@@ -145,6 +149,7 @@
       "breadth": 1.0,
       "score": 0.724156,
       "stance": "BUY",
+      "is_new": false,
       "core_stocks": [
         {
           "code": "002317",
@@ -177,6 +182,7 @@
       "breadth": 1.0,
       "score": 0.666444,
       "stance": "BUY",
+      "is_new": false,
       "core_stocks": [
         {
           "code": "300390",
@@ -209,6 +215,7 @@
       "breadth": 1.0,
       "score": -0.069154,
       "stance": "WATCH",
+      "is_new": false,
       "core_stocks": [
         {
           "code": "002513",
@@ -241,6 +248,7 @@
       "breadth": 1.0,
       "score": -0.107484,
       "stance": "WATCH",
+      "is_new": false,
       "core_stocks": [
         {
           "code": "002170",
@@ -273,6 +281,7 @@
       "breadth": 1.0,
       "score": -0.140159,
       "stance": "WATCH",
+      "is_new": false,
       "core_stocks": [
         {
           "code": "000782",
@@ -305,6 +314,7 @@
       "breadth": 1.0,
       "score": -0.160117,
       "stance": "WATCH",
+      "is_new": false,
       "core_stocks": [
         {
           "code": "600506",
@@ -339,6 +349,7 @@
       "breadth": 1.0,
       "score": 2.788346,
       "stance": "STRONG_BUY",
+      "is_new": true,
       "core_stocks": [
         {
           "code": "300390",
@@ -371,6 +382,7 @@
       "breadth": 1.0,
       "score": 2.583134,
       "stance": "STRONG_BUY",
+      "is_new": true,
       "core_stocks": [
         {
           "code": "688353",
@@ -403,6 +415,7 @@
       "breadth": 1.0,
       "score": 2.482438,
       "stance": "STRONG_BUY",
+      "is_new": true,
       "core_stocks": [
         {
           "code": "301292",
@@ -435,6 +448,7 @@
       "breadth": 1.0,
       "score": 1.599969,
       "stance": "STRONG_BUY",
+      "is_new": true,
       "core_stocks": [
         {
           "code": "300821",
@@ -467,6 +481,7 @@
       "breadth": 1.0,
       "score": 1.315172,
       "stance": "BUY",
+      "is_new": true,
       "core_stocks": [
         {
           "code": "300437",
@@ -499,6 +514,7 @@
       "breadth": 1.0,
       "score": 1.094015,
       "stance": "BUY",
+      "is_new": true,
       "core_stocks": [
         {
           "code": "300769",
@@ -531,6 +547,7 @@
       "breadth": 1.0,
       "score": 0.957867,
       "stance": "BUY",
+      "is_new": true,
       "core_stocks": [
         {
           "code": "300437",
@@ -563,6 +580,7 @@
       "breadth": 1.0,
       "score": 0.875764,
       "stance": "BUY",
+      "is_new": true,
       "core_stocks": [
         {
           "code": "300437",
@@ -595,6 +613,7 @@
       "breadth": 1.0,
       "score": 0.808043,
       "stance": "BUY",
+      "is_new": true,
       "core_stocks": [
         {
           "code": "688275",
@@ -627,6 +646,7 @@
       "breadth": 1.0,
       "score": 0.637729,
       "stance": "BUY",
+      "is_new": true,
       "core_stocks": [
         {
           "code": "002136",

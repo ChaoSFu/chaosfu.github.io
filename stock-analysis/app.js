@@ -219,11 +219,12 @@ function renderBoardList(boards, containerId) {
 
   boards.forEach((b, idx) => {
     const riskBadge = b.stance.includes('BUY') ? 'GREEN' : (b.stance==='WATCH' ? 'YELLOW' : 'RED');
+    const newBadge = b.is_new ? '<span class="badge" style="background: #ff9800; margin-left: 4px;">NEW</span>' : '';
     const div = document.createElement('div');
     div.className = 'card';
     div.innerHTML = `
       <div class="grid">
-        <div><b>${idx+1}. ${b.name}</b> <span class="badge ${riskBadge}">${b.stance}</span></div>
+        <div><b>${idx+1}. ${b.name}</b> <span class="badge ${riskBadge}">${b.stance}</span>${newBadge}</div>
         <div>涨幅：${(b.ret*100).toFixed(2)}%</div>
         <div>人气：${b.pop.toFixed(2)}</div>
         <div>持续性：${b.persistence}</div>

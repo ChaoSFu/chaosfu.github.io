@@ -168,6 +168,80 @@ def generate_history(archive_dir, days=7):
         'generated_at': date.today().isoformat()
     }
 
+def detect_new_boards(archive_dir, lookback_days=10):
+    """
+    检测新上榜的板块（前N个交易日都未进入前10）
+
+    参数:
+        archive_dir: 存档目录
+        lookback_days: 回溯天数，默认10个交易日
+
+    返回:
+        {
+            'industry': set(['BK1019', ...]),  # 新上榜的行业板块代码
+            'concept': set(['BK0961', ...])     # 新上榜的概念板块代码
+        }
+    """
+    today = date.today()
+
+    # 获取今天的数据
+    today_data = load_archive(archive_dir, today.isoformat())
+    if not today_data:
+        return {'industry': set(), 'concept': set()}
+
+    # 获取今天的Top10板块（分类型）
+    today_industry = set()
+    today_concept = set()
+
+    if 'industry_boards' in today_data:
+        # 新格式
+        today_industry = {b['code'] for b in today_data.get('industry_boards', [])[:10]}
+        today_concept = {b['code'] for b in today_data.get('concept_boards', [])[:10]}
+    elif 'boards' in today_data:
+        # 旧格式兼容
+        for b in today_data.get('boards', [])[:10]:
+            if b.get('type') == 'concept':
+                today_concept.add(b['code'])
+            else:
+                today_industry.add(b['code'])
+
+    # 统计过去N天出现在Top10的板块
+    historical_industry = set()
+    historical_concept = set()
+
+    for i in range(1, lookback_days + 1):
+        past_date = today - timedelta(days=i)
+        past_data = load_archive(archive_dir, past_date.isoformat())
+
+        if past_data:
+            if 'industry_boards' in past_data:
+                # 新格式
+                historical_industry.update(b['code'] for b in past_data.get('industry_boards', [])[:10])
+                historical_concept.update(b['code'] for b in past_data.get('concept_boards', [])[:10])
+            elif 'boards' in past_data:
+                # 旧格式
+                for b in past_data.get('boards', [])[:10]:
+                    if b.get('type') == 'concept':
+                        historical_concept.add(b['code'])
+                    else:
+                        historical_industry.add(b['code'])
+
+    # 找出新上榜的板块（今天在Top10，但过去N天都不在）
+    new_industry = today_industry - historical_industry
+    new_concept = today_concept - historical_concept
+
+    if new_industry or new_concept:
+        print(f"\n🆕 检测到新上榜板块（前{lookback_days}个交易日未进入前10）:")
+        if new_industry:
+            print(f"  - 行业板块: {len(new_industry)} 个")
+        if new_concept:
+            print(f"  - 概念板块: {len(new_concept)} 个")
+
+    return {
+        'industry': new_industry,
+        'concept': new_concept
+    }
+
 def save_history(history_data, output_path):
     """保存历史数据到 JSON 文件"""
     with open(output_path, 'w', encoding='utf-8') as f:
