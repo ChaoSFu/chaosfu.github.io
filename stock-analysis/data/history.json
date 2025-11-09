@@ -1,385 +1,2651 @@
 {
   "dates": [
+    "2025-10-27",
+    "2025-10-28",
+    "2025-10-29",
+    "2025-10-30",
+    "2025-10-31",
+    "2025-11-03",
+    "2025-11-04",
+    "2025-11-05",
+    "2025-11-06",
     "2025-11-07"
   ],
   "available_dates": [
+    "2025-10-27",
+    "2025-10-28",
+    "2025-10-29",
+    "2025-10-30",
+    "2025-10-31",
+    "2025-11-03",
+    "2025-11-04",
+    "2025-11-05",
+    "2025-11-06",
     "2025-11-07"
   ],
   "market_trend": [
     {
+      "date": "2025-10-27",
+      "advice": "NEUTRAL",
+      "broad_strength": 0,
+      "risk_on": true
+    },
+    {
+      "date": "2025-10-28",
+      "advice": "NEUTRAL",
+      "broad_strength": 0,
+      "risk_on": true
+    },
+    {
+      "date": "2025-10-29",
+      "advice": "NEUTRAL",
+      "broad_strength": 0,
+      "risk_on": true
+    },
+    {
+      "date": "2025-10-30",
+      "advice": "NEUTRAL",
+      "broad_strength": 0,
+      "risk_on": true
+    },
+    {
+      "date": "2025-10-31",
+      "advice": "NEUTRAL",
+      "broad_strength": 0,
+      "risk_on": true
+    },
+    {
+      "date": "2025-11-03",
+      "advice": "NEUTRAL",
+      "broad_strength": 0,
+      "risk_on": true
+    },
+    {
+      "date": "2025-11-04",
+      "advice": "NEUTRAL",
+      "broad_strength": 0,
+      "risk_on": true
+    },
+    {
+      "date": "2025-11-05",
+      "advice": "NEUTRAL",
+      "broad_strength": 0,
+      "risk_on": true
+    },
+    {
+      "date": "2025-11-06",
+      "advice": "NEUTRAL",
+      "broad_strength": 0,
+      "risk_on": true
+    },
+    {
       "date": "2025-11-07",
-      "advice": "OFFENSE",
-      "broad_strength": -0.18,
-      "risk_on": false
+      "advice": "NEUTRAL",
+      "broad_strength": 0,
+      "risk_on": true
     }
   ],
   "indices_trend": {
     "hs300": [
-      -0.31
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
     ],
     "csi1000": [
-      -0.13
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
     ],
     "shcomp": [
-      -0.25
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
     ]
   },
   "hot_boards": [],
   "board_rotation": {
-    "2025-11-07": [
-      "化学原料",
-      "化学制品",
-      "光伏设备",
-      "电池",
-      "能源金属",
-      "中药",
-      "化肥行业",
-      "农药兽药",
-      "化纤行业",
-      "石油行业"
-    ]
+    "2025-10-27": [],
+    "2025-10-28": [],
+    "2025-10-29": [],
+    "2025-10-30": [],
+    "2025-10-31": [],
+    "2025-11-03": [],
+    "2025-11-04": [],
+    "2025-11-05": [],
+    "2025-11-06": [],
+    "2025-11-07": []
   },
   "daily_records": [
     {
       "date": "2025-11-07",
       "market": {
-        "risk_on": false,
-        "broad_strength": -0.18,
-        "advice": "OFFENSE"
+        "risk_on": true,
+        "broad_strength": 0,
+        "advice": "NEUTRAL"
       },
       "indices": {
         "hs300": {
-          "ret": -0.31
+          "ret": 0
         },
         "csi1000": {
-          "ret": -0.13
+          "ret": 0
         },
         "shcomp": {
-          "ret": -0.25
+          "ret": 0
         }
       },
       "industry_boards": [
         {
-          "code": "BK1019",
-          "name": "化学原料",
-          "ret": 0.0275,
-          "pop": 0.796393,
-          "persistence": 3,
-          "dispersion": 0.021678,
-          "breadth": 1.0,
-          "score": 3.059349,
-          "stance": "STRONG_BUY",
-          "core_stocks": [
-            {
-              "code": "002136",
-              "name": "安 纳 达",
-              "ret": 0.0998,
-              "core": 2.171317
-            },
-            {
-              "code": "301286",
-              "name": "侨源股份",
-              "ret": 0.1419,
-              "core": 1.59642
-            },
-            {
-              "code": "600610",
-              "name": "中毅达",
-              "ret": 0.1002,
-              "core": 1.30373
-            }
-          ],
-          "type": "industry"
+          "code": "BK1015",
+          "name": "能源金属",
+          "type": "industry",
+          "ret": 0.0404,
+          "pop": 0,
+          "persistence": 0,
+          "dispersion": 0,
+          "breadth": 0,
+          "score": 4.04,
+          "stance": "BUY",
+          "is_new": false,
+          "core_stocks": []
         },
         {
-          "code": "BK1031",
-          "name": "光伏设备",
-          "ret": 0.0192,
-          "pop": 0.609227,
-          "persistence": 3,
-          "dispersion": 0.021485,
-          "breadth": 1.0,
-          "score": 1.790787,
-          "stance": "STRONG_BUY",
-          "core_stocks": [
-            {
-              "code": "920770",
-              "name": "艾能聚",
-              "ret": 0.0463,
-              "core": 1.556572
-            },
-            {
-              "code": "603778",
-              "name": "国晟科技",
-              "ret": 0.0602,
-              "core": 0.945425
-            },
-            {
-              "code": "600537",
-              "name": "亿晶光电",
-              "ret": 0.0995,
-              "core": 0.727885
-            }
-          ],
-          "type": "industry"
+          "code": "BK1019",
+          "name": "化学原料",
+          "type": "industry",
+          "ret": 0.0275,
+          "pop": 0,
+          "persistence": 0,
+          "dispersion": 0,
+          "breadth": 0,
+          "score": 2.75,
+          "stance": "BUY",
+          "is_new": false,
+          "core_stocks": []
         },
         {
           "code": "BK1033",
           "name": "电池",
-          "ret": 0.0237,
-          "pop": 0.403344,
-          "persistence": 3,
-          "dispersion": 0.029022,
-          "breadth": 1.0,
-          "score": 1.589167,
-          "stance": "STRONG_BUY",
-          "core_stocks": [
-            {
-              "code": "920809",
-              "name": "安达科技",
-              "ret": 0.1636,
-              "core": 3.50013
-            },
-            {
-              "code": "688275",
-              "name": "万润新能",
-              "ret": 0.1528,
-              "core": 2.970681
-            },
-            {
-              "code": "300769",
-              "name": "德方纳米",
-              "ret": 0.102,
-              "core": 2.135534
-            }
-          ],
-          "type": "industry"
+          "type": "industry",
+          "ret": 0.023700000000000002,
+          "pop": 0,
+          "persistence": 0,
+          "dispersion": 0,
+          "breadth": 0,
+          "score": 2.37,
+          "stance": "BUY",
+          "is_new": false,
+          "core_stocks": []
         },
         {
-          "code": "BK1015",
-          "name": "能源金属",
-          "ret": 0.0404,
-          "pop": -0.401472,
-          "persistence": 3,
-          "dispersion": 0.041806,
-          "breadth": 1.0,
-          "score": 1.554128,
-          "stance": "STRONG_BUY",
-          "core_stocks": [
-            {
-              "code": "300390",
-              "name": "天华新能",
-              "ret": 0.1532,
-              "core": 2.1307
-            },
-            {
-              "code": "002240",
-              "name": "盛新锂能",
-              "ret": 0.0999,
-              "core": 0.94437
-            },
-            {
-              "code": "002738",
-              "name": "中矿资源",
-              "ret": 0.0647,
-              "core": -0.092286
-            }
-          ],
-          "type": "industry"
+          "code": "BK1031",
+          "name": "光伏设备",
+          "type": "industry",
+          "ret": 0.0192,
+          "pop": 0,
+          "persistence": 0,
+          "dispersion": 0,
+          "breadth": 0,
+          "score": 1.92,
+          "stance": "BUY",
+          "is_new": false,
+          "core_stocks": []
         },
         {
           "code": "BK1040",
           "name": "中药",
+          "type": "industry",
           "ret": 0.0095,
-          "pop": 0.272327,
-          "persistence": 3,
-          "dispersion": 0.012587,
-          "breadth": 1.0,
-          "score": 0.822588,
+          "pop": 0,
+          "persistence": 0,
+          "dispersion": 0,
+          "breadth": 0,
+          "score": 0.95,
           "stance": "BUY",
-          "core_stocks": [
-            {
-              "code": "002603",
-              "name": "以岭药业",
-              "ret": 0.0685,
-              "core": 0.147508
-            },
-            {
-              "code": "002317",
-              "name": "众生药业",
-              "ret": 0.0524,
-              "core": 0.137495
-            },
-            {
-              "code": "000790",
-              "name": "华神科技",
-              "ret": 0.0418,
-              "core": 0.097406
-            }
-          ],
-          "type": "industry"
+          "is_new": false,
+          "core_stocks": []
+        },
+        {
+          "code": "BK1020",
+          "name": "非金属材料",
+          "type": "industry",
+          "ret": 0.0091,
+          "pop": 0,
+          "persistence": 0,
+          "dispersion": 0,
+          "breadth": 0,
+          "score": 0.91,
+          "stance": "BUY",
+          "is_new": false,
+          "core_stocks": []
+        },
+        {
+          "code": "BK1042",
+          "name": "医药商业",
+          "type": "industry",
+          "ret": 0.0063,
+          "pop": 0,
+          "persistence": 0,
+          "dispersion": 0,
+          "breadth": 0,
+          "score": 0.63,
+          "stance": "BUY",
+          "is_new": false,
+          "core_stocks": []
         }
       ],
       "concept_boards": [
         {
-          "code": "BK0538",
-          "name": "化学制品",
-          "ret": 0.0183,
-          "pop": 1.582493,
-          "persistence": 3,
-          "dispersion": 0.046992,
-          "breadth": 1.0,
-          "score": 3.054354,
-          "stance": "STRONG_BUY",
-          "core_stocks": [
-            {
-              "code": "300437",
-              "name": "清水源",
-              "ret": 0.1997,
-              "core": 4.085285
-            },
-            {
-              "code": "301292",
-              "name": "海科新源",
-              "ret": 0.1033,
-              "core": 3.571103
-            },
-            {
-              "code": "688353",
-              "name": "华盛锂电",
-              "ret": 0.1916,
-              "core": 2.666037
-            }
-          ],
-          "type": "concept"
-        },
-        {
           "code": "BK0731",
           "name": "化肥行业",
+          "type": "concept",
           "ret": 0.0255,
-          "pop": -0.233022,
-          "persistence": 3,
-          "dispersion": 0.031602,
-          "breadth": 1.0,
-          "score": 0.447335,
-          "stance": "WATCH",
-          "core_stocks": [
-            {
-              "code": "002170",
-              "name": "芭田股份",
-              "ret": 0.0918,
-              "core": 2.14354
-            },
-            {
-              "code": "000912",
-              "name": "泸天化",
-              "ret": 0.0993,
-              "core": 0.282539
-            },
-            {
-              "code": "600691",
-              "name": "潞化科技",
-              "ret": 0.1,
-              "core": 0.281719
-            }
-          ],
-          "type": "concept"
+          "pop": 0,
+          "persistence": 0,
+          "dispersion": 0,
+          "breadth": 0,
+          "score": 2.55,
+          "stance": "BUY",
+          "is_new": false,
+          "core_stocks": []
         },
         {
-          "code": "BK0730",
-          "name": "农药兽药",
-          "ret": 0.0154,
-          "pop": 0.085161,
-          "persistence": 3,
-          "dispersion": 0.023423,
-          "breadth": 1.0,
-          "score": 0.239711,
-          "stance": "WATCH",
-          "core_stocks": [
-            {
-              "code": "002513",
-              "name": "蓝丰生化",
-              "ret": 0.0742,
-              "core": 2.970678
-            },
-            {
-              "code": "002391",
-              "name": "长青股份",
-              "ret": 0.0446,
-              "core": 0.91583
-            },
-            {
-              "code": "002250",
-              "name": "联化科技",
-              "ret": 0.1001,
-              "core": 0.779861
-            }
-          ],
-          "type": "concept"
+          "code": "BK0538",
+          "name": "化学制品",
+          "type": "concept",
+          "ret": 0.0183,
+          "pop": 0,
+          "persistence": 0,
+          "dispersion": 0,
+          "breadth": 0,
+          "score": 1.83,
+          "stance": "BUY",
+          "is_new": false,
+          "core_stocks": []
         },
         {
           "code": "BK0471",
           "name": "化纤行业",
+          "type": "concept",
           "ret": 0.0167,
-          "pop": -0.233022,
-          "persistence": 3,
-          "dispersion": 0.016411,
-          "breadth": 1.0,
-          "score": 0.167289,
-          "stance": "WATCH",
-          "core_stocks": [
-            {
-              "code": "000782",
-              "name": "恒申新材",
-              "ret": 0.0655,
-              "core": 0.202271
-            },
-            {
-              "code": "301057",
-              "name": "汇隆新材",
-              "ret": 0.0768,
-              "core": 0.142769
-            },
-            {
-              "code": "300777",
-              "name": "中简科技",
-              "ret": 0.0499,
-              "core": -0.168382
-            }
-          ],
-          "type": "concept"
+          "pop": 0,
+          "persistence": 0,
+          "dispersion": 0,
+          "breadth": 0,
+          "score": 1.67,
+          "stance": "BUY",
+          "is_new": false,
+          "core_stocks": []
+        },
+        {
+          "code": "BK0730",
+          "name": "农药兽药",
+          "type": "concept",
+          "ret": 0.0154,
+          "pop": 0,
+          "persistence": 0,
+          "dispersion": 0,
+          "breadth": 0,
+          "score": 1.54,
+          "stance": "BUY",
+          "is_new": false,
+          "core_stocks": []
+        },
+        {
+          "code": "BK0424",
+          "name": "水泥建材",
+          "type": "concept",
+          "ret": 0.013999999999999999,
+          "pop": 0,
+          "persistence": 0,
+          "dispersion": 0,
+          "breadth": 0,
+          "score": 1.4,
+          "stance": "BUY",
+          "is_new": false,
+          "core_stocks": []
+        },
+        {
+          "code": "BK0546",
+          "name": "玻璃玻纤",
+          "type": "concept",
+          "ret": 0.0087,
+          "pop": 0,
+          "persistence": 0,
+          "dispersion": 0,
+          "breadth": 0,
+          "score": 0.87,
+          "stance": "BUY",
+          "is_new": false,
+          "core_stocks": []
+        },
+        {
+          "code": "BK0539",
+          "name": "综合行业",
+          "type": "concept",
+          "ret": 0.008199999999999999,
+          "pop": 0,
+          "persistence": 0,
+          "dispersion": 0,
+          "breadth": 0,
+          "score": 0.82,
+          "stance": "BUY",
+          "is_new": false,
+          "core_stocks": []
+        },
+        {
+          "code": "BK0485",
+          "name": "旅游酒店",
+          "type": "concept",
+          "ret": 0.0073,
+          "pop": 0,
+          "persistence": 0,
+          "dispersion": 0,
+          "breadth": 0,
+          "score": 0.73,
+          "stance": "BUY",
+          "is_new": false,
+          "core_stocks": []
+        },
+        {
+          "code": "BK0427",
+          "name": "公用事业",
+          "type": "concept",
+          "ret": 0.0072,
+          "pop": 0,
+          "persistence": 0,
+          "dispersion": 0,
+          "breadth": 0,
+          "score": 0.72,
+          "stance": "BUY",
+          "is_new": false,
+          "core_stocks": []
+        },
+        {
+          "code": "BK0479",
+          "name": "钢铁行业",
+          "type": "concept",
+          "ret": 0.0070999999999999995,
+          "pop": 0,
+          "persistence": 0,
+          "dispersion": 0,
+          "breadth": 0,
+          "score": 0.71,
+          "stance": "BUY",
+          "is_new": false,
+          "core_stocks": []
+        }
+      ]
+    },
+    {
+      "date": "2025-11-06",
+      "market": {
+        "risk_on": true,
+        "broad_strength": 0,
+        "advice": "NEUTRAL"
+      },
+      "indices": {
+        "hs300": {
+          "ret": 0
+        },
+        "csi1000": {
+          "ret": 0
+        },
+        "shcomp": {
+          "ret": 0
+        }
+      },
+      "industry_boards": [
+        {
+          "code": "BK1015",
+          "name": "能源金属",
+          "type": "industry",
+          "ret": 0.03,
+          "pop": 0,
+          "persistence": 0,
+          "dispersion": 0,
+          "breadth": 0,
+          "score": 3.0,
+          "stance": "BUY",
+          "is_new": false,
+          "core_stocks": []
+        },
+        {
+          "code": "BK1034",
+          "name": "电源设备",
+          "type": "industry",
+          "ret": 0.0259,
+          "pop": 0,
+          "persistence": 0,
+          "dispersion": 0,
+          "breadth": 0,
+          "score": 2.59,
+          "stance": "BUY",
+          "is_new": false,
+          "core_stocks": []
+        },
+        {
+          "code": "BK1036",
+          "name": "半导体",
+          "type": "industry",
+          "ret": 0.0245,
+          "pop": 0,
+          "persistence": 0,
+          "dispersion": 0,
+          "breadth": 0,
+          "score": 2.45,
+          "stance": "BUY",
+          "is_new": false,
+          "core_stocks": []
+        },
+        {
+          "code": "BK1030",
+          "name": "电机",
+          "type": "industry",
+          "ret": 0.0207,
+          "pop": 0,
+          "persistence": 0,
+          "dispersion": 0,
+          "breadth": 0,
+          "score": 2.07,
+          "stance": "BUY",
+          "is_new": false,
+          "core_stocks": []
+        },
+        {
+          "code": "BK1039",
+          "name": "电子化学品",
+          "type": "industry",
+          "ret": 0.0181,
+          "pop": 0,
+          "persistence": 0,
+          "dispersion": 0,
+          "breadth": 0,
+          "score": 1.81,
+          "stance": "BUY",
+          "is_new": false,
+          "core_stocks": []
+        },
+        {
+          "code": "BK1020",
+          "name": "非金属材料",
+          "type": "industry",
+          "ret": 0.0123,
+          "pop": 0,
+          "persistence": 0,
+          "dispersion": 0,
+          "breadth": 0,
+          "score": 1.23,
+          "stance": "BUY",
+          "is_new": false,
+          "core_stocks": []
+        },
+        {
+          "code": "BK1027",
+          "name": "小金属",
+          "type": "industry",
+          "ret": 0.0111,
+          "pop": 0,
+          "persistence": 0,
+          "dispersion": 0,
+          "breadth": 0,
+          "score": 1.11,
+          "stance": "BUY",
+          "is_new": false,
+          "core_stocks": []
+        }
+      ],
+      "concept_boards": [
+        {
+          "code": "BK0731",
+          "name": "化肥行业",
+          "type": "concept",
+          "ret": 0.0444,
+          "pop": 0,
+          "persistence": 0,
+          "dispersion": 0,
+          "breadth": 0,
+          "score": 4.44,
+          "stance": "BUY",
+          "is_new": false,
+          "core_stocks": []
+        },
+        {
+          "code": "BK0478",
+          "name": "有色金属",
+          "type": "concept",
+          "ret": 0.033,
+          "pop": 0,
+          "persistence": 0,
+          "dispersion": 0,
+          "breadth": 0,
+          "score": 3.3,
+          "stance": "BUY",
+          "is_new": false,
+          "core_stocks": []
+        },
+        {
+          "code": "BK0474",
+          "name": "保险",
+          "type": "concept",
+          "ret": 0.0178,
+          "pop": 0,
+          "persistence": 0,
+          "dispersion": 0,
+          "breadth": 0,
+          "score": 1.78,
+          "stance": "BUY",
+          "is_new": false,
+          "core_stocks": []
+        },
+        {
+          "code": "BK0479",
+          "name": "钢铁行业",
+          "type": "concept",
+          "ret": 0.0147,
+          "pop": 0,
+          "persistence": 0,
+          "dispersion": 0,
+          "breadth": 0,
+          "score": 1.47,
+          "stance": "BUY",
+          "is_new": false,
+          "core_stocks": []
+        },
+        {
+          "code": "BK0538",
+          "name": "化学制品",
+          "type": "concept",
+          "ret": 0.014499999999999999,
+          "pop": 0,
+          "persistence": 0,
+          "dispersion": 0,
+          "breadth": 0,
+          "score": 1.45,
+          "stance": "BUY",
+          "is_new": false,
+          "core_stocks": []
+        },
+        {
+          "code": "BK0480",
+          "name": "航天航空",
+          "type": "concept",
+          "ret": 0.013999999999999999,
+          "pop": 0,
+          "persistence": 0,
+          "dispersion": 0,
+          "breadth": 0,
+          "score": 1.4,
+          "stance": "BUY",
+          "is_new": false,
+          "core_stocks": []
+        },
+        {
+          "code": "BK0471",
+          "name": "化纤行业",
+          "type": "concept",
+          "ret": 0.0138,
+          "pop": 0,
+          "persistence": 0,
+          "dispersion": 0,
+          "breadth": 0,
+          "score": 1.38,
+          "stance": "BUY",
+          "is_new": false,
+          "core_stocks": []
+        },
+        {
+          "code": "BK0459",
+          "name": "电子元件",
+          "type": "concept",
+          "ret": 0.0134,
+          "pop": 0,
+          "persistence": 0,
+          "dispersion": 0,
+          "breadth": 0,
+          "score": 1.34,
+          "stance": "BUY",
+          "is_new": false,
+          "core_stocks": []
+        },
+        {
+          "code": "BK0481",
+          "name": "汽车零部件",
+          "type": "concept",
+          "ret": 0.0132,
+          "pop": 0,
+          "persistence": 0,
+          "dispersion": 0,
+          "breadth": 0,
+          "score": 1.32,
+          "stance": "BUY",
+          "is_new": false,
+          "core_stocks": []
+        },
+        {
+          "code": "BK0732",
+          "name": "贵金属",
+          "type": "concept",
+          "ret": 0.0123,
+          "pop": 0,
+          "persistence": 0,
+          "dispersion": 0,
+          "breadth": 0,
+          "score": 1.23,
+          "stance": "BUY",
+          "is_new": false,
+          "core_stocks": []
+        }
+      ]
+    },
+    {
+      "date": "2025-11-05",
+      "market": {
+        "risk_on": true,
+        "broad_strength": 0,
+        "advice": "NEUTRAL"
+      },
+      "indices": {
+        "hs300": {
+          "ret": 0
+        },
+        "csi1000": {
+          "ret": 0
+        },
+        "shcomp": {
+          "ret": 0
+        }
+      },
+      "industry_boards": [
+        {
+          "code": "BK1033",
+          "name": "电池",
+          "type": "industry",
+          "ret": 0.028999999999999998,
+          "pop": 0,
+          "persistence": 0,
+          "dispersion": 0,
+          "breadth": 0,
+          "score": 2.9,
+          "stance": "BUY",
+          "is_new": false,
+          "core_stocks": []
+        },
+        {
+          "code": "BK1031",
+          "name": "光伏设备",
+          "type": "industry",
+          "ret": 0.0282,
+          "pop": 0,
+          "persistence": 0,
+          "dispersion": 0,
+          "breadth": 0,
+          "score": 2.82,
+          "stance": "BUY",
+          "is_new": false,
+          "core_stocks": []
+        },
+        {
+          "code": "BK1032",
+          "name": "风电设备",
+          "type": "industry",
+          "ret": 0.025,
+          "pop": 0,
+          "persistence": 0,
+          "dispersion": 0,
+          "breadth": 0,
+          "score": 2.5,
+          "stance": "BUY",
+          "is_new": false,
+          "core_stocks": []
+        },
+        {
+          "code": "BK1034",
+          "name": "电源设备",
+          "type": "industry",
+          "ret": 0.0217,
+          "pop": 0,
+          "persistence": 0,
+          "dispersion": 0,
+          "breadth": 0,
+          "score": 2.17,
+          "stance": "BUY",
+          "is_new": false,
+          "core_stocks": []
+        },
+        {
+          "code": "BK1015",
+          "name": "能源金属",
+          "type": "industry",
+          "ret": 0.0123,
+          "pop": 0,
+          "persistence": 0,
+          "dispersion": 0,
+          "breadth": 0,
+          "score": 1.23,
+          "stance": "BUY",
+          "is_new": false,
+          "core_stocks": []
+        },
+        {
+          "code": "BK1016",
+          "name": "汽车服务",
+          "type": "industry",
+          "ret": 0.012,
+          "pop": 0,
+          "persistence": 0,
+          "dispersion": 0,
+          "breadth": 0,
+          "score": 1.2,
+          "stance": "BUY",
+          "is_new": false,
+          "core_stocks": []
+        },
+        {
+          "code": "BK1019",
+          "name": "化学原料",
+          "type": "industry",
+          "ret": 0.012,
+          "pop": 0,
+          "persistence": 0,
+          "dispersion": 0,
+          "breadth": 0,
+          "score": 1.2,
+          "stance": "BUY",
+          "is_new": false,
+          "core_stocks": []
+        }
+      ],
+      "concept_boards": [
+        {
+          "code": "BK0457",
+          "name": "电网设备",
+          "type": "concept",
+          "ret": 0.0499,
+          "pop": 0,
+          "persistence": 0,
+          "dispersion": 0,
+          "breadth": 0,
+          "score": 4.99,
+          "stance": "BUY",
+          "is_new": false,
+          "core_stocks": []
+        },
+        {
+          "code": "BK0437",
+          "name": "煤炭行业",
+          "type": "concept",
+          "ret": 0.0196,
+          "pop": 0,
+          "persistence": 0,
+          "dispersion": 0,
+          "breadth": 0,
+          "score": 1.96,
+          "stance": "BUY",
+          "is_new": false,
+          "core_stocks": []
+        },
+        {
+          "code": "BK0731",
+          "name": "化肥行业",
+          "type": "concept",
+          "ret": 0.0189,
+          "pop": 0,
+          "persistence": 0,
+          "dispersion": 0,
+          "breadth": 0,
+          "score": 1.89,
+          "stance": "BUY",
+          "is_new": false,
+          "core_stocks": []
+        },
+        {
+          "code": "BK0732",
+          "name": "贵金属",
+          "type": "concept",
+          "ret": 0.0166,
+          "pop": 0,
+          "persistence": 0,
+          "dispersion": 0,
+          "breadth": 0,
+          "score": 1.66,
+          "stance": "BUY",
+          "is_new": false,
+          "core_stocks": []
+        },
+        {
+          "code": "BK0428",
+          "name": "电力行业",
+          "type": "concept",
+          "ret": 0.0165,
+          "pop": 0,
+          "persistence": 0,
+          "dispersion": 0,
+          "breadth": 0,
+          "score": 1.65,
+          "stance": "BUY",
+          "is_new": false,
+          "core_stocks": []
         },
         {
           "code": "BK0464",
           "name": "石油行业",
-          "ret": 0.0049,
-          "pop": -0.420189,
-          "persistence": 3,
-          "dispersion": 0.008607,
-          "breadth": 1.0,
-          "score": -0.212644,
+          "type": "concept",
+          "ret": 0.0152,
+          "pop": 0,
+          "persistence": 0,
+          "dispersion": 0,
+          "breadth": 0,
+          "score": 1.52,
+          "stance": "BUY",
+          "is_new": false,
+          "core_stocks": []
+        },
+        {
+          "code": "BK0476",
+          "name": "装修建材",
+          "type": "concept",
+          "ret": 0.014499999999999999,
+          "pop": 0,
+          "persistence": 0,
+          "dispersion": 0,
+          "breadth": 0,
+          "score": 1.45,
+          "stance": "BUY",
+          "is_new": false,
+          "core_stocks": []
+        },
+        {
+          "code": "BK0479",
+          "name": "钢铁行业",
+          "type": "concept",
+          "ret": 0.013600000000000001,
+          "pop": 0,
+          "persistence": 0,
+          "dispersion": 0,
+          "breadth": 0,
+          "score": 1.36,
+          "stance": "BUY",
+          "is_new": false,
+          "core_stocks": []
+        },
+        {
+          "code": "BK0546",
+          "name": "玻璃玻纤",
+          "type": "concept",
+          "ret": 0.0132,
+          "pop": 0,
+          "persistence": 0,
+          "dispersion": 0,
+          "breadth": 0,
+          "score": 1.32,
+          "stance": "BUY",
+          "is_new": false,
+          "core_stocks": []
+        },
+        {
+          "code": "BK0420",
+          "name": "航空机场",
+          "type": "concept",
+          "ret": 0.0124,
+          "pop": 0,
+          "persistence": 0,
+          "dispersion": 0,
+          "breadth": 0,
+          "score": 1.24,
+          "stance": "BUY",
+          "is_new": false,
+          "core_stocks": []
+        }
+      ]
+    },
+    {
+      "date": "2025-11-04",
+      "market": {
+        "risk_on": true,
+        "broad_strength": 0,
+        "advice": "NEUTRAL"
+      },
+      "indices": {
+        "hs300": {
+          "ret": 0
+        },
+        "csi1000": {
+          "ret": 0
+        },
+        "shcomp": {
+          "ret": 0
+        }
+      },
+      "industry_boards": [
+        {
+          "code": "BK1042",
+          "name": "医药商业",
+          "type": "industry",
+          "ret": 0.0042,
+          "pop": 0,
+          "persistence": 0,
+          "dispersion": 0,
+          "breadth": 0,
+          "score": 0.42,
+          "stance": "BUY",
+          "is_new": false,
+          "core_stocks": []
+        }
+      ],
+      "concept_boards": [
+        {
+          "code": "BK0475",
+          "name": "银行",
+          "type": "concept",
+          "ret": 0.0181,
+          "pop": 0,
+          "persistence": 0,
+          "dispersion": 0,
+          "breadth": 0,
+          "score": 1.81,
+          "stance": "BUY",
+          "is_new": false,
+          "core_stocks": []
+        },
+        {
+          "code": "BK0485",
+          "name": "旅游酒店",
+          "type": "concept",
+          "ret": 0.0124,
+          "pop": 0,
+          "persistence": 0,
+          "dispersion": 0,
+          "breadth": 0,
+          "score": 1.24,
+          "stance": "BUY",
+          "is_new": false,
+          "core_stocks": []
+        },
+        {
+          "code": "BK0421",
+          "name": "铁路公路",
+          "type": "concept",
+          "ret": 0.0109,
+          "pop": 0,
+          "persistence": 0,
+          "dispersion": 0,
+          "breadth": 0,
+          "score": 1.09,
+          "stance": "BUY",
+          "is_new": false,
+          "core_stocks": []
+        },
+        {
+          "code": "BK0457",
+          "name": "电网设备",
+          "type": "concept",
+          "ret": 0.0096,
+          "pop": 0,
+          "persistence": 0,
+          "dispersion": 0,
+          "breadth": 0,
+          "score": 0.96,
+          "stance": "BUY",
+          "is_new": false,
+          "core_stocks": []
+        },
+        {
+          "code": "BK0733",
+          "name": "包装材料",
+          "type": "concept",
+          "ret": 0.008100000000000001,
+          "pop": 0,
+          "persistence": 0,
+          "dispersion": 0,
+          "breadth": 0,
+          "score": 0.81,
+          "stance": "BUY",
+          "is_new": false,
+          "core_stocks": []
+        },
+        {
+          "code": "BK0424",
+          "name": "水泥建材",
+          "type": "concept",
+          "ret": 0.0073,
+          "pop": 0,
+          "persistence": 0,
+          "dispersion": 0,
+          "breadth": 0,
+          "score": 0.73,
+          "stance": "BUY",
+          "is_new": false,
+          "core_stocks": []
+        },
+        {
+          "code": "BK0427",
+          "name": "公用事业",
+          "type": "concept",
+          "ret": 0.006500000000000001,
+          "pop": 0,
+          "persistence": 0,
+          "dispersion": 0,
+          "breadth": 0,
+          "score": 0.65,
+          "stance": "BUY",
+          "is_new": false,
+          "core_stocks": []
+        },
+        {
+          "code": "BK0474",
+          "name": "保险",
+          "type": "concept",
+          "ret": 0.0060999999999999995,
+          "pop": 0,
+          "persistence": 0,
+          "dispersion": 0,
+          "breadth": 0,
+          "score": 0.61,
+          "stance": "BUY",
+          "is_new": false,
+          "core_stocks": []
+        },
+        {
+          "code": "BK0729",
+          "name": "船舶制造",
+          "type": "concept",
+          "ret": 0.005699999999999999,
+          "pop": 0,
+          "persistence": 0,
+          "dispersion": 0,
+          "breadth": 0,
+          "score": 0.57,
+          "stance": "BUY",
+          "is_new": false,
+          "core_stocks": []
+        },
+        {
+          "code": "BK0437",
+          "name": "煤炭行业",
+          "type": "concept",
+          "ret": 0.004699999999999999,
+          "pop": 0,
+          "persistence": 0,
+          "dispersion": 0,
+          "breadth": 0,
+          "score": 0.47,
+          "stance": "BUY",
+          "is_new": false,
+          "core_stocks": []
+        }
+      ]
+    },
+    {
+      "date": "2025-11-03",
+      "market": {
+        "risk_on": true,
+        "broad_strength": 0,
+        "advice": "NEUTRAL"
+      },
+      "indices": {
+        "hs300": {
+          "ret": 0
+        },
+        "csi1000": {
+          "ret": 0
+        },
+        "shcomp": {
+          "ret": 0
+        }
+      },
+      "industry_boards": [
+        {
+          "code": "BK1046",
+          "name": "游戏",
+          "type": "industry",
+          "ret": 0.0305,
+          "pop": 0,
+          "persistence": 0,
+          "dispersion": 0,
+          "breadth": 0,
+          "score": 3.05,
+          "stance": "BUY",
+          "is_new": false,
+          "core_stocks": []
+        },
+        {
+          "code": "BK1031",
+          "name": "光伏设备",
+          "type": "industry",
+          "ret": 0.0229,
+          "pop": 0,
+          "persistence": 0,
+          "dispersion": 0,
+          "breadth": 0,
+          "score": 2.29,
+          "stance": "BUY",
+          "is_new": false,
+          "core_stocks": []
+        },
+        {
+          "code": "BK1034",
+          "name": "电源设备",
+          "type": "industry",
+          "ret": 0.0219,
+          "pop": 0,
+          "persistence": 0,
+          "dispersion": 0,
+          "breadth": 0,
+          "score": 2.19,
+          "stance": "BUY",
+          "is_new": false,
+          "core_stocks": []
+        },
+        {
+          "code": "BK1017",
+          "name": "采掘行业",
+          "type": "industry",
+          "ret": 0.0199,
+          "pop": 0,
+          "persistence": 0,
+          "dispersion": 0,
+          "breadth": 0,
+          "score": 1.99,
+          "stance": "BUY",
+          "is_new": false,
+          "core_stocks": []
+        },
+        {
+          "code": "BK1028",
+          "name": "燃气",
+          "type": "industry",
+          "ret": 0.013500000000000002,
+          "pop": 0,
+          "persistence": 0,
+          "dispersion": 0,
+          "breadth": 0,
+          "score": 1.35,
+          "stance": "BUY",
+          "is_new": false,
+          "core_stocks": []
+        }
+      ],
+      "concept_boards": [
+        {
+          "code": "BK0729",
+          "name": "船舶制造",
+          "type": "concept",
+          "ret": 0.0379,
+          "pop": 0,
+          "persistence": 0,
+          "dispersion": 0,
+          "breadth": 0,
+          "score": 3.79,
+          "stance": "BUY",
+          "is_new": false,
+          "core_stocks": []
+        },
+        {
+          "code": "BK0486",
+          "name": "文化传媒",
+          "type": "concept",
+          "ret": 0.0274,
+          "pop": 0,
+          "persistence": 0,
+          "dispersion": 0,
+          "breadth": 0,
+          "score": 2.74,
+          "stance": "BUY",
+          "is_new": false,
+          "core_stocks": []
+        },
+        {
+          "code": "BK0437",
+          "name": "煤炭行业",
+          "type": "concept",
+          "ret": 0.0235,
+          "pop": 0,
+          "persistence": 0,
+          "dispersion": 0,
+          "breadth": 0,
+          "score": 2.35,
+          "stance": "BUY",
+          "is_new": false,
+          "core_stocks": []
+        },
+        {
+          "code": "BK0464",
+          "name": "石油行业",
+          "type": "concept",
+          "ret": 0.0204,
+          "pop": 0,
+          "persistence": 0,
+          "dispersion": 0,
+          "breadth": 0,
+          "score": 2.04,
+          "stance": "BUY",
+          "is_new": false,
+          "core_stocks": []
+        },
+        {
+          "code": "BK0420",
+          "name": "航空机场",
+          "type": "concept",
+          "ret": 0.020099999999999996,
+          "pop": 0,
+          "persistence": 0,
+          "dispersion": 0,
+          "breadth": 0,
+          "score": 2.01,
+          "stance": "BUY",
+          "is_new": false,
+          "core_stocks": []
+        },
+        {
+          "code": "BK0457",
+          "name": "电网设备",
+          "type": "concept",
+          "ret": 0.0182,
+          "pop": 0,
+          "persistence": 0,
+          "dispersion": 0,
+          "breadth": 0,
+          "score": 1.82,
+          "stance": "BUY",
+          "is_new": false,
+          "core_stocks": []
+        },
+        {
+          "code": "BK0736",
+          "name": "通信服务",
+          "type": "concept",
+          "ret": 0.0172,
+          "pop": 0,
+          "persistence": 0,
+          "dispersion": 0,
+          "breadth": 0,
+          "score": 1.72,
+          "stance": "BUY",
+          "is_new": false,
+          "core_stocks": []
+        },
+        {
+          "code": "BK0735",
+          "name": "计算机设备",
+          "type": "concept",
+          "ret": 0.016399999999999998,
+          "pop": 0,
+          "persistence": 0,
+          "dispersion": 0,
+          "breadth": 0,
+          "score": 1.64,
+          "stance": "BUY",
+          "is_new": false,
+          "core_stocks": []
+        },
+        {
+          "code": "BK0447",
+          "name": "互联网服务",
+          "type": "concept",
+          "ret": 0.0163,
+          "pop": 0,
+          "persistence": 0,
+          "dispersion": 0,
+          "breadth": 0,
+          "score": 1.63,
+          "stance": "BUY",
+          "is_new": false,
+          "core_stocks": []
+        },
+        {
+          "code": "BK0436",
+          "name": "纺织服装",
+          "type": "concept",
+          "ret": 0.0155,
+          "pop": 0,
+          "persistence": 0,
+          "dispersion": 0,
+          "breadth": 0,
+          "score": 1.55,
+          "stance": "BUY",
+          "is_new": false,
+          "core_stocks": []
+        }
+      ]
+    },
+    {
+      "date": "2025-10-31",
+      "market": {
+        "risk_on": true,
+        "broad_strength": 0,
+        "advice": "NEUTRAL"
+      },
+      "indices": {
+        "hs300": {
+          "ret": 0
+        },
+        "csi1000": {
+          "ret": 0
+        },
+        "shcomp": {
+          "ret": 0
+        }
+      },
+      "industry_boards": [
+        {
+          "code": "BK1044",
+          "name": "生物制品",
+          "type": "industry",
+          "ret": 0.043,
+          "pop": 0,
+          "persistence": 0,
+          "dispersion": 0,
+          "breadth": 0,
+          "score": 4.3,
+          "stance": "BUY",
+          "is_new": false,
+          "core_stocks": []
+        },
+        {
+          "code": "BK1040",
+          "name": "中药",
+          "type": "industry",
+          "ret": 0.020499999999999997,
+          "pop": 0,
+          "persistence": 0,
+          "dispersion": 0,
+          "breadth": 0,
+          "score": 2.05,
+          "stance": "BUY",
+          "is_new": false,
+          "core_stocks": []
+        },
+        {
+          "code": "BK1041",
+          "name": "医疗器械",
+          "type": "industry",
+          "ret": 0.020099999999999996,
+          "pop": 0,
+          "persistence": 0,
+          "dispersion": 0,
+          "breadth": 0,
+          "score": 2.01,
+          "stance": "BUY",
+          "is_new": false,
+          "core_stocks": []
+        },
+        {
+          "code": "BK1033",
+          "name": "电池",
+          "type": "industry",
+          "ret": 0.0176,
+          "pop": 0,
+          "persistence": 0,
+          "dispersion": 0,
+          "breadth": 0,
+          "score": 1.76,
+          "stance": "BUY",
+          "is_new": false,
+          "core_stocks": []
+        },
+        {
+          "code": "BK1030",
+          "name": "电机",
+          "type": "industry",
+          "ret": 0.0175,
+          "pop": 0,
+          "persistence": 0,
+          "dispersion": 0,
+          "breadth": 0,
+          "score": 1.75,
+          "stance": "BUY",
+          "is_new": false,
+          "core_stocks": []
+        },
+        {
+          "code": "BK1016",
+          "name": "汽车服务",
+          "type": "industry",
+          "ret": 0.015600000000000001,
+          "pop": 0,
+          "persistence": 0,
+          "dispersion": 0,
+          "breadth": 0,
+          "score": 1.56,
+          "stance": "BUY",
+          "is_new": false,
+          "core_stocks": []
+        },
+        {
+          "code": "BK1046",
+          "name": "游戏",
+          "type": "industry",
+          "ret": 0.0155,
+          "pop": 0,
+          "persistence": 0,
+          "dispersion": 0,
+          "breadth": 0,
+          "score": 1.55,
+          "stance": "BUY",
+          "is_new": false,
+          "core_stocks": []
+        },
+        {
+          "code": "BK1043",
+          "name": "专业服务",
+          "type": "industry",
+          "ret": 0.0154,
+          "pop": 0,
+          "persistence": 0,
+          "dispersion": 0,
+          "breadth": 0,
+          "score": 1.54,
+          "stance": "BUY",
+          "is_new": false,
+          "core_stocks": []
+        }
+      ],
+      "concept_boards": [
+        {
+          "code": "BK0465",
+          "name": "化学制药",
+          "type": "concept",
+          "ret": 0.0354,
+          "pop": 0,
+          "persistence": 0,
+          "dispersion": 0,
+          "breadth": 0,
+          "score": 3.54,
+          "stance": "BUY",
+          "is_new": false,
+          "core_stocks": []
+        },
+        {
+          "code": "BK0486",
+          "name": "文化传媒",
+          "type": "concept",
+          "ret": 0.0319,
+          "pop": 0,
+          "persistence": 0,
+          "dispersion": 0,
+          "breadth": 0,
+          "score": 3.19,
+          "stance": "BUY",
+          "is_new": false,
+          "core_stocks": []
+        },
+        {
+          "code": "BK0447",
+          "name": "互联网服务",
+          "type": "concept",
+          "ret": 0.022099999999999998,
+          "pop": 0,
+          "persistence": 0,
+          "dispersion": 0,
+          "breadth": 0,
+          "score": 2.21,
+          "stance": "BUY",
+          "is_new": false,
+          "core_stocks": []
+        },
+        {
+          "code": "BK0737",
+          "name": "软件开发",
+          "type": "concept",
+          "ret": 0.0218,
+          "pop": 0,
+          "persistence": 0,
+          "dispersion": 0,
+          "breadth": 0,
+          "score": 2.18,
+          "stance": "BUY",
+          "is_new": false,
+          "core_stocks": []
+        },
+        {
+          "code": "BK0727",
+          "name": "医疗服务",
+          "type": "concept",
+          "ret": 0.0216,
+          "pop": 0,
+          "persistence": 0,
+          "dispersion": 0,
+          "breadth": 0,
+          "score": 2.16,
+          "stance": "BUY",
+          "is_new": false,
+          "core_stocks": []
+        },
+        {
+          "code": "BK0740",
+          "name": "教育",
+          "type": "concept",
+          "ret": 0.019,
+          "pop": 0,
+          "persistence": 0,
+          "dispersion": 0,
+          "breadth": 0,
+          "score": 1.9,
+          "stance": "BUY",
+          "is_new": false,
+          "core_stocks": []
+        },
+        {
+          "code": "BK0440",
+          "name": "家用轻工",
+          "type": "concept",
+          "ret": 0.0187,
+          "pop": 0,
+          "persistence": 0,
+          "dispersion": 0,
+          "breadth": 0,
+          "score": 1.87,
+          "stance": "BUY",
+          "is_new": false,
+          "core_stocks": []
+        },
+        {
+          "code": "BK0485",
+          "name": "旅游酒店",
+          "type": "concept",
+          "ret": 0.0179,
+          "pop": 0,
+          "persistence": 0,
+          "dispersion": 0,
+          "breadth": 0,
+          "score": 1.79,
+          "stance": "BUY",
+          "is_new": false,
+          "core_stocks": []
+        },
+        {
+          "code": "BK0538",
+          "name": "化学制品",
+          "type": "concept",
+          "ret": 0.0168,
+          "pop": 0,
+          "persistence": 0,
+          "dispersion": 0,
+          "breadth": 0,
+          "score": 1.68,
+          "stance": "BUY",
+          "is_new": false,
+          "core_stocks": []
+        },
+        {
+          "code": "BK0436",
+          "name": "纺织服装",
+          "type": "concept",
+          "ret": 0.0165,
+          "pop": 0,
+          "persistence": 0,
+          "dispersion": 0,
+          "breadth": 0,
+          "score": 1.65,
+          "stance": "BUY",
+          "is_new": false,
+          "core_stocks": []
+        }
+      ]
+    },
+    {
+      "date": "2025-10-30",
+      "market": {
+        "risk_on": true,
+        "broad_strength": 0,
+        "advice": "NEUTRAL"
+      },
+      "indices": {
+        "hs300": {
+          "ret": 0
+        },
+        "csi1000": {
+          "ret": 0
+        },
+        "shcomp": {
+          "ret": 0
+        }
+      },
+      "industry_boards": [
+        {
+          "code": "BK1015",
+          "name": "能源金属",
+          "type": "industry",
+          "ret": 0.0472,
+          "pop": 0,
+          "persistence": 0,
+          "dispersion": 0,
+          "breadth": 0,
+          "score": 4.72,
+          "stance": "BUY",
+          "is_new": false,
+          "core_stocks": []
+        },
+        {
+          "code": "BK1033",
+          "name": "电池",
+          "type": "industry",
+          "ret": 0.0102,
+          "pop": 0,
+          "persistence": 0,
+          "dispersion": 0,
+          "breadth": 0,
+          "score": 1.02,
+          "stance": "BUY",
+          "is_new": false,
+          "core_stocks": []
+        },
+        {
+          "code": "BK1032",
+          "name": "风电设备",
+          "type": "industry",
+          "ret": 0.0045000000000000005,
+          "pop": 0,
+          "persistence": 0,
+          "dispersion": 0,
+          "breadth": 0,
+          "score": 0.45,
+          "stance": "BUY",
+          "is_new": false,
+          "core_stocks": []
+        },
+        {
+          "code": "BK1027",
+          "name": "小金属",
+          "type": "industry",
+          "ret": 0.0036,
+          "pop": 0,
+          "persistence": 0,
+          "dispersion": 0,
+          "breadth": 0,
+          "score": 0.36,
+          "stance": "BUY",
+          "is_new": false,
+          "core_stocks": []
+        },
+        {
+          "code": "BK1042",
+          "name": "医药商业",
+          "type": "industry",
+          "ret": -0.0001,
+          "pop": 0,
+          "persistence": 0,
+          "dispersion": 0,
+          "breadth": 0,
+          "score": -0.01,
           "stance": "WATCH",
-          "core_stocks": [
-            {
-              "code": "600506",
-              "name": "统一股份",
-              "ret": 0.0409,
-              "core": 2.444957
-            },
-            {
-              "code": "600759",
-              "name": "洲际油气",
-              "ret": 0.0262,
-              "core": 0.197278
-            },
-            {
-              "code": "000819",
-              "name": "岳阳兴长",
-              "ret": 0.0238,
-              "core": -0.605055
-            }
-          ],
-          "type": "concept"
+          "is_new": false,
+          "core_stocks": []
+        },
+        {
+          "code": "BK1030",
+          "name": "电机",
+          "type": "industry",
+          "ret": -0.0017000000000000001,
+          "pop": 0,
+          "persistence": 0,
+          "dispersion": 0,
+          "breadth": 0,
+          "score": -0.17,
+          "stance": "WATCH",
+          "is_new": false,
+          "core_stocks": []
+        },
+        {
+          "code": "BK1029",
+          "name": "汽车整车",
+          "type": "industry",
+          "ret": -0.0021,
+          "pop": 0,
+          "persistence": 0,
+          "dispersion": 0,
+          "breadth": 0,
+          "score": -0.21,
+          "stance": "WATCH",
+          "is_new": false,
+          "core_stocks": []
+        }
+      ],
+      "concept_boards": [
+        {
+          "code": "BK0479",
+          "name": "钢铁行业",
+          "type": "concept",
+          "ret": 0.0167,
+          "pop": 0,
+          "persistence": 0,
+          "dispersion": 0,
+          "breadth": 0,
+          "score": 1.67,
+          "stance": "BUY",
+          "is_new": false,
+          "core_stocks": []
+        },
+        {
+          "code": "BK0450",
+          "name": "航运港口",
+          "type": "concept",
+          "ret": 0.0036,
+          "pop": 0,
+          "persistence": 0,
+          "dispersion": 0,
+          "breadth": 0,
+          "score": 0.36,
+          "stance": "BUY",
+          "is_new": false,
+          "core_stocks": []
+        },
+        {
+          "code": "BK0475",
+          "name": "银行",
+          "type": "concept",
+          "ret": 0.0011,
+          "pop": 0,
+          "persistence": 0,
+          "dispersion": 0,
+          "breadth": 0,
+          "score": 0.11,
+          "stance": "BUY",
+          "is_new": false,
+          "core_stocks": []
+        },
+        {
+          "code": "BK0477",
+          "name": "酿酒行业",
+          "type": "concept",
+          "ret": 0.0004,
+          "pop": 0,
+          "persistence": 0,
+          "dispersion": 0,
+          "breadth": 0,
+          "score": 0.04,
+          "stance": "BUY",
+          "is_new": false,
+          "core_stocks": []
+        },
+        {
+          "code": "BK0428",
+          "name": "电力行业",
+          "type": "concept",
+          "ret": -0.001,
+          "pop": 0,
+          "persistence": 0,
+          "dispersion": 0,
+          "breadth": 0,
+          "score": -0.1,
+          "stance": "WATCH",
+          "is_new": false,
+          "core_stocks": []
+        },
+        {
+          "code": "BK0733",
+          "name": "包装材料",
+          "type": "concept",
+          "ret": -0.0013,
+          "pop": 0,
+          "persistence": 0,
+          "dispersion": 0,
+          "breadth": 0,
+          "score": -0.13,
+          "stance": "WATCH",
+          "is_new": false,
+          "core_stocks": []
+        },
+        {
+          "code": "BK0420",
+          "name": "航空机场",
+          "type": "concept",
+          "ret": -0.0019,
+          "pop": 0,
+          "persistence": 0,
+          "dispersion": 0,
+          "breadth": 0,
+          "score": -0.19,
+          "stance": "WATCH",
+          "is_new": false,
+          "core_stocks": []
+        },
+        {
+          "code": "BK0478",
+          "name": "有色金属",
+          "type": "concept",
+          "ret": -0.0038,
+          "pop": 0,
+          "persistence": 0,
+          "dispersion": 0,
+          "breadth": 0,
+          "score": -0.38,
+          "stance": "WATCH",
+          "is_new": false,
+          "core_stocks": []
+        },
+        {
+          "code": "BK0474",
+          "name": "保险",
+          "type": "concept",
+          "ret": -0.0045000000000000005,
+          "pop": 0,
+          "persistence": 0,
+          "dispersion": 0,
+          "breadth": 0,
+          "score": -0.45,
+          "stance": "WATCH",
+          "is_new": false,
+          "core_stocks": []
+        },
+        {
+          "code": "BK0433",
+          "name": "农牧饲渔",
+          "type": "concept",
+          "ret": -0.0049,
+          "pop": 0,
+          "persistence": 0,
+          "dispersion": 0,
+          "breadth": 0,
+          "score": -0.49,
+          "stance": "WATCH",
+          "is_new": false,
+          "core_stocks": []
+        }
+      ]
+    },
+    {
+      "date": "2025-10-29",
+      "market": {
+        "risk_on": true,
+        "broad_strength": 0,
+        "advice": "NEUTRAL"
+      },
+      "indices": {
+        "hs300": {
+          "ret": 0
+        },
+        "csi1000": {
+          "ret": 0
+        },
+        "shcomp": {
+          "ret": 0
+        }
+      },
+      "industry_boards": [
+        {
+          "code": "BK1015",
+          "name": "能源金属",
+          "type": "industry",
+          "ret": 0.0417,
+          "pop": 0,
+          "persistence": 0,
+          "dispersion": 0,
+          "breadth": 0,
+          "score": 4.17,
+          "stance": "BUY",
+          "is_new": false,
+          "core_stocks": []
+        },
+        {
+          "code": "BK1031",
+          "name": "光伏设备",
+          "type": "industry",
+          "ret": 0.0415,
+          "pop": 0,
+          "persistence": 0,
+          "dispersion": 0,
+          "breadth": 0,
+          "score": 4.15,
+          "stance": "BUY",
+          "is_new": false,
+          "core_stocks": []
+        },
+        {
+          "code": "BK1020",
+          "name": "非金属材料",
+          "type": "industry",
+          "ret": 0.0329,
+          "pop": 0,
+          "persistence": 0,
+          "dispersion": 0,
+          "breadth": 0,
+          "score": 3.29,
+          "stance": "BUY",
+          "is_new": false,
+          "core_stocks": []
+        },
+        {
+          "code": "BK1027",
+          "name": "小金属",
+          "type": "industry",
+          "ret": 0.0311,
+          "pop": 0,
+          "persistence": 0,
+          "dispersion": 0,
+          "breadth": 0,
+          "score": 3.11,
+          "stance": "BUY",
+          "is_new": false,
+          "core_stocks": []
+        },
+        {
+          "code": "BK1033",
+          "name": "电池",
+          "type": "industry",
+          "ret": 0.0311,
+          "pop": 0,
+          "persistence": 0,
+          "dispersion": 0,
+          "breadth": 0,
+          "score": 3.11,
+          "stance": "BUY",
+          "is_new": false,
+          "core_stocks": []
+        },
+        {
+          "code": "BK1017",
+          "name": "采掘行业",
+          "type": "industry",
+          "ret": 0.0183,
+          "pop": 0,
+          "persistence": 0,
+          "dispersion": 0,
+          "breadth": 0,
+          "score": 1.83,
+          "stance": "BUY",
+          "is_new": false,
+          "core_stocks": []
+        },
+        {
+          "code": "BK1046",
+          "name": "游戏",
+          "type": "industry",
+          "ret": 0.013500000000000002,
+          "pop": 0,
+          "persistence": 0,
+          "dispersion": 0,
+          "breadth": 0,
+          "score": 1.35,
+          "stance": "BUY",
+          "is_new": false,
+          "core_stocks": []
+        },
+        {
+          "code": "BK1032",
+          "name": "风电设备",
+          "type": "industry",
+          "ret": 0.0121,
+          "pop": 0,
+          "persistence": 0,
+          "dispersion": 0,
+          "breadth": 0,
+          "score": 1.21,
+          "stance": "BUY",
+          "is_new": false,
+          "core_stocks": []
+        },
+        {
+          "code": "BK1018",
+          "name": "橡胶制品",
+          "type": "industry",
+          "ret": 0.011899999999999999,
+          "pop": 0,
+          "persistence": 0,
+          "dispersion": 0,
+          "breadth": 0,
+          "score": 1.19,
+          "stance": "BUY",
+          "is_new": false,
+          "core_stocks": []
+        }
+      ],
+      "concept_boards": [
+        {
+          "code": "BK0478",
+          "name": "有色金属",
+          "type": "concept",
+          "ret": 0.0336,
+          "pop": 0,
+          "persistence": 0,
+          "dispersion": 0,
+          "breadth": 0,
+          "score": 3.36,
+          "stance": "BUY",
+          "is_new": false,
+          "core_stocks": []
+        },
+        {
+          "code": "BK0732",
+          "name": "贵金属",
+          "type": "concept",
+          "ret": 0.0325,
+          "pop": 0,
+          "persistence": 0,
+          "dispersion": 0,
+          "breadth": 0,
+          "score": 3.25,
+          "stance": "BUY",
+          "is_new": false,
+          "core_stocks": []
+        },
+        {
+          "code": "BK0546",
+          "name": "玻璃玻纤",
+          "type": "concept",
+          "ret": 0.0301,
+          "pop": 0,
+          "persistence": 0,
+          "dispersion": 0,
+          "breadth": 0,
+          "score": 3.01,
+          "stance": "BUY",
+          "is_new": false,
+          "core_stocks": []
+        },
+        {
+          "code": "BK0738",
+          "name": "多元金融",
+          "type": "concept",
+          "ret": 0.028999999999999998,
+          "pop": 0,
+          "persistence": 0,
+          "dispersion": 0,
+          "breadth": 0,
+          "score": 2.9,
+          "stance": "BUY",
+          "is_new": false,
+          "core_stocks": []
+        },
+        {
+          "code": "BK0473",
+          "name": "证券",
+          "type": "concept",
+          "ret": 0.0223,
+          "pop": 0,
+          "persistence": 0,
+          "dispersion": 0,
+          "breadth": 0,
+          "score": 2.23,
+          "stance": "BUY",
+          "is_new": false,
+          "core_stocks": []
+        },
+        {
+          "code": "BK0457",
+          "name": "电网设备",
+          "type": "concept",
+          "ret": 0.020499999999999997,
+          "pop": 0,
+          "persistence": 0,
+          "dispersion": 0,
+          "breadth": 0,
+          "score": 2.05,
+          "stance": "BUY",
+          "is_new": false,
+          "core_stocks": []
+        },
+        {
+          "code": "BK0731",
+          "name": "化肥行业",
+          "type": "concept",
+          "ret": 0.020099999999999996,
+          "pop": 0,
+          "persistence": 0,
+          "dispersion": 0,
+          "breadth": 0,
+          "score": 2.01,
+          "stance": "BUY",
+          "is_new": false,
+          "core_stocks": []
+        },
+        {
+          "code": "BK0437",
+          "name": "煤炭行业",
+          "type": "concept",
+          "ret": 0.0174,
+          "pop": 0,
+          "persistence": 0,
+          "dispersion": 0,
+          "breadth": 0,
+          "score": 1.74,
+          "stance": "BUY",
+          "is_new": false,
+          "core_stocks": []
+        },
+        {
+          "code": "BK0459",
+          "name": "电子元件",
+          "type": "concept",
+          "ret": 0.0159,
+          "pop": 0,
+          "persistence": 0,
+          "dispersion": 0,
+          "breadth": 0,
+          "score": 1.59,
+          "stance": "BUY",
+          "is_new": false,
+          "core_stocks": []
+        },
+        {
+          "code": "BK0739",
+          "name": "工程机械",
+          "type": "concept",
+          "ret": 0.0131,
+          "pop": 0,
+          "persistence": 0,
+          "dispersion": 0,
+          "breadth": 0,
+          "score": 1.31,
+          "stance": "BUY",
+          "is_new": false,
+          "core_stocks": []
+        }
+      ]
+    },
+    {
+      "date": "2025-10-28",
+      "market": {
+        "risk_on": true,
+        "broad_strength": 0,
+        "advice": "NEUTRAL"
+      },
+      "indices": {
+        "hs300": {
+          "ret": 0
+        },
+        "csi1000": {
+          "ret": 0
+        },
+        "shcomp": {
+          "ret": 0
+        }
+      },
+      "industry_boards": [
+        {
+          "code": "BK1016",
+          "name": "汽车服务",
+          "type": "industry",
+          "ret": 0.0148,
+          "pop": 0,
+          "persistence": 0,
+          "dispersion": 0,
+          "breadth": 0,
+          "score": 1.48,
+          "stance": "BUY",
+          "is_new": false,
+          "core_stocks": []
+        },
+        {
+          "code": "BK1038",
+          "name": "光学光电子",
+          "type": "industry",
+          "ret": 0.006500000000000001,
+          "pop": 0,
+          "persistence": 0,
+          "dispersion": 0,
+          "breadth": 0,
+          "score": 0.65,
+          "stance": "BUY",
+          "is_new": false,
+          "core_stocks": []
+        },
+        {
+          "code": "BK1039",
+          "name": "电子化学品",
+          "type": "industry",
+          "ret": 0.0062,
+          "pop": 0,
+          "persistence": 0,
+          "dispersion": 0,
+          "breadth": 0,
+          "score": 0.62,
+          "stance": "BUY",
+          "is_new": false,
+          "core_stocks": []
+        },
+        {
+          "code": "BK1033",
+          "name": "电池",
+          "type": "industry",
+          "ret": 0.0060999999999999995,
+          "pop": 0,
+          "persistence": 0,
+          "dispersion": 0,
+          "breadth": 0,
+          "score": 0.61,
+          "stance": "BUY",
+          "is_new": false,
+          "core_stocks": []
+        },
+        {
+          "code": "BK1018",
+          "name": "橡胶制品",
+          "type": "industry",
+          "ret": 0.0058,
+          "pop": 0,
+          "persistence": 0,
+          "dispersion": 0,
+          "breadth": 0,
+          "score": 0.58,
+          "stance": "BUY",
+          "is_new": false,
+          "core_stocks": []
+        },
+        {
+          "code": "BK1030",
+          "name": "电机",
+          "type": "industry",
+          "ret": 0.0055000000000000005,
+          "pop": 0,
+          "persistence": 0,
+          "dispersion": 0,
+          "breadth": 0,
+          "score": 0.55,
+          "stance": "BUY",
+          "is_new": false,
+          "core_stocks": []
+        }
+      ],
+      "concept_boards": [
+        {
+          "code": "BK0729",
+          "name": "船舶制造",
+          "type": "concept",
+          "ret": 0.0431,
+          "pop": 0,
+          "persistence": 0,
+          "dispersion": 0,
+          "breadth": 0,
+          "score": 4.31,
+          "stance": "BUY",
+          "is_new": false,
+          "core_stocks": []
+        },
+        {
+          "code": "BK0450",
+          "name": "航运港口",
+          "type": "concept",
+          "ret": 0.014499999999999999,
+          "pop": 0,
+          "persistence": 0,
+          "dispersion": 0,
+          "breadth": 0,
+          "score": 1.45,
+          "stance": "BUY",
+          "is_new": false,
+          "core_stocks": []
+        },
+        {
+          "code": "BK0480",
+          "name": "航天航空",
+          "type": "concept",
+          "ret": 0.0121,
+          "pop": 0,
+          "persistence": 0,
+          "dispersion": 0,
+          "breadth": 0,
+          "score": 1.21,
+          "stance": "BUY",
+          "is_new": false,
+          "core_stocks": []
+        },
+        {
+          "code": "BK0421",
+          "name": "铁路公路",
+          "type": "concept",
+          "ret": 0.0109,
+          "pop": 0,
+          "persistence": 0,
+          "dispersion": 0,
+          "breadth": 0,
+          "score": 1.09,
+          "stance": "BUY",
+          "is_new": false,
+          "core_stocks": []
+        },
+        {
+          "code": "BK0420",
+          "name": "航空机场",
+          "type": "concept",
+          "ret": 0.0097,
+          "pop": 0,
+          "persistence": 0,
+          "dispersion": 0,
+          "breadth": 0,
+          "score": 0.97,
+          "stance": "BUY",
+          "is_new": false,
+          "core_stocks": []
+        },
+        {
+          "code": "BK0546",
+          "name": "玻璃玻纤",
+          "type": "concept",
+          "ret": 0.009399999999999999,
+          "pop": 0,
+          "persistence": 0,
+          "dispersion": 0,
+          "breadth": 0,
+          "score": 0.94,
+          "stance": "BUY",
+          "is_new": false,
+          "core_stocks": []
+        },
+        {
+          "code": "BK0735",
+          "name": "计算机设备",
+          "type": "concept",
+          "ret": 0.0066,
+          "pop": 0,
+          "persistence": 0,
+          "dispersion": 0,
+          "breadth": 0,
+          "score": 0.66,
+          "stance": "BUY",
+          "is_new": false,
+          "core_stocks": []
+        },
+        {
+          "code": "BK0440",
+          "name": "家用轻工",
+          "type": "concept",
+          "ret": 0.006,
+          "pop": 0,
+          "persistence": 0,
+          "dispersion": 0,
+          "breadth": 0,
+          "score": 0.6,
+          "stance": "BUY",
+          "is_new": false,
+          "core_stocks": []
+        },
+        {
+          "code": "BK0447",
+          "name": "互联网服务",
+          "type": "concept",
+          "ret": 0.0053,
+          "pop": 0,
+          "persistence": 0,
+          "dispersion": 0,
+          "breadth": 0,
+          "score": 0.53,
+          "stance": "BUY",
+          "is_new": false,
+          "core_stocks": []
+        },
+        {
+          "code": "BK0454",
+          "name": "塑料制品",
+          "type": "concept",
+          "ret": 0.0053,
+          "pop": 0,
+          "persistence": 0,
+          "dispersion": 0,
+          "breadth": 0,
+          "score": 0.53,
+          "stance": "BUY",
+          "is_new": false,
+          "core_stocks": []
+        }
+      ]
+    },
+    {
+      "date": "2025-10-27",
+      "market": {
+        "risk_on": true,
+        "broad_strength": 0,
+        "advice": "NEUTRAL"
+      },
+      "indices": {
+        "hs300": {
+          "ret": 0
+        },
+        "csi1000": {
+          "ret": 0
+        },
+        "shcomp": {
+          "ret": 0
+        }
+      },
+      "industry_boards": [
+        {
+          "code": "BK1039",
+          "name": "电子化学品",
+          "type": "industry",
+          "ret": 0.0308,
+          "pop": 0,
+          "persistence": 0,
+          "dispersion": 0,
+          "breadth": 0,
+          "score": 3.08,
+          "stance": "BUY",
+          "is_new": false,
+          "core_stocks": []
+        },
+        {
+          "code": "BK1027",
+          "name": "小金属",
+          "type": "industry",
+          "ret": 0.0239,
+          "pop": 0,
+          "persistence": 0,
+          "dispersion": 0,
+          "breadth": 0,
+          "score": 2.39,
+          "stance": "BUY",
+          "is_new": false,
+          "core_stocks": []
+        },
+        {
+          "code": "BK1015",
+          "name": "能源金属",
+          "type": "industry",
+          "ret": 0.0217,
+          "pop": 0,
+          "persistence": 0,
+          "dispersion": 0,
+          "breadth": 0,
+          "score": 2.17,
+          "stance": "BUY",
+          "is_new": false,
+          "core_stocks": []
+        },
+        {
+          "code": "BK1036",
+          "name": "半导体",
+          "type": "industry",
+          "ret": 0.0213,
+          "pop": 0,
+          "persistence": 0,
+          "dispersion": 0,
+          "breadth": 0,
+          "score": 2.13,
+          "stance": "BUY",
+          "is_new": false,
+          "core_stocks": []
+        },
+        {
+          "code": "BK1034",
+          "name": "电源设备",
+          "type": "industry",
+          "ret": 0.015600000000000001,
+          "pop": 0,
+          "persistence": 0,
+          "dispersion": 0,
+          "breadth": 0,
+          "score": 1.56,
+          "stance": "BUY",
+          "is_new": false,
+          "core_stocks": []
+        },
+        {
+          "code": "BK1037",
+          "name": "消费电子",
+          "type": "industry",
+          "ret": 0.0154,
+          "pop": 0,
+          "persistence": 0,
+          "dispersion": 0,
+          "breadth": 0,
+          "score": 1.54,
+          "stance": "BUY",
+          "is_new": false,
+          "core_stocks": []
+        }
+      ],
+      "concept_boards": [
+        {
+          "code": "BK0729",
+          "name": "船舶制造",
+          "type": "concept",
+          "ret": 0.023399999999999997,
+          "pop": 0,
+          "persistence": 0,
+          "dispersion": 0,
+          "breadth": 0,
+          "score": 2.34,
+          "stance": "BUY",
+          "is_new": false,
+          "core_stocks": []
+        },
+        {
+          "code": "BK0479",
+          "name": "钢铁行业",
+          "type": "concept",
+          "ret": 0.0192,
+          "pop": 0,
+          "persistence": 0,
+          "dispersion": 0,
+          "breadth": 0,
+          "score": 1.92,
+          "stance": "BUY",
+          "is_new": false,
+          "core_stocks": []
+        },
+        {
+          "code": "BK0459",
+          "name": "电子元件",
+          "type": "concept",
+          "ret": 0.019,
+          "pop": 0,
+          "persistence": 0,
+          "dispersion": 0,
+          "breadth": 0,
+          "score": 1.9,
+          "stance": "BUY",
+          "is_new": false,
+          "core_stocks": []
+        },
+        {
+          "code": "BK0448",
+          "name": "通信设备",
+          "type": "concept",
+          "ret": 0.015600000000000001,
+          "pop": 0,
+          "persistence": 0,
+          "dispersion": 0,
+          "breadth": 0,
+          "score": 1.56,
+          "stance": "BUY",
+          "is_new": false,
+          "core_stocks": []
+        },
+        {
+          "code": "BK0735",
+          "name": "计算机设备",
+          "type": "concept",
+          "ret": 0.0144,
+          "pop": 0,
+          "persistence": 0,
+          "dispersion": 0,
+          "breadth": 0,
+          "score": 1.44,
+          "stance": "BUY",
+          "is_new": false,
+          "core_stocks": []
+        },
+        {
+          "code": "BK0546",
+          "name": "玻璃玻纤",
+          "type": "concept",
+          "ret": 0.0141,
+          "pop": 0,
+          "persistence": 0,
+          "dispersion": 0,
+          "breadth": 0,
+          "score": 1.41,
+          "stance": "BUY",
+          "is_new": false,
+          "core_stocks": []
+        },
+        {
+          "code": "BK0731",
+          "name": "化肥行业",
+          "type": "concept",
+          "ret": 0.0139,
+          "pop": 0,
+          "persistence": 0,
+          "dispersion": 0,
+          "breadth": 0,
+          "score": 1.39,
+          "stance": "BUY",
+          "is_new": false,
+          "core_stocks": []
+        },
+        {
+          "code": "BK0428",
+          "name": "电力行业",
+          "type": "concept",
+          "ret": 0.013600000000000001,
+          "pop": 0,
+          "persistence": 0,
+          "dispersion": 0,
+          "breadth": 0,
+          "score": 1.36,
+          "stance": "BUY",
+          "is_new": false,
+          "core_stocks": []
+        },
+        {
+          "code": "BK0484",
+          "name": "贸易行业",
+          "type": "concept",
+          "ret": 0.0127,
+          "pop": 0,
+          "persistence": 0,
+          "dispersion": 0,
+          "breadth": 0,
+          "score": 1.27,
+          "stance": "BUY",
+          "is_new": false,
+          "core_stocks": []
+        },
+        {
+          "code": "BK0739",
+          "name": "工程机械",
+          "type": "concept",
+          "ret": 0.0118,
+          "pop": 0,
+          "persistence": 0,
+          "dispersion": 0,
+          "breadth": 0,
+          "score": 1.18,
+          "stance": "BUY",
+          "is_new": false,
+          "core_stocks": []
         }
       ]
     }
