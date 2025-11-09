@@ -27,8 +27,8 @@ function initTabs() {
         targetContent.classList.add('active');
       }
 
-      // 如果切换到历史趋势，加载历史数据
-      if (targetTab === 'history' && !historyData) {
+      // 如果切换到历史趋势或近10日数据，加载历史数据
+      if ((targetTab === 'history' || targetTab === 'recent10') && !historyData) {
         loadHistoryData();
       }
     });
@@ -307,6 +307,127 @@ function displayHistoryData(history) {
 
   // 4. 板块轮动热力图
   displayBoardRotation(history);
+
+  // 5. 近10日详细数据
+  displayRecent10Data(history);
+}
+
+function displayRecent10Data(history) {
+  const dailyRecords = history.daily_records || [];
+
+  if (dailyRecords.length === 0) {
+    document.getElementById('recent10-list').innerHTML = '<p>暂无近期数据</p>';
+    return;
+  }
+
+  const container = document.getElementById('recent10-list');
+  container.innerHTML = '';
+
+  dailyRecords.forEach(dayData => {
+    const daySection = document.createElement('div');
+    daySection.style.marginBottom = '2rem';
+    daySection.style.paddingBottom = '1.5rem';
+    daySection.style.borderBottom = '2px solid #e0e0e0';
+
+    // 日期标题
+    const dateHeader = document.createElement('h3');
+    dateHeader.style.marginBottom = '1rem';
+    dateHeader.style.color = '#333';
+
+    // 添加市场节奏信息
+    const market = dayData.market || {};
+    const advice = market.advice || 'NEUTRAL';
+    const adviceText = advice === 'OFFENSE' ? '进攻' : (advice === 'DEFENSE' ? '防守' : '中性');
+    const adviceColor = advice === 'OFFENSE' ? '#ef5350' : (advice === 'DEFENSE' ? '#26a69a' : '#999');
+
+    dateHeader.innerHTML = `
+      📅 ${dayData.date}
+      <span style="margin-left: 12px; font-size: 0.85em; color: ${adviceColor};">
+        节奏: ${adviceText}
+      </span>
+    `;
+    daySection.appendChild(dateHeader);
+
+    // 指数表现
+    const indices = dayData.indices || {};
+    const indicesDiv = document.createElement('div');
+    indicesDiv.style.marginBottom = '1rem';
+    indicesDiv.style.padding = '8px 12px';
+    indicesDiv.style.background = '#f5f5f5';
+    indicesDiv.style.borderRadius = '4px';
+    indicesDiv.style.fontSize = '0.875rem';
+
+    const hs300Ret = ((indices.hs300?.ret || 0) * 100).toFixed(2);
+    const csi1000Ret = ((indices.csi1000?.ret || 0) * 100).toFixed(2);
+    const shcompRet = ((indices.shcomp?.ret || 0) * 100).toFixed(2);
+
+    indicesDiv.innerHTML = `
+      指数表现:
+      沪深300 <strong style="color: ${indices.hs300?.ret >= 0 ? '#ef5350' : '#26a69a'}">${hs300Ret}%</strong> |
+      中证1000 <strong style="color: ${indices.csi1000?.ret >= 0 ? '#ef5350' : '#26a69a'}">${csi1000Ret}%</strong> |
+      上证综指 <strong style="color: ${indices.shcomp?.ret >= 0 ? '#ef5350' : '#26a69a'}">${shcompRet}%</strong>
+    `;
+    daySection.appendChild(indicesDiv);
+
+    // 行业板块
+    const industryTitle = document.createElement('h4');
+    industryTitle.textContent = '行业板块 Top 10';
+    industryTitle.style.marginTop = '1rem';
+    industryTitle.style.marginBottom = '0.5rem';
+    industryTitle.style.fontSize = '1rem';
+    daySection.appendChild(industryTitle);
+
+    const industryContainer = document.createElement('div');
+    industryContainer.id = `industry-${dayData.date}`;
+    daySection.appendChild(industryContainer);
+    renderBoardListInline(dayData.industry_boards || [], industryContainer);
+
+    // 概念板块
+    const conceptTitle = document.createElement('h4');
+    conceptTitle.textContent = '概念板块 Top 10';
+    conceptTitle.style.marginTop = '1rem';
+    conceptTitle.style.marginBottom = '0.5rem';
+    conceptTitle.style.fontSize = '1rem';
+    daySection.appendChild(conceptTitle);
+
+    const conceptContainer = document.createElement('div');
+    conceptContainer.id = `concept-${dayData.date}`;
+    daySection.appendChild(conceptContainer);
+    renderBoardListInline(dayData.concept_boards || [], conceptContainer);
+
+    container.appendChild(daySection);
+  });
+}
+
+function renderBoardListInline(boards, container) {
+  container.innerHTML = '';
+
+  if (!boards || boards.length === 0) {
+    container.innerHTML = '<p style="color: #999;">暂无数据</p>';
+    return;
+  }
+
+  boards.forEach((b, idx) => {
+    const riskBadge = b.stance?.includes('BUY') ? 'GREEN' : (b.stance==='WATCH' ? 'YELLOW' : 'RED');
+    const newBadge = b.is_new ? '<span class="badge" style="background: #ff9800; margin-left: 4px;">NEW</span>' : '';
+    const div = document.createElement('div');
+    div.className = 'card';
+    div.innerHTML = `
+      <div class="grid">
+        <div><b>${idx+1}. ${b.name}</b> <span class="badge ${riskBadge}">${b.stance || 'N/A'}</span>${newBadge}</div>
+        <div>涨幅：${((b.ret || 0)*100).toFixed(2)}%</div>
+        <div>人气：${(b.pop || 0).toFixed(2)}</div>
+        <div>持续性：${b.persistence || 0}</div>
+        <div>分歧：${((b.dispersion ?? 0)).toFixed(3)}</div>
+      </div>
+      <div>核心个股：${
+        b.core_stocks && b.core_stocks.length > 0
+          ? b.core_stocks.map(s=>`${s.name}(${s.code}) ${((s.ret || 0)*100).toFixed(1)}%`).join('， ')
+          : '暂无数据'
+      }</div>
+    `;
+    container.appendChild(div);
+  });
 }
 
 function displayIndicesTrend(history) {

@@ -13,6 +13,7 @@
     <!-- 标签切换 -->
     <div class="tabs">
       <button class="tab active" data-tab="today">今日数据</button>
+      <button class="tab" data-tab="recent10">近10日数据</button>
       <button class="tab" data-tab="history">历史趋势</button>
     </div>
 
@@ -74,6 +75,17 @@
       <section>
         <h2>宽基强弱（沪深300 - 中证1000）</h2>
         <div id="broad" style="height:220px"></div>
+      </section>
+    </div>
+
+    <!-- 近10日数据 -->
+    <div id="tab-recent10" class="tab-content">
+      <section>
+        <h2>近10个交易日数据</h2>
+        <p style="font-size: 0.875rem; color: #666; margin-bottom: 1rem;">
+          展示最近10个交易日的完整板块数据，每日数据包括行业板块、概念板块和市场指数
+        </p>
+        <div id="recent10-list"></div>
       </section>
     </div>
 

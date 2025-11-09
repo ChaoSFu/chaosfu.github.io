@@ -154,9 +154,48 @@ def generate_history(archive_dir, days=7):
     # 按出现天数和平均分排序
     hot_boards.sort(key=lambda x: (x['days_on_list'], x['avg_score']), reverse=True)
 
+    # 生成最近10天的每日详细数据
+    daily_records = []
+    recent_dates = dates[-10:] if len(dates) >= 10 else dates  # 取最近10天
+
+    for date_str in reversed(recent_dates):  # 倒序：最新的在前面
+        if date_str in archives:
+            archive_data = archives[date_str]
+
+            # 提取数据（兼容新旧格式）
+            daily_record = {
+                'date': date_str,
+                'market': archive_data.get('market', {}),
+                'indices': archive_data.get('indices', {})
+            }
+
+            # 处理板块数据
+            if 'industry_boards' in archive_data and 'concept_boards' in archive_data:
+                # 新格式
+                daily_record['industry_boards'] = archive_data.get('industry_boards', [])[:10]
+                daily_record['concept_boards'] = archive_data.get('concept_boards', [])[:10]
+            elif 'boards' in archive_data:
+                # 旧格式：尝试按 type 分类
+                boards = archive_data.get('boards', [])[:20]  # 取前20个
+                industry = []
+                concept = []
+                for b in boards:
+                    if b.get('type') == 'concept':
+                        concept.append(b)
+                    else:
+                        industry.append(b)
+                daily_record['industry_boards'] = industry[:10]
+                daily_record['concept_boards'] = concept[:10]
+            else:
+                daily_record['industry_boards'] = []
+                daily_record['concept_boards'] = []
+
+            daily_records.append(daily_record)
+
     print(f"\n✅ 历史数据统计:")
     print(f"   有效天数: {len(archives)}/{days}")
     print(f"   热门板块: {len(hot_boards)} 个")
+    print(f"   每日记录: {len(daily_records)} 天")
 
     return {
         'dates': dates,
@@ -165,6 +204,7 @@ def generate_history(archive_dir, days=7):
         'indices_trend': indices_trend,
         'hot_boards': hot_boards[:20],  # Top 20
         'board_rotation': board_rotation,
+        'daily_records': daily_records,  # 新增：每日详细数据
         'generated_at': date.today().isoformat()
     }
 
