@@ -188,19 +188,42 @@ def generate_history(archive_dir, days=7):
 
             # 处理板块数据
             if 'industry_boards' in archive_data and 'concept_boards' in archive_data:
-                # 新格式
+                # 新格式：已经分类好了
                 daily_record['industry_boards'] = archive_data.get('industry_boards', [])[:10]
                 daily_record['concept_boards'] = archive_data.get('concept_boards', [])[:10]
             elif 'boards' in archive_data:
-                # 旧格式：尝试按 type 分类
-                boards = archive_data.get('boards', [])[:20]  # 取前20个
+                # 旧格式：按板块代码分类
+                # BK0xxx = 概念板块, BK1xxx = 行业板块
+                boards = archive_data.get('boards', [])
                 industry = []
                 concept = []
+
                 for b in boards:
-                    if b.get('type') == 'concept':
-                        concept.append(b)
+                    code = b.get('code', '')
+
+                    # 如果有明确的 type 字段，使用它
+                    if 'type' in b:
+                        if b['type'] == 'concept':
+                            concept.append(b)
+                        else:
+                            industry.append(b)
+                    # 否则根据板块代码前缀判断
+                    elif code.startswith('BK0'):
+                        # BK0xxx 通常是概念板块
+                        b_copy = b.copy()
+                        b_copy['type'] = 'concept'
+                        concept.append(b_copy)
+                    elif code.startswith('BK1'):
+                        # BK1xxx 通常是行业板块
+                        b_copy = b.copy()
+                        b_copy['type'] = 'industry'
+                        industry.append(b_copy)
                     else:
-                        industry.append(b)
+                        # 未知类型，默认归类为行业
+                        b_copy = b.copy()
+                        b_copy['type'] = 'industry'
+                        industry.append(b_copy)
+
                 daily_record['industry_boards'] = industry[:10]
                 daily_record['concept_boards'] = concept[:10]
             else:
