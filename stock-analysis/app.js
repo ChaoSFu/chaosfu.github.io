@@ -28,8 +28,13 @@ function initTabs() {
       }
 
       // 如果切换到历史趋势或近10日数据，加载历史数据
-      if ((targetTab === 'history' || targetTab === 'recent10') && !historyData) {
-        loadHistoryData();
+      if (targetTab === 'history' || targetTab === 'recent10') {
+        if (!historyData) {
+          loadHistoryData();
+        } else {
+          // 如果数据已加载，直接显示（确保近10日数据被渲染）
+          displayHistoryData(historyData);
+        }
       }
     });
   });
