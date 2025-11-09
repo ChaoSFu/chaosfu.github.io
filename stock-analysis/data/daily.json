@@ -349,7 +349,7 @@
       "breadth": 1.0,
       "score": 2.788346,
       "stance": "STRONG_BUY",
-      "is_new": true,
+      "is_new": false,
       "core_stocks": [
         {
           "code": "300390",
@@ -382,7 +382,7 @@
       "breadth": 1.0,
       "score": 2.583134,
       "stance": "STRONG_BUY",
-      "is_new": true,
+      "is_new": false,
       "core_stocks": [
         {
           "code": "688353",
@@ -415,7 +415,7 @@
       "breadth": 1.0,
       "score": 2.482438,
       "stance": "STRONG_BUY",
-      "is_new": true,
+      "is_new": false,
       "core_stocks": [
         {
           "code": "301292",
@@ -448,7 +448,7 @@
       "breadth": 1.0,
       "score": 1.599969,
       "stance": "STRONG_BUY",
-      "is_new": true,
+      "is_new": false,
       "core_stocks": [
         {
           "code": "300821",
@@ -481,7 +481,7 @@
       "breadth": 1.0,
       "score": 1.315172,
       "stance": "BUY",
-      "is_new": true,
+      "is_new": false,
       "core_stocks": [
         {
           "code": "300437",
@@ -514,7 +514,7 @@
       "breadth": 1.0,
       "score": 1.094015,
       "stance": "BUY",
-      "is_new": true,
+      "is_new": false,
       "core_stocks": [
         {
           "code": "300769",
@@ -547,7 +547,7 @@
       "breadth": 1.0,
       "score": 0.957867,
       "stance": "BUY",
-      "is_new": true,
+      "is_new": false,
       "core_stocks": [
         {
           "code": "300437",
@@ -580,7 +580,7 @@
       "breadth": 1.0,
       "score": 0.875764,
       "stance": "BUY",
-      "is_new": true,
+      "is_new": false,
       "core_stocks": [
         {
           "code": "300437",
@@ -613,7 +613,7 @@
       "breadth": 1.0,
       "score": 0.808043,
       "stance": "BUY",
-      "is_new": true,
+      "is_new": false,
       "core_stocks": [
         {
           "code": "688275",
@@ -646,7 +646,7 @@
       "breadth": 1.0,
       "score": 0.637729,
       "stance": "BUY",
-      "is_new": true,
+      "is_new": false,
       "core_stocks": [
         {
           "code": "002136",
