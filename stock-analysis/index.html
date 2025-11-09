@@ -19,10 +19,14 @@
     <!-- 今日数据 -->
     <div id="tab-today" class="tab-content active">
       <section>
-        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
           <h2 style="margin: 0;">今日板块 Top</h2>
           <small id="date" style="color: #666;"></small>
         </div>
+        <p style="font-size: 0.875rem; color: #666; margin-bottom: 1rem;">
+          排序依据：<strong>综合分 = Z(涨幅) + Z(人气) + 0.5×Z(一致性)</strong><br>
+          <span style="font-size: 0.8rem; color: #888;">人气 = 相对成交额放量 + 上涨家数 | 一致性 = 板块内个股走势的集中度</span>
+        </p>
         <div id="board-list"></div>
       </section>
 
