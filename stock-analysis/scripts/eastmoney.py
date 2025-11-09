@@ -15,12 +15,18 @@ HEADERS = {
     'Referer': 'https://data.eastmoney.com/'
 }
 
-def fetch_board_data():
+def fetch_board_data(board_type='industry'):
     """
     获取板块涨跌幅排行数据
     API: 东方财富板块排行接口
+
+    参数:
+        board_type: 'industry' 行业板块, 'concept' 概念板块
     """
     url = "http://push2.eastmoney.com/api/qt/clist/get"
+
+    # t:2=行业板块, t:3=概念板块
+    fs_type = 'm:90+t:2' if board_type == 'industry' else 'm:90+t:3'
 
     params = {
         'fid': 'f3',        # 排序字段：f3=涨跌幅
@@ -30,24 +36,25 @@ def fetch_board_data():
         'np': '1',          # 不分页
         'fltt': '2',        # 过滤条件
         'invt': '2',        #
-        'fs': 'm:90+t:2',   # 市场分类：90=板块，t:2=行业板块
+        'fs': fs_type,      # 市场分类：90=板块，t:2=行业，t:3=概念
         'fields': 'f12,f14,f2,f3,f5,f6,f8,f104,f105,f106,f128,f136,f137,f138'
         # f12=code, f14=name, f2=price, f3=pct_change, f5=volume, f6=turnover
         # f104=上涨家数, f105=下跌家数, f128=领涨股, f136=涨速, f137=换手率
     }
 
     try:
-        print(f"  [板块] 请求东方财富板块数据...")
+        board_name = "行业板块" if board_type == 'industry' else "概念板块"
+        print(f"  [{board_name}] 请求东方财富数据...")
         response = requests.get(url, params=params, headers=HEADERS, timeout=10)
         response.raise_for_status()
 
         data = response.json()
         if data.get('rc') != 0 or 'data' not in data:
-            print(f"  [板块] ⚠️  API返回异常: {data}")
+            print(f"  [{board_name}] ⚠️  API返回异常: {data}")
             return None
 
         boards = data['data']['diff']
-        print(f"  [板块] ✅ 成功获取 {len(boards)} 个板块数据")
+        print(f"  [{board_name}] ✅ 成功获取 {len(boards)} 个板块数据")
 
         # 转换为 DataFrame
         records = []
@@ -63,6 +70,7 @@ def fetch_board_data():
                 'date': today,
                 'bk_code': item.get('f12', ''),
                 'bk_name': item.get('f14', ''),
+                'bk_type': board_type,  # 添加板块类型标识
                 'close': price,
                 'prev_close': price / (1 + pct) if pct != -1 else price,
                 'turnover': item.get('f6', 0),  # 成交额(元)
@@ -196,7 +204,7 @@ def load_eastmoney_data(top_boards=20, stocks_per_board=10):
     加载东方财富完整数据
 
     参数:
-        top_boards: 抓取前N个板块
+        top_boards: 每种类型抓取前N个板块
         stocks_per_board: 每个板块抓取前N只个股
 
     返回:
@@ -205,14 +213,24 @@ def load_eastmoney_data(top_boards=20, stocks_per_board=10):
     print("📡 开始从东方财富获取实时数据...")
     print("=" * 50)
 
-    # 1. 获取板块数据
-    boards_df = fetch_board_data()
-    if boards_df is None or boards_df.empty:
-        raise Exception("板块数据获取失败")
+    # 1. 获取行业板块数据
+    industry_df = fetch_board_data(board_type='industry')
+    if industry_df is None or industry_df.empty:
+        raise Exception("行业板块数据获取失败")
+    industry_df = industry_df.head(top_boards)
+    print(f"\n  ✅ 已筛选 Top {len(industry_df)} 行业板块")
 
-    # 只保留前N个板块
-    boards_df = boards_df.head(top_boards)
-    print(f"\n  ✅ 已筛选 Top {len(boards_df)} 板块")
+    time.sleep(0.5)
+
+    # 2. 获取概念板块数据
+    concept_df = fetch_board_data(board_type='concept')
+    if concept_df is None or concept_df.empty:
+        raise Exception("概念板块数据获取失败")
+    concept_df = concept_df.head(top_boards)
+    print(f"\n  ✅ 已筛选 Top {len(concept_df)} 概念板块")
+
+    # 合并两类板块
+    boards_df = pd.concat([industry_df, concept_df], ignore_index=True)
 
     # 延迟，避免请求过快
     time.sleep(0.5)

@@ -20,7 +20,7 @@
     <div id="tab-today" class="tab-content active">
       <section>
         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
-          <h2 style="margin: 0;">今日板块 Top</h2>
+          <h2 style="margin: 0;">今日数据</h2>
           <small id="date" style="color: #666;"></small>
         </div>
         <p style="font-size: 0.875rem; color: #666; margin-bottom: 0.5rem;">
@@ -54,7 +54,16 @@
           多因子加权得分，用于排序<br>
           <span style="color: #666; font-size: 0.8rem;">Z() 表示 Z-score 标准化，将不同指标归一到同一尺度</span></p>
         </div>
-        <div id="board-list"></div>
+      </section>
+
+      <section>
+        <h3 style="margin-bottom: 1rem;">行业板块 Top 10</h3>
+        <div id="industry-board-list"></div>
+      </section>
+
+      <section>
+        <h3 style="margin-bottom: 1rem;">概念板块 Top 10</h3>
+        <div id="concept-board-list"></div>
       </section>
 
       <section>

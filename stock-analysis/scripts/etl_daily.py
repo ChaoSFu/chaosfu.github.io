@@ -5,7 +5,7 @@ import pandas as pd
 from sources import load_mock, load_csv, load_api
 from factors import board_metrics, core_stocks, market_regime
 
-def to_json(out_path, boards, indices):
+def to_json(out_path, industry_boards, concept_boards, indices):
     result = {
         "date": date.today().isoformat(),
         "market": {
@@ -13,7 +13,8 @@ def to_json(out_path, boards, indices):
             "broad_strength": indices["broad_strength"],
             "advice": "OFFENSE" if indices["advice"]=="OFFENSE" else ("DEFENSE" if indices["advice"]=="DEFENSE" else "NEUTRAL")
         },
-        "boards": boards,
+        "industry_boards": industry_boards,
+        "concept_boards": concept_boards,
         "indices": {
             "hs300": {"ret": indices["hs300"]["ret"]},
             "csi1000": {"ret": indices["csi1000"]["ret"]},
@@ -74,36 +75,48 @@ def main():
     stocks_df = core_stocks(stk)
     indices = market_regime(idx)
 
-    # 聚合输出（Top 10 板块）
+    # 聚合输出（分别处理行业板块和概念板块）
     boards_df = boards_df.sort_values("score", ascending=False)
-    out_boards = []
-    for _, row in boards_df.head(10).iterrows():
-        bcode = row["bk_code"]
-        top_core = (stocks_df[stocks_df["bk_code"]==bcode]
-                    .sort_values("core", ascending=False)
-                    .head(3)[["ts_code","name","ret_1d","core"]])
-        out_boards.append({
-            "code": bcode,
-            "name": row["bk_name"],
-            "ret": round(float(row["ret"]), 6),
-            "pop": round(float(row["pop"]), 6),
-            "persistence": int(row["persistence"]),
-            "dispersion": round(float(row["dispersion"]), 6) if pd.notna(row["dispersion"]) else None,
-            "breadth": round(float(row["breadth"]), 6) if pd.notna(row["breadth"]) else None,
-            "score": round(float(row["score"]), 6),
-            "stance": "STRONG_BUY" if row["score"]>1.5 else ("BUY" if row["score"]>0.5 else ("WATCH" if row["score"]>-0.5 else "AVOID")),
-            "core_stocks": [
-                {"code": r["ts_code"], "name": r["name"], "ret": round(float(r["ret_1d"]),6), "core": round(float(r["core"]),6)}
-                for _, r in top_core.iterrows()
-            ]
-        })
 
-    daily_data = to_json(args.out, out_boards, indices)
+    def process_boards(df, board_type, top_n=10):
+        """处理指定类型的板块"""
+        boards = []
+        type_boards = df[df.get('bk_type', 'industry') == board_type] if 'bk_type' in df.columns else df
+
+        for _, row in type_boards.head(top_n).iterrows():
+            bcode = row["bk_code"]
+            top_core = (stocks_df[stocks_df["bk_code"]==bcode]
+                        .sort_values("core", ascending=False)
+                        .head(3)[["ts_code","name","ret_1d","core"]])
+            boards.append({
+                "code": bcode,
+                "name": row["bk_name"],
+                "type": board_type,
+                "ret": round(float(row["ret"]), 6),
+                "pop": round(float(row["pop"]), 6),
+                "persistence": int(row["persistence"]),
+                "dispersion": round(float(row["dispersion"]), 6) if pd.notna(row["dispersion"]) else None,
+                "breadth": round(float(row["breadth"]), 6) if pd.notna(row["breadth"]) else None,
+                "score": round(float(row["score"]), 6),
+                "stance": "STRONG_BUY" if row["score"]>1.5 else ("BUY" if row["score"]>0.5 else ("WATCH" if row["score"]>-0.5 else "AVOID")),
+                "core_stocks": [
+                    {"code": r["ts_code"], "name": r["name"], "ret": round(float(r["ret_1d"]),6), "core": round(float(r["core"]),6)}
+                    for _, r in top_core.iterrows()
+                ]
+            })
+        return boards
+
+    # 分别处理行业板块和概念板块
+    industry_boards = process_boards(boards_df, 'industry', top_n=10)
+    concept_boards = process_boards(boards_df, 'concept', top_n=10)
+
+    daily_data = to_json(args.out, industry_boards, concept_boards, indices)
 
     print("\n" + "=" * 60)
     print(f"✅ 数据已保存: {args.out}")
     print(f"   日期: {date.today().isoformat()}")
-    print(f"   板块数: {len(out_boards)}")
+    print(f"   行业板块: {len(industry_boards)}")
+    print(f"   概念板块: {len(concept_boards)}")
     print(f"   个股数: {len(stocks_df)}")
     print(f"   市场节奏: {indices['advice']}")
 

@@ -42,9 +42,13 @@ async function fetchRealtimeData() {
   try {
     console.log('🔄 正在从东方财富获取实时数据...');
 
-    // 获取板块数据
-    const boardsData = await fetchEastmoneyBoards();
-    if (!boardsData) {
+    // 获取行业板块和概念板块数据
+    const [industryBoards, conceptBoards] = await Promise.all([
+      fetchEastmoneyBoards('industry'),
+      fetchEastmoneyBoards('concept')
+    ]);
+
+    if (!industryBoards && !conceptBoards) {
       throw new Error('板块数据获取失败');
     }
 
@@ -55,7 +59,7 @@ async function fetchRealtimeData() {
     }
 
     // 处理和计算数据
-    const processedData = processData(boardsData, indicesData);
+    const processedData = processData(industryBoards || [], conceptBoards || [], indicesData);
 
     console.log('✅ 实时数据获取成功');
     return processedData;
@@ -67,8 +71,12 @@ async function fetchRealtimeData() {
   }
 }
 
-async function fetchEastmoneyBoards() {
+async function fetchEastmoneyBoards(boardType = 'industry') {
   const url = 'http://push2.eastmoney.com/api/qt/clist/get';
+
+  // t:2=行业板块, t:3=概念板块
+  const fsType = boardType === 'industry' ? 'm:90+t:2' : 'm:90+t:3';
+
   const params = new URLSearchParams({
     fid: 'f3',
     po: '1',
@@ -77,7 +85,7 @@ async function fetchEastmoneyBoards() {
     np: '1',
     fltt: '2',
     invt: '2',
-    fs: 'm:90+t:2',
+    fs: fsType,
     fields: 'f12,f14,f2,f3,f5,f6,f104,f105,f138'
   });
 
@@ -94,7 +102,7 @@ async function fetchEastmoneyBoards() {
 
     return data.data.diff || [];
   } catch (error) {
-    console.warn('板块数据获取失败 (CORS限制):', error.message);
+    console.warn(`${boardType === 'industry' ? '行业' : '概念'}板块数据获取失败 (CORS限制):`, error.message);
     return null;
   }
 }
@@ -128,28 +136,30 @@ async function fetchEastmoneyIndices() {
   }
 }
 
-function processData(boards, indices) {
+function processData(industryBoards, conceptBoards, indices) {
   const today = new Date().toISOString().split('T')[0];
 
-  // 处理板块数据（取前15个）
-  const processedBoards = boards.slice(0, 15).map(b => {
-    const ret = (b.f3 || 0) / 100;
-    const turnover = b.f6 || 0;
-    const upCount = b.f104 || 0;
+  // 处理板块数据的通用函数
+  const processBoardList = (boards, topN = 10) => {
+    return boards.slice(0, topN).map(b => {
+      const ret = (b.f3 || 0) / 100;
+      const turnover = b.f6 || 0;
+      const upCount = b.f104 || 0;
 
-    return {
-      code: b.f12,
-      name: b.f14,
-      ret: ret,
-      pop: turnover / 100000000, // 转换为亿
-      persistence: 3, // 默认值
-      dispersion: 0,
-      breadth: upCount > 0 ? 1.0 : 0.0,
-      score: ret * 10,
-      stance: ret > 0.02 ? 'BUY' : ret > 0 ? 'WATCH' : 'HOLD',
-      core_stocks: [] // 需要额外请求
-    };
-  });
+      return {
+        code: b.f12,
+        name: b.f14,
+        ret: ret,
+        pop: turnover / 100000000, // 转换为亿
+        persistence: 3, // 默认值
+        dispersion: 0,
+        breadth: upCount > 0 ? 1.0 : 0.0,
+        score: ret * 10,
+        stance: ret > 0.02 ? 'BUY' : ret > 0 ? 'WATCH' : 'HOLD',
+        core_stocks: [] // 需要额外请求
+      };
+    });
+  };
 
   // 处理指数数据
   const [hs300, csi1000, shcomp] = indices;
@@ -170,7 +180,8 @@ function processData(boards, indices) {
       broad_strength: broadStrength,
       advice: riskOn ? 'OFFENSE' : 'DEFENSE'
     },
-    boards: processedBoards,
+    industry_boards: processBoardList(industryBoards, 10),
+    concept_boards: processBoardList(conceptBoards, 10),
     indices: processedIndices,
     disclaimer: '本页面仅为个人研究与技术演示，不构成投资建议。'
   };
@@ -196,19 +207,17 @@ async function loadTodayData() {
 
   } catch (error) {
     console.error('数据加载失败:', error);
-    document.getElementById('board-list').innerHTML =
-      '<div class="card">数据加载失败，请刷新页面重试</div>';
+    const errorMsg = '<div class="card">数据加载失败，请刷新页面重试</div>';
+    document.getElementById('industry-board-list').innerHTML = errorMsg;
+    document.getElementById('concept-board-list').innerHTML = errorMsg;
   }
 }
 
-function displayTodayData(data) {
-  // 更新日期
-  document.getElementById('date').textContent = data.date;
+function renderBoardList(boards, containerId) {
+  const container = document.getElementById(containerId);
+  container.innerHTML = '';
 
-  // 显示板块列表
-  const list = document.getElementById('board-list');
-  list.innerHTML = '';
-  data.boards.forEach((b, idx) => {
+  boards.forEach((b, idx) => {
     const riskBadge = b.stance.includes('BUY') ? 'GREEN' : (b.stance==='WATCH' ? 'YELLOW' : 'RED');
     const div = document.createElement('div');
     div.className = 'card';
@@ -226,8 +235,24 @@ function displayTodayData(data) {
           : '暂无数据'
       }</div>
     `;
-    list.appendChild(div);
+    container.appendChild(div);
   });
+}
+
+function displayTodayData(data) {
+  // 更新日期
+  document.getElementById('date').textContent = data.date;
+
+  // 显示行业板块和概念板块列表
+  if (data.industry_boards && data.concept_boards) {
+    // 新格式：分别显示行业板块和概念板块
+    renderBoardList(data.industry_boards, 'industry-board-list');
+    renderBoardList(data.concept_boards, 'concept-board-list');
+  } else if (data.boards) {
+    // 旧格式兼容：显示在行业板块位置
+    renderBoardList(data.boards, 'industry-board-list');
+    document.getElementById('concept-board-list').innerHTML = '<p>暂无概念板块数据</p>';
+  }
 
   // 显示宽基强弱图
   const chart = echarts.init(document.getElementById('broad'));
