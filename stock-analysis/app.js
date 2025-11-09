@@ -202,13 +202,8 @@ async function loadTodayData() {
 }
 
 function displayTodayData(data) {
-  // 更新日期和市场节奏
-  document.getElementById('date').textContent = `数据日期：${data.date}`;
-  const regime = data.market.advice;
-  const text = regime === "OFFENSE" ? "进攻优先（小盘/成长）"
-             : regime === "DEFENSE" ? "防守优先（大盘/稳健）"
-             : "中性（观察）";
-  document.getElementById('regime').textContent = `节奏：${text} / risk_on=${data.market.risk_on}`;
+  // 更新日期
+  document.getElementById('date').textContent = data.date;
 
   // 显示板块列表
   const list = document.getElementById('board-list');

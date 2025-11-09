@@ -9,12 +9,6 @@
   <script src="https://cdn.jsdelivr.net/npm/echarts@5/dist/echarts.min.js"></script>
 </head>
 <body>
-  <header class="wrap">
-    <h1>板块热度 & 核心个股（日更）</h1>
-    <div id="regime" class="pill"></div>
-    <small id="date"></small>
-  </header>
-
   <main class="wrap">
     <!-- 标签切换 -->
     <div class="tabs">
@@ -25,7 +19,10 @@
     <!-- 今日数据 -->
     <div id="tab-today" class="tab-content active">
       <section>
-        <h2>今日板块 Top</h2>
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+          <h2 style="margin: 0;">今日板块 Top</h2>
+          <small id="date" style="color: #666;"></small>
+        </div>
         <div id="board-list"></div>
       </section>
 
