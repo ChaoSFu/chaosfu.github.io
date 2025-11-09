@@ -302,7 +302,17 @@ function displayIndicesTrend(history) {
 
   chart.setOption({
     title: { text: '指数走势对比', left: 'center', textStyle: { fontSize: 14 } },
-    tooltip: { trigger: 'axis' },
+    tooltip: {
+      trigger: 'axis',
+      formatter: function(params) {
+        let result = params[0].axisValue + '<br/>';
+        params.forEach(item => {
+          const value = (item.data * 100).toFixed(2);
+          result += `${item.marker} ${item.seriesName}: ${value}%<br/>`;
+        });
+        return result;
+      }
+    },
     legend: { data: ['沪深300', '中证1000', '上证综指'], bottom: 0 },
     xAxis: { type: 'category', data: dates },
     yAxis: { type: 'value', axisLabel: { formatter: v => (v*100).toFixed(1)+'%' } },
