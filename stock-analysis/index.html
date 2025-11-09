@@ -23,10 +23,37 @@
           <h2 style="margin: 0;">今日板块 Top</h2>
           <small id="date" style="color: #666;"></small>
         </div>
-        <p style="font-size: 0.875rem; color: #666; margin-bottom: 1rem;">
-          排序依据：<strong>综合分 = Z(涨幅) + Z(人气) + 0.5×Z(一致性)</strong><br>
-          <span style="font-size: 0.8rem; color: #888;">人气 = 相对成交额放量 + 上涨家数 | 一致性 = 板块内个股走势的集中度</span>
+        <p style="font-size: 0.875rem; color: #666; margin-bottom: 0.5rem;">
+          排序依据：<strong>综合分 = Z(涨幅) + Z(人气) + 0.5×Z(一致性)</strong>
+          <button onclick="document.getElementById('metrics-help').style.display = document.getElementById('metrics-help').style.display === 'none' ? 'block' : 'none'"
+                  style="background: none; border: 1px solid #999; border-radius: 50%; width: 20px; height: 20px; cursor: pointer; font-size: 12px; color: #666; margin-left: 8px;">?</button>
         </p>
+        <div id="metrics-help" style="display: none; background: #f5f5f5; border-left: 3px solid #4CAF50; padding: 12px; margin-bottom: 1rem; font-size: 0.85rem; line-height: 1.6;">
+          <h3 style="margin: 0 0 8px 0; font-size: 0.95rem; color: #333;">📊 指标说明</h3>
+
+          <p style="margin: 8px 0;"><strong>涨幅（ret）</strong><br>
+          板块当日涨跌幅 = 收盘价 / 前收盘价 - 1</p>
+
+          <p style="margin: 8px 0;"><strong>人气（pop）</strong><br>
+          资金关注度 = Z(成交额放量) + 0.5 × Z(上涨家数)<br>
+          <span style="color: #666; font-size: 0.8rem;">· 成交额放量 = 今日成交额 / 近5日平均成交额<br>
+          · 上涨家数 = 板块内上涨个股数量</span></p>
+
+          <p style="margin: 8px 0;"><strong>持续性（persistence）</strong><br>
+          0-3分，评估板块强势的持续时间<br>
+          <span style="color: #666; font-size: 0.8rem;">· 1日涨幅 > 0 得1分<br>
+          · 近3日累计涨幅 > 0 得1分<br>
+          · 近5日累计涨幅 > 0 得1分</span></p>
+
+          <p style="margin: 8px 0;"><strong>分歧（dispersion）</strong><br>
+          板块内个股涨幅的标准差，衡量走势一致性<br>
+          <span style="color: #666; font-size: 0.8rem;">· 分歧度越小 → 个股走势越一致 → 板块得分越高<br>
+          · 分歧度越大 → 个股分化严重 → 板块得分越低</span></p>
+
+          <p style="margin: 8px 0;"><strong>综合分（score）</strong><br>
+          多因子加权得分，用于排序<br>
+          <span style="color: #666; font-size: 0.8rem;">Z() 表示 Z-score 标准化，将不同指标归一到同一尺度</span></p>
+        </div>
         <div id="board-list"></div>
       </section>
 
