@@ -223,23 +223,34 @@ function renderBoardList(boards, containerId) {
   container.innerHTML = '';
 
   boards.forEach((b, idx) => {
+    // 购买推荐基于综合评分
     const riskBadge = b.stance.includes('BUY') ? 'GREEN' : (b.stance==='WATCH' ? 'YELLOW' : 'RED');
     const newBadge = b.is_new ? '<span class="badge" style="background: #ff9800; margin-left: 4px;">NEW</span>' : '';
+
+    // 格式化综合评分
+    const scoreText = b.score !== undefined ? b.score.toFixed(2) : 'N/A';
+
     const div = document.createElement('div');
     div.className = 'card';
     div.innerHTML = `
       <div class="grid">
-        <div><b>${idx+1}. ${b.name}</b> <span class="badge ${riskBadge}">${b.stance}</span>${newBadge}</div>
+        <div>
+          <b>${idx+1}. ${b.name}</b>
+          <span class="badge ${riskBadge}" title="基于综合评分的推荐">${b.stance}</span>${newBadge}
+        </div>
         <div>涨幅：${(b.ret*100).toFixed(2)}%</div>
+        <div>综合评分：<strong>${scoreText}</strong></div>
         <div>人气：${b.pop.toFixed(2)}</div>
         <div>持续性：${b.persistence}</div>
-        <div>分歧：${(b.dispersion ?? 0).toFixed(3)}</div>
       </div>
-      <div>核心个股：${
-        b.core_stocks && b.core_stocks.length > 0
-          ? b.core_stocks.map(s=>`${s.name}(${s.code}) ${(s.ret*100).toFixed(1)}%`).join('， ')
-          : '暂无数据'
-      }</div>
+      <div style="margin-top: 0.5rem;">
+        <small style="color: #666;">分歧：${(b.dispersion ?? 0).toFixed(3)}</small> |
+        <small style="color: #666;">核心个股：${
+          b.core_stocks && b.core_stocks.length > 0
+            ? b.core_stocks.map(s=>`${s.name}(${s.code}) ${(s.ret*100).toFixed(1)}%`).join('， ')
+            : '暂无数据'
+        }</small>
+      </div>
     `;
     container.appendChild(div);
   });
@@ -417,23 +428,34 @@ function renderBoardListInline(boards, container, emptyMessage = '暂无数据')
   }
 
   boards.forEach((b, idx) => {
+    // 购买推荐基于综合评分
     const riskBadge = b.stance?.includes('BUY') ? 'GREEN' : (b.stance==='WATCH' ? 'YELLOW' : 'RED');
     const newBadge = b.is_new ? '<span class="badge" style="background: #ff9800; margin-left: 4px;">NEW</span>' : '';
+
+    // 格式化综合评分
+    const scoreText = b.score !== undefined ? b.score.toFixed(2) : 'N/A';
+
     const div = document.createElement('div');
     div.className = 'card';
     div.innerHTML = `
       <div class="grid">
-        <div><b>${idx+1}. ${b.name}</b> <span class="badge ${riskBadge}">${b.stance || 'N/A'}</span>${newBadge}</div>
+        <div>
+          <b>${idx+1}. ${b.name}</b>
+          <span class="badge ${riskBadge}" title="基于综合评分的推荐">${b.stance || 'N/A'}</span>${newBadge}
+        </div>
         <div>涨幅：${((b.ret || 0)*100).toFixed(2)}%</div>
+        <div>综合评分：<strong>${scoreText}</strong></div>
         <div>人气：${(b.pop || 0).toFixed(2)}</div>
         <div>持续性：${b.persistence || 0}</div>
-        <div>分歧：${((b.dispersion ?? 0)).toFixed(3)}</div>
       </div>
-      <div>核心个股：${
-        b.core_stocks && b.core_stocks.length > 0
-          ? b.core_stocks.map(s=>`${s.name}(${s.code}) ${((s.ret || 0)*100).toFixed(1)}%`).join('， ')
-          : '暂无数据'
-      }</div>
+      <div style="margin-top: 0.5rem;">
+        <small style="color: #666;">分歧：${((b.dispersion ?? 0)).toFixed(3)}</small> |
+        <small style="color: #666;">核心个股：${
+          b.core_stocks && b.core_stocks.length > 0
+            ? b.core_stocks.map(s=>`${s.name}(${s.code}) ${((s.ret || 0)*100).toFixed(1)}%`).join('， ')
+            : '暂无数据'
+        }</small>
+      </div>
     `;
     container.appendChild(div);
   });

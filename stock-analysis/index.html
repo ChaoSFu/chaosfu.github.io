@@ -25,7 +25,7 @@
           <small id="date" style="color: #666;"></small>
         </div>
         <p style="font-size: 0.875rem; color: #666; margin-bottom: 0.5rem;">
-          排序依据：<strong>综合分 = Z(涨幅) + Z(人气) + 0.5×Z(一致性)</strong>
+          排序依据：<strong>涨幅</strong>（从高到低） | 购买推荐基于：<strong>综合评分</strong>
           <button onclick="document.getElementById('metrics-help').style.display = document.getElementById('metrics-help').style.display === 'none' ? 'block' : 'none'"
                   style="background: none; border: 1px solid #999; border-radius: 50%; width: 20px; height: 20px; cursor: pointer; font-size: 12px; color: #666; margin-left: 8px;">?</button>
         </p>
@@ -52,8 +52,10 @@
           · 分歧度越大 → 个股分化严重 → 板块得分越低</span></p>
 
           <p style="margin: 8px 0;"><strong>综合分（score）</strong><br>
-          多因子加权得分，用于排序<br>
-          <span style="color: #666; font-size: 0.8rem;">Z() 表示 Z-score 标准化，将不同指标归一到同一尺度</span></p>
+          多因子加权得分 = Z(涨幅) + Z(人气) + 0.5×Z(一致性)<br>
+          <strong>用途：</strong>购买推荐依据（STRONG_BUY/BUY/WATCH/AVOID）<br>
+          <span style="color: #666; font-size: 0.8rem;">· Z() 表示 Z-score 标准化，将不同指标归一到同一尺度<br>
+          · 注意：榜单按涨幅排序，而非综合评分</span></p>
 
           <p style="margin: 8px 0;"><strong>🆕 NEW 标签</strong><br>
           标识新上榜板块，前10个交易日未进入前10，今日首次上榜<br>

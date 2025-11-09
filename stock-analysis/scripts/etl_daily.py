@@ -105,7 +105,8 @@ def main():
     indices = market_regime(idx)
 
     # 聚合输出（分别处理行业板块和概念板块）
-    boards_df = boards_df.sort_values("score", ascending=False)
+    # 按涨幅排序（而不是综合评分），综合评分仅用于购买推荐
+    boards_df = boards_df.sort_values("ret", ascending=False)
 
     # 检测新上榜的板块
     new_boards = {'industry': set(), 'concept': set()}
