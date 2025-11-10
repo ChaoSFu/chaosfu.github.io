@@ -114,10 +114,9 @@ async function fetchEastmoneyBoards(boardType = 'industry') {
 }
 
 async function fetchEastmoneyIndices() {
-  // 获取主要指数：中证100/上证50/沪深300/中证500/中证1000/中证2000/上证综指
+  // 获取主要指数：中证100/沪深300/中证500/中证1000/中证2000/上证综指（已移除上证50）
   const indexConfigs = [
     { code: '000903', market: '1', name: 'CSI100' },   // 中证100
-    { code: '000016', market: '1', name: 'SH50' },     // 上证50
     { code: '000300', market: '1', name: 'HS300' },    // 沪深300
     { code: '000905', market: '1', name: 'CSI500' },   // 中证500
     { code: '000852', market: '1', name: 'CSI1000' },  // 中证1000
@@ -249,11 +248,22 @@ async function loadTodayData() {
 
 function renderBoardList(boards, containerId) {
   const container = document.getElementById(containerId);
+  if (!container) {
+    console.error(`Container ${containerId} not found`);
+    return;
+  }
+
   container.innerHTML = '';
+
+  if (!boards || boards.length === 0) {
+    container.innerHTML = '<div class="card">暂无数据</div>';
+    return;
+  }
 
   boards.forEach((b, idx) => {
     // 购买推荐基于综合评分
-    const riskBadge = b.stance.includes('BUY') ? 'GREEN' : (b.stance==='WATCH' ? 'YELLOW' : 'RED');
+    const stance = b.stance || 'WATCH';
+    const riskBadge = stance.includes('BUY') ? 'GREEN' : (stance==='WATCH' ? 'YELLOW' : 'RED');
     const newBadge = b.is_new ? '<span class="badge" style="background: #ff9800; margin-left: 4px;">NEW</span>' : '';
 
     // 格式化综合评分
@@ -264,19 +274,19 @@ function renderBoardList(boards, containerId) {
     div.innerHTML = `
       <div class="grid">
         <div>
-          <b>${idx+1}. ${b.name}</b>
-          <span class="badge ${riskBadge}" title="基于综合评分的推荐">${b.stance}</span>${newBadge}
+          <b>${idx+1}. ${b.name || '未知'}</b>
+          <span class="badge ${riskBadge}" title="基于综合评分的推荐">${stance}</span>${newBadge}
         </div>
-        <div>涨幅：${(b.ret*100).toFixed(2)}%</div>
+        <div>涨幅：${((b.ret || 0)*100).toFixed(2)}%</div>
         <div>综合评分：<strong>${scoreText}</strong></div>
-        <div>人气：${b.pop.toFixed(2)}</div>
-        <div>持续性：${b.persistence}</div>
+        <div>人气：${(b.pop || 0).toFixed(2)}</div>
+        <div>持续性：${b.persistence || 0}</div>
       </div>
       <div style="margin-top: 0.5rem;">
         <small style="color: #666;">分歧：${(b.dispersion ?? 0).toFixed(3)}</small> |
         <small style="color: #666;">核心个股：${
           b.core_stocks && b.core_stocks.length > 0
-            ? b.core_stocks.map(s=>`${s.name}(${s.code}) ${(s.ret*100).toFixed(1)}%`).join('， ')
+            ? b.core_stocks.map(s=>`${s.name}(${s.code}) ${((s.ret || 0)*100).toFixed(1)}%`).join('， ')
             : '暂无数据'
         }</small>
       </div>
