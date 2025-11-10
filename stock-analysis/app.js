@@ -406,7 +406,7 @@ function renderIndicesDashboard(indices) {
         let result = params[0].axisValue + '<br/>';
         params.forEach(item => {
           if (item.data !== null && item.data !== undefined) {
-            const value = (item.data * 100).toFixed(2);
+            const value = item.data.toFixed(2);
             result += `${item.marker} ${item.seriesName}: <strong>${value}%</strong><br/>`;
           }
         });
@@ -438,7 +438,7 @@ function renderIndicesDashboard(indices) {
     yAxis: {
       type: 'value',
       axisLabel: {
-        formatter: v => (v * 100).toFixed(1) + '%',
+        formatter: v => v.toFixed(2) + '%',
         fontSize: 11
       },
       splitLine: {
