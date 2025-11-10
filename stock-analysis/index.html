@@ -10,6 +10,23 @@
 </head>
 <body>
   <main class="wrap">
+    <!-- AI设置区域 -->
+    <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); padding: 16px; border-radius: 12px; margin-bottom: 20px; display: flex; justify-content: space-between; align-items: center;">
+      <div>
+        <h3 style="margin: 0; color: white; font-size: 18px;">🤖 AI量价分析</h3>
+        <p style="margin: 4px 0 0 0; color: rgba(255,255,255,0.9); font-size: 13px;">
+          <span id="current-model-display">当前模型：GPT-4o-mini</span>
+          <span style="margin: 0 8px;">|</span>
+          <span id="api-status-display">未配置API密钥</span>
+        </p>
+      </div>
+      <button id="ai-settings-btn" style="padding: 10px 20px; background: white; color: #667eea; border: none; border-radius: 8px; cursor: pointer; font-size: 14px; font-weight: 600; transition: all 0.3s; box-shadow: 0 2px 8px rgba(0,0,0,0.15);"
+              onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 4px 12px rgba(0,0,0,0.2)';"
+              onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 2px 8px rgba(0,0,0,0.15)';">
+        ⚙️ AI配置
+      </button>
+    </div>
+
     <!-- 标签切换 -->
     <div class="tabs">
       <button class="tab active" data-tab="today">今日数据</button>
@@ -73,6 +90,101 @@
         <h3 style="margin-bottom: 1rem;">概念板块 Top 10</h3>
         <div id="concept-board-list"></div>
       </section>
+
+      <section>
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
+          <h2 style="margin: 0;">主要指数看板</h2>
+          <button id="market-analyze-btn" style="padding: 8px 16px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border: none; border-radius: 8px; cursor: pointer; font-size: 14px; font-weight: 500; transition: all 0.3s; box-shadow: 0 2px 6px rgba(102, 126, 234, 0.4);"
+                  onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 4px 12px rgba(102, 126, 234, 0.6)';"
+                  onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 2px 6px rgba(102, 126, 234, 0.4)';">
+            🎯 AI全市场分析
+          </button>
+        </div>
+        <p style="font-size: 0.875rem; color: #666; margin-bottom: 1rem;">
+          根据不同市值体量指数特征，判断当前市场风格和投资机会。点击"AI全市场分析"可一次性分析所有指数，识别风险与机会。
+        </p>
+
+        <!-- AI全市场分析结果 -->
+        <div id="market-analysis-result" style="display: none; margin-bottom: 16px; padding: 16px; background: linear-gradient(135deg, #f6ffed 0%, #f0f9ff 100%); border: 1px solid #b7eb8f; border-radius: 12px;">
+          <h3 style="margin: 0 0 12px 0; color: #333; font-size: 16px;">📊 AI市场分析结果</h3>
+          <div id="market-analysis-content"></div>
+        </div>
+
+        <!-- 主要指数走势图 -->
+        <div id="indices-dashboard" style="height: 400px; margin-top: 16px;"></div>
+      </section>
+
+      <!-- AI设置弹窗 -->
+      <div id="ai-settings-modal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 1000; align-items: center; justify-content: center; overflow-y: auto;">
+        <div style="background: white; padding: 28px; border-radius: 12px; max-width: 600px; width: 90%; margin: 20px;">
+          <h3 style="margin-top: 0; color: #333;">⚙️ AI分析设置</h3>
+          <p style="font-size: 14px; color: #666; line-height: 1.6; margin-bottom: 24px;">
+            配置您的OpenAI API密钥和选择分析模型。所有设置仅保存在浏览器本地，不会上传到任何服务器。
+          </p>
+
+          <!-- API密钥配置 -->
+          <div style="margin: 20px 0;">
+            <label style="display: block; margin-bottom: 8px; font-weight: 500; color: #333;">OpenAI API Key:</label>
+            <input type="password" id="openai-api-key" placeholder="sk-proj-..." style="width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 6px; font-size: 14px; font-family: monospace;">
+            <p style="font-size: 12px; color: #999; margin-top: 6px;">
+              💡 获取API密钥：访问 <a href="https://platform.openai.com/api-keys" target="_blank" style="color: #1677ff;">platform.openai.com/api-keys</a>
+            </p>
+          </div>
+
+          <!-- 模型选择 -->
+          <div style="margin: 24px 0;">
+            <label style="display: block; margin-bottom: 8px; font-weight: 500; color: #333;">选择AI模型:</label>
+            <select id="openai-model-select" style="width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 6px; font-size: 14px; cursor: pointer; background: white;">
+              <optgroup label="🆕 GPT-5 系列（最新）">
+                <option value="gpt-5">GPT-5 - 新一代旗舰 ($0.002/次)</option>
+                <option value="gpt-5-mini">GPT-5 mini - 轻量版 ($0.0002/次)</option>
+                <option value="gpt-5-nano">GPT-5 nano - 超轻量 ($0.00005/次)</option>
+              </optgroup>
+              <optgroup label="🧠 推理模型（Reasoning）">
+                <option value="o3-mini">🆕 o3-mini - 新一代推理 ($0.001/次)</option>
+                <option value="o1">o1 - 最强推理 ($0.015/次)</option>
+                <option value="o1-mini">o1-mini - 快速推理 ($0.003/次)</option>
+              </optgroup>
+              <optgroup label="⭐ GPT-4o 系列（推荐）">
+                <option value="gpt-4o">GPT-4o - 多模态旗舰 ($0.002/次)</option>
+                <option value="gpt-4o-mini" selected>GPT-4o-mini - 高性价比 ($0.00015/次)</option>
+              </optgroup>
+              <optgroup label="GPT-4 系列">
+                <option value="gpt-4.1">🆕 GPT-4.1 - 升级版 ($0.002/次)</option>
+                <option value="gpt-4-turbo">GPT-4 Turbo - 长上下文 ($0.01/次)</option>
+                <option value="gpt-4">GPT-4 - 标准版 ($0.03/次)</option>
+              </optgroup>
+              <optgroup label="GPT-3.5 系列">
+                <option value="gpt-3.5-turbo">GPT-3.5 Turbo - 极致省钱 ($0.00005/次)</option>
+              </optgroup>
+            </select>
+          </div>
+
+          <!-- 模型对比信息 -->
+          <div id="model-info-card" style="background: #f6f8fa; border: 1px solid #e1e4e8; border-radius: 8px; padding: 16px; margin: 20px 0; font-size: 13px; line-height: 1.6;">
+            <div style="display: flex; align-items: center; margin-bottom: 8px;">
+              <span style="font-weight: 600; color: #333;">GPT-4o-mini</span>
+              <span style="margin-left: 8px; padding: 2px 8px; background: #e6f7ff; color: #1677ff; border-radius: 4px; font-size: 11px;">推荐</span>
+            </div>
+            <div style="color: #666;">
+              <div>💰 成本：约 $0.00015/次 (¥0.001)</div>
+              <div style="font-size: 12px; color: #999; margin-top: 4px;">Input: $0.15/1M tokens | Output: $0.60/1M tokens</div>
+              <div>⚡ 速度：很快（1-2秒）</div>
+              <div>🎯 适用：日常量价分析，性价比极高</div>
+            </div>
+          </div>
+
+          <!-- 按钮组 -->
+          <div style="display: flex; gap: 12px; margin-top: 24px;">
+            <button id="save-api-key" style="flex: 1; padding: 12px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border: none; border-radius: 8px; cursor: pointer; font-weight: 600; font-size: 14px; transition: all 0.3s;">
+              💾 保存配置
+            </button>
+            <button id="cancel-settings" style="flex: 1; padding: 12px; background: #f0f0f0; color: #333; border: none; border-radius: 8px; cursor: pointer; font-weight: 500; font-size: 14px; transition: all 0.3s;">
+              取消
+            </button>
+          </div>
+        </div>
+      </div>
 
       <section>
         <h2>宽基强弱（沪深300 - 中证1000）</h2>

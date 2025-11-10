@@ -189,16 +189,19 @@ def fetch_board_stocks(board_code, top_n=10):
 
 def fetch_index_data():
     """
-    获取主要指数数据（沪深300、中证1000、上证指数）
+    获取主要指数数据（中证100/沪深300/中证500/中证1000/中证2000）
+    移除上证50，保留上证指数用于对比
     """
     url = "http://push2.eastmoney.com/api/qt/ulist.np/get"
 
     # secids 格式: 市场代码.指数代码
-    # 1.000300=沪深300, 1.000852=中证1000, 1.000001=上证指数
+    # 1.000903=中证100, 1.000300=沪深300
+    # 1.000905=中证500, 1.000852=中证1000, 1.932000=中证2000
+    # 1.000001=上证指数（用于对比）
     params = {
-        'secids': '1.000300,1.000852,1.000001',
+        'secids': '1.000903,1.000300,1.000905,1.000852,1.932000,1.000001',
         'fields': 'f12,f14,f2,f3,f4,f5,f6'
-        # f3=涨跌幅, f4=涨跌额
+        # f2=最新价, f3=涨跌幅, f4=涨跌额, f5=成交量, f6=成交额
     }
 
     try:
@@ -214,11 +217,24 @@ def fetch_index_data():
         indices = data['data']['diff']
         print(f"  [指数] ✅ 成功获取 {len(indices)} 个指数数据")
 
-        # 映射：东方财富代码 -> 我们的代码
+        # 映射：东方财富代码 -> 我们的代码（移除上证50）
         code_map = {
-            '000300': 'HS300',
-            '000852': 'CSI1000',
-            '000001': 'SHCOMP'
+            '000903': 'CSI100',      # 中证100
+            '000300': 'HS300',       # 沪深300
+            '000905': 'CSI500',      # 中证500
+            '000852': 'CSI1000',     # 中证1000
+            '932000': 'CSI2000',     # 中证2000
+            '000001': 'SHCOMP'       # 上证指数
+        }
+
+        # 指数中文名称
+        name_map = {
+            'CSI100': '中证100',
+            'HS300': '沪深300',
+            'CSI500': '中证500',
+            'CSI1000': '中证1000',
+            'CSI2000': '中证2000',
+            'SHCOMP': '上证指数'
         }
 
         records = []
@@ -227,10 +243,19 @@ def fetch_index_data():
         for item in indices:
             code = item.get('f12', '')
             if code in code_map:
+                index_code = code_map[code]
+                pct = item.get('f3', 0) / 100.0  # 涨跌幅转小数
+                price = item.get('f2', 0)
+
                 records.append({
                     'date': today,
-                    'index_code': code_map[code],
-                    'ret': item.get('f3', 0) / 100.0  # 涨跌幅转小数
+                    'index_code': index_code,
+                    'index_name': name_map.get(index_code, ''),
+                    'close': price,
+                    'prev_close': price / (1 + pct) if pct != 0 else price,
+                    'ret': pct,
+                    'volume': item.get('f5', 0),      # 成交量
+                    'turnover': item.get('f6', 0),    # 成交额
                 })
 
         df = pd.DataFrame(records)

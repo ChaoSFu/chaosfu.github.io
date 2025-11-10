@@ -108,22 +108,40 @@ def generate_history(archive_dir, days=7):
                 'risk_on': market.get('risk_on', False)
             })
 
-    # 提取指数趋势
+    # 提取指数趋势（支持5个新指数）
     indices_trend = {
+        'CSI100': [],     # 中证100（超大盘）
+        'HS300': [],      # 沪深300（大盘）
+        'CSI500': [],     # 中证500（中盘）
+        'CSI1000': [],    # 中证1000（小盘）
+        'CSI2000': [],    # 中证2000（微盘）
+        'SHCOMP': [],     # 上证指数
+        # 保留旧的小写key用于兼容
         'hs300': [],
         'csi1000': [],
         'shcomp': []
     }
+
     for date_str in dates:
         if date_str in archives:
             indices = archives[date_str].get('indices', {})
+
+            # 新的大写格式（优先使用）
+            indices_trend['CSI100'].append(indices.get('CSI100', {}).get('ret', None))
+            indices_trend['HS300'].append(indices.get('HS300', {}).get('ret', None))
+            indices_trend['CSI500'].append(indices.get('CSI500', {}).get('ret', None))
+            indices_trend['CSI1000'].append(indices.get('CSI1000', {}).get('ret', None))
+            indices_trend['CSI2000'].append(indices.get('CSI2000', {}).get('ret', None))
+            indices_trend['SHCOMP'].append(indices.get('SHCOMP', {}).get('ret', None))
+
+            # 旧的小写格式（向后兼容）
             indices_trend['hs300'].append(indices.get('hs300', {}).get('ret', None))
             indices_trend['csi1000'].append(indices.get('csi1000', {}).get('ret', None))
             indices_trend['shcomp'].append(indices.get('shcomp', {}).get('ret', None))
         else:
-            indices_trend['hs300'].append(None)
-            indices_trend['csi1000'].append(None)
-            indices_trend['shcomp'].append(None)
+            # 所有指数设为None
+            for key in indices_trend.keys():
+                indices_trend[key].append(None)
 
     # 统计热门板块（出现在Top10的板块）
     board_stats = defaultdict(lambda: {

@@ -31,3 +31,23 @@ section{margin:24px 0}
 #hot-boards .trend-bar.down{background:#f5222d}
 
 .disclaimer{color:var(--muted)}
+
+/* Indices Dashboard */
+#indices-dashboard{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:16px;margin-top:16px}
+.index-card{border:1px solid #eee;border-radius:12px;padding:16px;background:linear-gradient(135deg,#f8f9fa 0%,#fff 100%);transition:all 0.3s ease}
+.index-card:hover{box-shadow:0 4px 12px rgba(0,0,0,0.1);transform:translateY(-2px)}
+.index-card .header{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}
+.index-card .name{font-size:18px;font-weight:600;color:#333}
+.index-card .type-badge{font-size:11px;padding:4px 10px;border-radius:12px;font-weight:500}
+.index-card .type-ultra{background:#e6f7ff;color:#1677ff}
+.index-card .type-large{background:#f0f5ff;color:#597ef7}
+.index-card .type-mid{background:#fff7e6;color:#fa8c16}
+.index-card .type-small{background:#fff1f0;color:#ff4d4f}
+.index-card .type-micro{background:#fff0f6;color:#eb2f96}
+.index-card .metrics{display:flex;gap:16px;margin-bottom:10px}
+.index-card .metric{flex:1}
+.index-card .metric-label{font-size:12px;color:#999;margin-bottom:4px}
+.index-card .metric-value{font-size:20px;font-weight:600}
+.index-card .metric-value.up{color:#52c41a}
+.index-card .metric-value.down{color:#f5222d}
+.index-card .characteristic{font-size:13px;color:#666;line-height:1.5;margin-top:8px;padding-top:8px;border-top:1px solid #f0f0f0}
