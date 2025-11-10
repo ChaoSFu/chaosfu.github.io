@@ -78,7 +78,7 @@ async function fetchRealtimeData() {
 }
 
 async function fetchEastmoneyBoards(boardType = 'industry') {
-  const url = 'http://push2.eastmoney.com/api/qt/clist/get';
+  const url = 'https://push2.eastmoney.com/api/qt/clist/get';
 
   // t:2=行业板块, t:3=概念板块
   const fsType = boardType === 'industry' ? 'm:90+t:2' : 'm:90+t:3';
@@ -124,7 +124,7 @@ async function fetchEastmoneyIndices() {
     { code: '000001', market: '1', name: 'SHCOMP' }    // 上证综指
   ];
 
-  const url = 'http://push2.eastmoney.com/api/qt/stock/get';
+  const url = 'https://push2.eastmoney.com/api/qt/stock/get';
 
   try {
     const results = await Promise.all(indexConfigs.map(async config => {
