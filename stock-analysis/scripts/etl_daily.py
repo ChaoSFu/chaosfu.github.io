@@ -39,10 +39,32 @@ def archive_daily_data(data, archive_dir):
 
     print(f"   📁 存档: {archive_path}")
 
+def is_trading_time():
+    """
+    检测当前是否在交易时间内
+    A股交易时间（北京时间）：
+    - 上午：9:30-11:30
+    - 下午：13:00-15:00
+    """
+    from datetime import datetime, time
+    now = datetime.now()
+    current_time = now.time()
+
+    morning_start = time(9, 30)
+    morning_end = time(11, 30)
+    afternoon_start = time(13, 0)
+    afternoon_end = time(15, 0)
+
+    # 检查是否在交易时间段内
+    in_morning = morning_start <= current_time <= morning_end
+    in_afternoon = afternoon_start <= current_time <= afternoon_end
+
+    return in_morning or in_afternoon
+
 def is_trading_day():
     """
-    检测今天是否为交易日
-    简单判断：排除周末（周六、周日）
+    检测今天是否为交易日且在交易时间内
+    简单判断：排除周末（周六、周日）+ 检查交易时间
     注意：不包含法定节假日判断，如需更精确请使用交易日历API
     """
     from datetime import datetime
@@ -51,6 +73,10 @@ def is_trading_day():
 
     # 周六(5)和周日(6)不是交易日
     if weekday >= 5:
+        return False
+
+    # 检查是否在交易时间内
+    if not is_trading_time():
         return False
 
     return True
@@ -78,10 +104,18 @@ def main():
     if args.mode != "MOCK" and not args.skip_trading_day_check:
         if not is_trading_day():
             from datetime import datetime
+            now = datetime.now()
             weekday_name = ['星期一', '星期二', '星期三', '星期四', '星期五', '星期六', '星期日']
-            today_name = weekday_name[datetime.today().weekday()]
-            print(f"\n⚠️  今天是 {today_name}，非交易日")
-            print("⚠️  跳过数据抓取和存档")
+            today_name = weekday_name[now.weekday()]
+            current_time_str = now.strftime('%H:%M:%S')
+
+            print(f"\n⚠️  当前时间: {today_name} {current_time_str}")
+
+            if now.weekday() >= 5:
+                print("⚠️  周末非交易日，跳过数据抓取")
+            else:
+                print("⚠️  不在交易时间内（9:30-11:30, 13:00-15:00），跳过数据抓取")
+
             print("\n💡 如需强制运行，请使用 --skip-trading-day-check 参数")
             print("=" * 60)
             return
@@ -115,10 +149,15 @@ def main():
         new_boards = detect_new_boards(args.archive_dir, lookback_days=10)
 
     def process_boards(df, board_type, top_n=10):
-        """处理指定类型的板块"""
+        """处理指定类型的板块，保持涨幅排序"""
         boards = []
-        type_boards = df[df.get('bk_type', 'industry') == board_type] if 'bk_type' in df.columns else df
+        # 筛选指定类型的板块，保持原有排序（已按涨幅排序）
+        if 'bk_type' in df.columns:
+            type_boards = df[df['bk_type'] == board_type].copy()
+        else:
+            type_boards = df.copy()
 
+        # 取前 top_n 个板块（已按涨幅排序）
         for _, row in type_boards.head(top_n).iterrows():
             bcode = row["bk_code"]
             top_core = (stocks_df[stocks_df["bk_code"]==bcode]

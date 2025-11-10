@@ -15,6 +15,37 @@ HEADERS = {
     'Referer': 'https://data.eastmoney.com/'
 }
 
+def is_valid_concept_board(board_name):
+    """
+    判断是否是有效的概念板块（过滤掉选股条件类的伪概念）
+
+    排除规则：
+    - 包含"昨日"、"连板"、"涨停"、"一字"等短线选股条件
+    - 包含"次新股"、"破净"、"ST"等特殊状态
+    - 包含"创业板"、"科创板"、"北交所"等市场分类
+    """
+    # 黑名单关键词
+    blacklist_keywords = [
+        '昨日', '今日', '连板', '涨停', '跌停', '一字',
+        '次新股', '破净', 'ST', '*ST', '退市',
+        '创业板', '科创板', '科创50', '科创100', '北交所', '沪市', '深市',
+        '融资融券', '转融券', '股权转让',
+        '大盘', '中盘', '小盘', '微盘',
+        '_含一字', '_含ST', '_含创业',
+        '高送转', '高股息', '低市盈',
+        '业绩预增', '业绩爆雷', '业绩暴增',
+        '沪深300', '中证', '上证', '深证',
+        '指数', '成份股'
+    ]
+
+    # 检查是否包含黑名单关键词
+    for keyword in blacklist_keywords:
+        if keyword in board_name:
+            return False
+
+    return True
+
+
 def fetch_board_data(board_type='industry'):
     """
     获取板块涨跌幅排行数据
@@ -59,8 +90,16 @@ def fetch_board_data(board_type='industry'):
         # 转换为 DataFrame
         records = []
         today = date.today().isoformat()
+        filtered_count = 0
 
         for item in boards:
+            bk_name = item.get('f14', '')
+
+            # 如果是概念板块，需要过滤掉选股条件类的伪概念
+            if board_type == 'concept' and not is_valid_concept_board(bk_name):
+                filtered_count += 1
+                continue
+
             # f3: 涨跌幅(%), f2: 最新价, f5: 成交量, f6: 成交额
             # f104: 上涨家数, f138: 涨停家数
             pct = item.get('f3', 0) / 100.0  # 百分比转小数
@@ -69,7 +108,7 @@ def fetch_board_data(board_type='industry'):
             records.append({
                 'date': today,
                 'bk_code': item.get('f12', ''),
-                'bk_name': item.get('f14', ''),
+                'bk_name': bk_name,
                 'bk_type': board_type,  # 添加板块类型标识
                 'close': price,
                 'prev_close': price / (1 + pct) if pct != -1 else price,
@@ -77,6 +116,9 @@ def fetch_board_data(board_type='industry'):
                 'up_count': item.get('f104', 0),  # 上涨家数
                 'limit_up': item.get('f138', 0),  # 涨停家数
             })
+
+        if filtered_count > 0:
+            print(f"  [{board_name}] ⚠️  已过滤 {filtered_count} 个选股条件类板块")
 
         df = pd.DataFrame(records)
         return df
