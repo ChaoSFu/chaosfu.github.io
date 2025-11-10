@@ -6,6 +6,13 @@ from sources import load_mock, load_csv, load_api
 from factors import board_metrics, core_stocks, market_regime
 
 def to_json(out_path, industry_boards, concept_boards, indices):
+    # 提取所有指数数据（排除市场判断字段）
+    indices_data = {}
+    exclude_keys = {'risk_on', 'broad_strength', 'advice'}
+    for key, value in indices.items():
+        if key not in exclude_keys and isinstance(value, dict) and 'ret' in value:
+            indices_data[key] = {"ret": value["ret"]}
+
     result = {
         "date": date.today().isoformat(),
         "market": {
@@ -15,11 +22,7 @@ def to_json(out_path, industry_boards, concept_boards, indices):
         },
         "industry_boards": industry_boards,
         "concept_boards": concept_boards,
-        "indices": {
-            "hs300": {"ret": indices["hs300"]["ret"]},
-            "csi1000": {"ret": indices["csi1000"]["ret"]},
-            "shcomp": {"ret": indices["shcomp"]["ret"]}
-        },
+        "indices": indices_data,
         "disclaimer": "本页面仅为个人研究与技术演示，不构成投资建议。"
     }
     with open(out_path, "w", encoding="utf-8") as f:

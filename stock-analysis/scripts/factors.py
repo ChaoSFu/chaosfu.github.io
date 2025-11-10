@@ -46,23 +46,45 @@ def core_stocks(stocks_df: pd.DataFrame):
 
 def market_regime(idx_df: pd.DataFrame):
     """
-    idx_df: date,index_code,ret  (index_code ∈ {HS300,CSI1000,SHCOMP})
+    idx_df: date,index_code,ret  (支持所有主要指数)
+    返回所有指数数据 + 市场判断指标
     """
     piv = idx_df.pivot(index="date", columns="index_code", values="ret").reset_index().iloc[-1]
-    hs300, csi1000, shcomp = piv["HS300"], piv["CSI1000"], piv["SHCOMP"]
+
+    # 提取核心指数用于市场判断
+    hs300 = piv.get("HS300", 0)
+    csi1000 = piv.get("CSI1000", 0)
+    shcomp = piv.get("SHCOMP", 0)
+
     broad_strength = float(hs300 - csi1000)
     risk_on = int([hs300, csi1000, shcomp].count(np.nan) == 0 and (np.array([hs300, csi1000, shcomp]) > 0).sum() >= 2)
+
     if broad_strength > 0.002:
         advice = "DEFENSE"
     elif broad_strength < -0.002:
         advice = "OFFENSE"
     else:
         advice = "NEUTRAL"
-    return {
-        "hs300": {"ret": float(hs300)},
-        "csi1000": {"ret": float(csi1000)},
-        "shcomp": {"ret": float(shcomp)},
+
+    # 返回所有指数数据（兼容旧代码的小写键名）
+    result = {
         "risk_on": bool(risk_on),
         "broad_strength": broad_strength,
         "advice": advice
     }
+
+    # 添加所有指数数据（使用大写键名）
+    for index_code in piv.index:
+        if index_code != 'date':
+            value = piv.get(index_code, 0)
+            result[index_code] = {"ret": float(value) if pd.notna(value) else 0.0}
+
+    # 兼容旧代码的小写键名
+    if "HS300" in result:
+        result["hs300"] = result["HS300"]
+    if "CSI1000" in result:
+        result["csi1000"] = result["CSI1000"]
+    if "SHCOMP" in result:
+        result["shcomp"] = result["SHCOMP"]
+
+    return result

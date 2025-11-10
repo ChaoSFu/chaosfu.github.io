@@ -54,7 +54,7 @@ def fetch_board_data(board_type='industry'):
     参数:
         board_type: 'industry' 行业板块, 'concept' 概念板块
     """
-    url = "http://push2.eastmoney.com/api/qt/clist/get"
+    url = "https://push2.eastmoney.com/api/qt/clist/get"
 
     # t:2=行业板块, t:3=概念板块
     fs_type = 'm:90+t:2' if board_type == 'industry' else 'm:90+t:3'
@@ -135,7 +135,7 @@ def fetch_board_stocks(board_code, top_n=10):
     """
     获取指定板块的成分股数据
     """
-    url = "http://push2.eastmoney.com/api/qt/clist/get"
+    url = "https://push2.eastmoney.com/api/qt/clist/get"
 
     params = {
         'fid': 'f3',
@@ -192,7 +192,7 @@ def fetch_index_data():
     获取主要指数数据（中证100/沪深300/中证500/中证1000/中证2000）
     移除上证50，保留上证指数用于对比
     """
-    url = "http://push2.eastmoney.com/api/qt/ulist.np/get"
+    url = "https://push2.eastmoney.com/api/qt/ulist.np/get"
 
     # secids 格式: 市场代码.指数代码
     # 1.000903=中证100, 1.000300=沪深300
