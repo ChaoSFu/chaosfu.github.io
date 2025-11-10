@@ -248,7 +248,7 @@
       "breadth": 1.0,
       "score": -0.78096,
       "stance": "AVOID",
-      "is_new": false,
+      "is_new": true,
       "core_stocks": [
         {
           "code": "002731",
@@ -281,7 +281,7 @@
       "breadth": 1.0,
       "score": -1.21246,
       "stance": "AVOID",
-      "is_new": false,
+      "is_new": true,
       "core_stocks": [
         {
           "code": "000949",
@@ -448,7 +448,7 @@
       "breadth": 1.0,
       "score": 0.520326,
       "stance": "BUY",
-      "is_new": false,
+      "is_new": true,
       "core_stocks": [
         {
           "code": "300437",
@@ -481,7 +481,7 @@
       "breadth": 1.0,
       "score": 0.51853,
       "stance": "BUY",
-      "is_new": false,
+      "is_new": true,
       "core_stocks": [
         {
           "code": "600693",
@@ -514,7 +514,7 @@
       "breadth": 0.571429,
       "score": -0.999279,
       "stance": "AVOID",
-      "is_new": false,
+      "is_new": true,
       "core_stocks": [
         {
           "code": "300131",
@@ -613,7 +613,7 @@
       "breadth": 1.0,
       "score": -0.893923,
       "stance": "AVOID",
-      "is_new": false,
+      "is_new": true,
       "core_stocks": [
         {
           "code": "688353",
@@ -646,7 +646,7 @@
       "breadth": 1.0,
       "score": -0.676179,
       "stance": "AVOID",
-      "is_new": false,
+      "is_new": true,
       "core_stocks": [
         {
           "code": "300821",
@@ -670,86 +670,14 @@
     }
   ],
   "indices": {
-    "CSI100": {
-      "name": "中证100",
-      "code": "000903",
-      "price": 3256.78,
-      "ret": 0.0123,
-      "change": 39.62,
-      "volume": 145623000,
-      "turnover": 8562300000
-    },
-    "HS300": {
-      "name": "沪深300",
-      "code": "000300",
-      "price": 3789.45,
-      "ret": 0.0156,
-      "change": 58.12,
-      "volume": 234567000,
-      "turnover": 15678900000
-    },
-    "CSI500": {
-      "name": "中证500",
-      "code": "000905",
-      "price": 5678.9,
-      "ret": 0.0234,
-      "change": 130.45,
-      "volume": 345678000,
-      "turnover": 23456700000
-    },
-    "CSI1000": {
-      "name": "中证1000",
-      "code": "000852",
-      "price": 4567.89,
-      "ret": 0.0287,
-      "change": 127.89,
-      "volume": 456789000,
-      "turnover": 34567800000
-    },
-    "CSI2000": {
-      "name": "中证2000",
-      "code": "932000",
-      "price": 3456.78,
-      "ret": 0.0321,
-      "change": 107.56,
-      "volume": 567890000,
-      "turnover": 45678900000
-    },
-    "SHCOMP": {
-      "name": "上证指数",
-      "code": "000001",
-      "price": 3234.56,
-      "ret": 0.0145,
-      "change": 46.23,
-      "volume": 198765000,
-      "turnover": 12345600000
-    },
     "hs300": {
-      "name": "沪深300",
-      "code": "000300",
-      "price": 3789.45,
-      "ret": 0.0156,
-      "change": 58.12,
-      "volume": 234567000,
-      "turnover": 15678900000
+      "ret": 0.35
     },
     "csi1000": {
-      "name": "中证1000",
-      "code": "000852",
-      "price": 4567.89,
-      "ret": 0.0287,
-      "change": 127.89,
-      "volume": 456789000,
-      "turnover": 34567800000
+      "ret": 0.28
     },
     "shcomp": {
-      "name": "上证指数",
-      "code": "000001",
-      "price": 3234.56,
-      "ret": 0.0145,
-      "change": 46.23,
-      "volume": 198765000,
-      "turnover": 12345600000
+      "ret": 0.53
     }
   },
   "disclaimer": "本页面仅为个人研究与技术演示，不构成投资建议。"
