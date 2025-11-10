@@ -364,7 +364,7 @@ function renderIndicesDashboard(indices) {
     });
   } else {
     // 没有历史数据，只显示今日数据
-    dates = [todayData?.date || '今日'];
+    dates = [currentData?.date || '今日'];
     indexConfigs.forEach(config => {
       const indexData = indices[config.key];
       seriesData[config.key] = indexData ? [indexData.ret || 0] : [null];
@@ -503,8 +503,8 @@ async function loadHistoryData() {
     displayHistoryData(historyData);
 
     // 重新渲染主要指数看板，使用历史数据
-    if (todayData && todayData.indices) {
-      renderIndicesDashboard(todayData.indices);
+    if (currentData && currentData.indices) {
+      renderIndicesDashboard(currentData.indices);
     }
   } catch (error) {
     console.error('历史数据加载失败:', error);
