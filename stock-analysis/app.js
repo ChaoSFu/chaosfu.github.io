@@ -379,9 +379,18 @@ function renderIndicesDashboard(indices) {
       type: 'line',
       data: seriesData[config.key] || [],
       smooth: true,
-      showSymbol: dates.length <= 1, // 只有一个点时显示符号
+      showSymbol: true, // 始终显示数据点
+      symbol: 'circle',
+      symbolSize: 6, // 数据点大小
       lineStyle: {
-        width: 2
+        width: 2.5 // 增加线条宽度
+      },
+      emphasis: {
+        // 鼠标悬停时的效果
+        symbolSize: 10,
+        lineStyle: {
+          width: 3.5
+        }
       }
     }));
 
