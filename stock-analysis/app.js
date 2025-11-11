@@ -470,7 +470,7 @@ function renderVolumePriceChart(indices, indexConfigs) {
       const indexData = indices[config.key];
       return {
         name: config.name,
-        ret: (indexData.ret || 0) * 100, // 转换为百分比
+        ret: indexData.ret || 0, // 后端已返回百分比形式，无需转换
         turnover: indexData.turnover || 0,
         type: config.type
       };
