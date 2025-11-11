@@ -617,106 +617,144 @@ function renderMarketIndicesChart(currentIndexCode = 'SHCOMP') {
   const dates = marketIndicesHistory.dates || [];
   const indexHistory = marketIndicesHistory.market_indices[currentIndexCode] || [];
 
-  // 准备数据
-  const closeData = indexHistory.map(item => item.close || 0);
-  const retData = indexHistory.map(item => (item.ret || 0) * 100); // 转换为百分比
+  // 准备K线数据：[open, close, low, high]
+  const candlestickData = indexHistory.map(item => {
+    return [
+      item.open || 0,
+      item.close || 0,
+      item.low || 0,
+      item.high || 0
+    ];
+  });
+
+  // 准备成交量数据
+  const volumeData = indexHistory.map((item, idx) => {
+    const volume = item.volume || 0;
+    // 根据涨跌确定颜色
+    const isUp = item.close >= item.open;
+    return {
+      value: volume,
+      itemStyle: {
+        color: isUp ? '#ef5350' : '#26a69a'
+      }
+    };
+  });
 
   const option = {
     title: {
-      text: `${config.name} - 最近30天走势`,
+      text: `${config.name} - 最近30天K线`,
       left: 'center',
       textStyle: { fontSize: 16, fontWeight: 600 }
     },
     tooltip: {
       trigger: 'axis',
+      axisPointer: {
+        type: 'cross'
+      },
       formatter: function(params) {
         const dateIdx = params[0].dataIndex;
         const date = dates[dateIdx];
-        const close = closeData[dateIdx];
-        const ret = retData[dateIdx];
+        const kdata = indexHistory[dateIdx];
+        const ret = (kdata.ret || 0) * 100; // 转换为百分比
 
         return `<strong>${date}</strong><br/>` +
-               `收盘价: ${close.toFixed(2)}<br/>` +
-               `涨跌幅: <strong style="color: ${ret >= 0 ? '#ef5350' : '#26a69a'}">${ret.toFixed(2)}%</strong>`;
+               `开盘: ${kdata.open.toFixed(2)}<br/>` +
+               `收盘: ${kdata.close.toFixed(2)}<br/>` +
+               `最高: ${kdata.high.toFixed(2)}<br/>` +
+               `最低: ${kdata.low.toFixed(2)}<br/>` +
+               `涨跌幅: <strong style="color: ${ret >= 0 ? '#ef5350' : '#26a69a'}">${ret.toFixed(2)}%</strong><br/>` +
+               `成交量: ${(kdata.volume / 100000000).toFixed(2)}亿`;
       }
     },
-    legend: {
-      data: ['收盘价', '涨跌幅'],
-      bottom: 10
-    },
-    grid: {
-      left: '3%',
-      right: '4%',
-      bottom: '15%',
-      top: '15%',
-      containLabel: true
-    },
-    xAxis: {
-      type: 'category',
-      data: dates,
-      axisLabel: {
-        fontSize: 10,
-        rotate: 30,
-        formatter: function(value) {
-          // 只显示月-日
-          return value.substring(5);
-        }
-      }
-    },
-    yAxis: [
+    grid: [
       {
-        type: 'value',
-        name: '收盘价',
-        position: 'left',
+        left: '3%',
+        right: '4%',
+        top: '15%',
+        height: '55%',
+        containLabel: true
+      },
+      {
+        left: '3%',
+        right: '4%',
+        top: '75%',
+        height: '15%',
+        containLabel: true
+      }
+    ],
+    xAxis: [
+      {
+        type: 'category',
+        data: dates,
+        gridIndex: 0,
         axisLabel: {
-          fontSize: 10,
-          formatter: v => v.toFixed(0)
+          show: false
         },
         splitLine: {
-          lineStyle: { type: 'dashed', color: '#e0e0e0' }
+          show: false
         }
       },
       {
-        type: 'value',
-        name: '涨跌幅(%)',
-        position: 'right',
+        type: 'category',
+        data: dates,
+        gridIndex: 1,
         axisLabel: {
           fontSize: 10,
-          formatter: v => v.toFixed(1) + '%'
+          rotate: 30,
+          formatter: function(value) {
+            return value.substring(5);
+          }
+        }
+      }
+    ],
+    yAxis: [
+      {
+        scale: true,
+        gridIndex: 0,
+        splitLine: {
+          lineStyle: { type: 'dashed', color: '#e0e0e0' }
+        },
+        axisLabel: {
+          fontSize: 10,
+          formatter: v => v.toFixed(0)
+        }
+      },
+      {
+        scale: true,
+        gridIndex: 1,
+        splitNumber: 2,
+        axisLabel: {
+          fontSize: 10,
+          formatter: function(value) {
+            return (value / 100000000).toFixed(0) + '亿';
+          }
+        },
+        splitLine: {
+          show: false
         }
       }
     ],
     series: [
       {
-        name: '收盘价',
-        type: 'line',
+        name: 'K线',
+        type: 'candlestick',
+        data: candlestickData,
+        xAxisIndex: 0,
         yAxisIndex: 0,
-        data: closeData,
-        smooth: true,
-        lineStyle: {
-          width: 2,
-          color: config.color
-        },
         itemStyle: {
-          color: config.color
-        },
-        areaStyle: {
-          color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
-            { offset: 0, color: config.color + '40' },
-            { offset: 1, color: config.color + '05' }
-          ])
+          color: '#ef5350',      // 阳线颜色
+          color0: '#26a69a',     // 阴线颜色
+          borderColor: '#ef5350',
+          borderColor0: '#26a69a'
         }
       },
       {
-        name: '涨跌幅',
+        name: '成交量',
         type: 'bar',
+        data: volumeData,
+        xAxisIndex: 1,
         yAxisIndex: 1,
-        data: retData,
-        itemStyle: {
-          color: function(params) {
-            return params.value >= 0 ? '#ef535080' : '#26a69a80';
-          }
-        }
+        barWidth: '60%'
       }
     ]
   };
