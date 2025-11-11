@@ -282,6 +282,7 @@ def fetch_index_kline(index_code, days=30):
 
     参数:
         index_code: 指数代码，如 'HS300', 'CSI500', 'CSI1000', 'CSI2000'
+                    或大盘指数 'SHCOMP', 'SZCOMP', 'CYBZ', 'KCB50', 'BJ50'
         days: 获取最近N天的数据，默认30天
 
     返回:
@@ -289,11 +290,17 @@ def fetch_index_kline(index_code, days=30):
     """
     # 映射：我们的代码 -> 东方财富secid
     secid_map = {
+        # 主要指数
         'HS300': '1.000300',      # 沪深300
         'CSI500': '1.000905',     # 中证500
         'CSI1000': '1.000852',    # 中证1000
         'CSI2000': '2.932000',    # 中证2000 (市场代码2)
-        'SHCOMP': '1.000001'      # 上证指数
+        'SHCOMP': '1.000001',     # 上证指数
+        # 大盘核心指数
+        'SZCOMP': '0.399001',     # 深证成指
+        'CYBZ': '0.399006',       # 创业板指
+        'KCB50': '1.000688',      # 科创50
+        'BJ50': '0.899050'        # 北证50
     }
 
     if index_code not in secid_map:

@@ -166,6 +166,99 @@ def generate_main_indices_history_from_api(days=30):
         'main_indices': main_indices
     }
 
+def generate_market_indices_history_from_api(days=30):
+    """
+    从东方财富API获取大盘核心指数的真实历史K线数据
+    用于大盘看板展示（上证指数、深证成指、创业板指、科创50、北证50）
+
+    参数:
+        days: 获取最近N天的K线数据，默认30天
+
+    返回:
+    {
+        "dates": ["2025-10-12", "2025-10-13", ...],
+        "market_indices": {
+            "SHCOMP": [
+                {"open": 3200.5, "close": 3220.8, "low": 3195.2, "high": 3230.1, "ret": 0.006, "volume": 1800000},
+                ...
+            ],
+            "SZCOMP": [...],
+            "CYBZ": [...],
+            "KCB50": [...],
+            "BJ50": [...]
+        }
+    }
+    """
+    print(f"📊 从东方财富API获取大盘核心指数历史K线数据（最近{days}天）...")
+    print("=" * 60)
+
+    try:
+        from eastmoney import fetch_index_kline
+    except ImportError:
+        print("❌ 无法导入eastmoney模块")
+        return None
+
+    # 大盘核心指数列表
+    market_index_codes = ['SHCOMP', 'SZCOMP', 'CYBZ', 'KCB50', 'BJ50']
+
+    # 存储所有指数的K线数据
+    all_klines = {}
+    dates_set = set()
+
+    # 获取每个指数的K线数据
+    for code in market_index_codes:
+        df = fetch_index_kline(code, days=days)
+        if df is not None and not df.empty:
+            all_klines[code] = df
+            dates_set.update(df['date'].tolist())
+            print(f"  ✅ {code}: {len(df)} 条数据")
+        else:
+            print(f"  ⚠️  {code}: 获取失败")
+            all_klines[code] = None
+
+    if not dates_set:
+        print("❌ 没有获取到任何K线数据")
+        return None
+
+    # 按日期排序
+    dates = sorted(list(dates_set))
+
+    # 组织数据结构
+    market_indices = {code: [] for code in market_index_codes}
+
+    for date_str in dates:
+        for code in market_index_codes:
+            if all_klines[code] is None:
+                market_indices[code].append(None)
+                continue
+
+            # 查找该日期的数据
+            df = all_klines[code]
+            row = df[df['date'] == date_str]
+
+            if not row.empty:
+                data = row.iloc[0]
+                market_indices[code].append({
+                    'open': float(data['open']),
+                    'close': float(data['close']),
+                    'low': float(data['low']),
+                    'high': float(data['high']),
+                    'ret': float(data['ret']),
+                    'volume': float(data['volume'])
+                })
+            else:
+                market_indices[code].append(None)
+
+    print(f"\n✅ K线数据汇总:")
+    print(f"   日期范围: {dates[0]} ~ {dates[-1]}")
+    print(f"   总天数: {len(dates)}")
+
+    return {
+        'dates': dates,
+        'market_indices': market_indices
+    }
+
+
 def generate_history(archive_dir, days=7):
     """
     生成最近N个交易日的历史趋势数据
@@ -535,12 +628,22 @@ def main():
         if args.use_api:
             print("\n" + "=" * 60)
             print("🔄 使用东方财富API获取真实K线数据...")
+
+            # 获取主要指数K线数据
             main_indices_history_api = generate_main_indices_history_from_api(days=args.kline_days)
             if main_indices_history_api:
                 history['main_indices_history'] = main_indices_history_api
-                print("✅ 成功替换为真实K线数据")
+                print("✅ 成功替换主要指数为真实K线数据")
             else:
-                print("⚠️  API获取失败，使用archive数据")
+                print("⚠️  主要指数API获取失败，使用archive数据")
+
+            # 获取大盘核心指数K线数据
+            market_indices_history_api = generate_market_indices_history_from_api(days=args.kline_days)
+            if market_indices_history_api:
+                history['market_indices_history'] = market_indices_history_api
+                print("✅ 成功获取大盘指数真实K线数据")
+            else:
+                print("⚠️  大盘指数API获取失败")
 
         save_history(history, args.out)
 
@@ -558,6 +661,18 @@ def main():
                 if code in mih['main_indices']:
                     valid_count = sum(1 for x in mih['main_indices'][code] if x is not None)
                     print(f"  {code}: {valid_count}/{len(mih['dates'])} 条有效数据")
+
+        print("\n📊 大盘核心指数K线数据:")
+        if 'market_indices_history' in history:
+            mih = history['market_indices_history']
+            print(f"  日期范围: {mih['dates'][0]} ~ {mih['dates'][-1]}")
+            print(f"  总天数: {len(mih['dates'])}")
+            for code in ['SHCOMP', 'SZCOMP', 'CYBZ', 'KCB50', 'BJ50']:
+                if code in mih['market_indices']:
+                    valid_count = sum(1 for x in mih['market_indices'][code] if x is not None)
+                    print(f"  {code}: {valid_count}/{len(mih['dates'])} 条有效数据")
+        else:
+            print("  ⚠️  未生成大盘指数K线数据")
     else:
         print("\n❌ 历史数据生成失败")
 
