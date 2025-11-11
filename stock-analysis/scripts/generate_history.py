@@ -22,6 +22,150 @@ def load_archive(archive_dir, date_str):
         print(f"⚠️  读取存档 {date_str} 失败: {e}")
         return None
 
+def generate_main_indices_history(archives, dates):
+    """
+    生成主要指数的历史OHLC数据（从archive中读取）
+
+    返回:
+    {
+        "dates": ["2025-11-01", "2025-11-02", ...],
+        "main_indices": {
+            "HS300": [
+                {"open": 3200.5, "close": 3220.8, "low": 3195.2, "high": 3230.1, "ret": 0.006, "volume": 1800000},
+                ...
+            ],
+            "CSI500": [...],
+            "CSI1000": [...],
+            "CSI2000": [...]
+        }
+    }
+    """
+    # 主要指数列表
+    main_index_codes = ['HS300', 'CSI500', 'CSI1000', 'CSI2000']
+
+    main_indices = {code: [] for code in main_index_codes}
+
+    for date_str in dates:
+        if date_str not in archives:
+            # 如果该日期没有数据,填充空数据
+            for code in main_index_codes:
+                main_indices[code].append(None)
+            continue
+
+        indices = archives[date_str].get('indices', {})
+
+        for code in main_index_codes:
+            index_data = indices.get(code, {})
+            if index_data and isinstance(index_data, dict):
+                # 提取OHLC数据
+                main_indices[code].append({
+                    'open': index_data.get('open', 0),
+                    'close': index_data.get('close', 0),
+                    'low': index_data.get('low', 0),
+                    'high': index_data.get('high', 0),
+                    'ret': index_data.get('ret', 0),
+                    'volume': index_data.get('volume', 0)
+                })
+            else:
+                # 数据缺失
+                main_indices[code].append(None)
+
+    return {
+        'dates': dates,
+        'main_indices': main_indices
+    }
+
+
+def generate_main_indices_history_from_api(days=30):
+    """
+    从东方财富API获取主要指数的真实历史K线数据
+
+    参数:
+        days: 获取最近N天的K线数据，默认30天
+
+    返回:
+    {
+        "dates": ["2025-11-01", "2025-11-02", ...],
+        "main_indices": {
+            "HS300": [
+                {"open": 3200.5, "close": 3220.8, "low": 3195.2, "high": 3230.1, "ret": 0.006, "volume": 1800000},
+                ...
+            ],
+            "CSI500": [...],
+            "CSI1000": [...],
+            "CSI2000": [...]
+        }
+    }
+    """
+    print(f"📊 从东方财富API获取主要指数历史K线数据（最近{days}天）...")
+    print("=" * 60)
+
+    try:
+        from eastmoney import fetch_index_kline
+    except ImportError:
+        print("❌ 无法导入eastmoney模块")
+        return None
+
+    # 主要指数列表
+    main_index_codes = ['HS300', 'CSI500', 'CSI1000', 'CSI2000']
+
+    # 存储所有指数的K线数据
+    all_klines = {}
+    dates_set = set()
+
+    # 获取每个指数的K线数据
+    for code in main_index_codes:
+        df = fetch_index_kline(code, days=days)
+        if df is not None and not df.empty:
+            all_klines[code] = df
+            dates_set.update(df['date'].tolist())
+            print(f"  ✅ {code}: {len(df)} 条数据")
+        else:
+            print(f"  ⚠️  {code}: 获取失败")
+            all_klines[code] = None
+
+    if not dates_set:
+        print("❌ 没有获取到任何K线数据")
+        return None
+
+    # 按日期排序
+    dates = sorted(list(dates_set))
+
+    # 组织数据结构
+    main_indices = {code: [] for code in main_index_codes}
+
+    for date_str in dates:
+        for code in main_index_codes:
+            if all_klines[code] is None:
+                main_indices[code].append(None)
+                continue
+
+            # 查找该日期的数据
+            df = all_klines[code]
+            row = df[df['date'] == date_str]
+
+            if not row.empty:
+                data = row.iloc[0]
+                main_indices[code].append({
+                    'open': float(data['open']),
+                    'close': float(data['close']),
+                    'low': float(data['low']),
+                    'high': float(data['high']),
+                    'ret': float(data['ret']),
+                    'volume': float(data['volume'])
+                })
+            else:
+                main_indices[code].append(None)
+
+    print(f"\n✅ K线数据汇总:")
+    print(f"   日期范围: {dates[0]} ~ {dates[-1]}")
+    print(f"   总天数: {len(dates)}")
+
+    return {
+        'dates': dates,
+        'main_indices': main_indices
+    }
+
 def generate_history(archive_dir, days=7):
     """
     生成最近N个交易日的历史趋势数据
@@ -189,6 +333,10 @@ def generate_history(archive_dir, days=7):
     # 按出现天数和平均分排序
     hot_boards.sort(key=lambda x: (x['days_on_list'], x['avg_score']), reverse=True)
 
+    # 生成主要指数的历史OHLC数据
+    # 优先使用archive数据，保持与板块数据的一致性
+    main_indices_history = generate_main_indices_history(archives, dates)
+
     # 生成最近10天的每日详细数据
     daily_records = []
     recent_dates = dates[-10:] if len(dates) >= 10 else dates  # 取最近10天
@@ -260,6 +408,7 @@ def generate_history(archive_dir, days=7):
         'available_dates': list(archives.keys()),
         'market_trend': market_trend,
         'indices_trend': indices_trend,
+        'main_indices_history': main_indices_history,  # 新增：主要指数历史OHLC数据
         'hot_boards': hot_boards[:20],  # Top 20
         'board_rotation': board_rotation,
         'daily_records': daily_records,  # 新增：每日详细数据
@@ -375,17 +524,40 @@ def main():
     ap.add_argument('--archive-dir', default='site/data/archive', help='存档目录')
     ap.add_argument('--days', type=int, default=7, help='历史天数')
     ap.add_argument('--out', default='site/data/history.json', help='输出文件')
+    ap.add_argument('--use-api', action='store_true', help='使用东方财富API获取真实K线数据（而不是从archive读取）')
+    ap.add_argument('--kline-days', type=int, default=30, help='获取K线数据的天数（当--use-api时使用）')
     args = ap.parse_args()
 
     history = generate_history(args.archive_dir, args.days)
 
     if history:
+        # 如果使用API获取K线数据，替换main_indices_history
+        if args.use_api:
+            print("\n" + "=" * 60)
+            print("🔄 使用东方财富API获取真实K线数据...")
+            main_indices_history_api = generate_main_indices_history_from_api(days=args.kline_days)
+            if main_indices_history_api:
+                history['main_indices_history'] = main_indices_history_api
+                print("✅ 成功替换为真实K线数据")
+            else:
+                print("⚠️  API获取失败，使用archive数据")
+
         save_history(history, args.out)
 
         print("\n" + "=" * 60)
         print("📊 热门板块 Top 5:")
         for i, board in enumerate(history['hot_boards'][:5], 1):
             print(f"  {i}. {board['name']} - 上榜{board['days_on_list']}天, 平均涨幅{board['avg_ret']}%")
+
+        print("\n📊 主要指数K线数据:")
+        if 'main_indices_history' in history:
+            mih = history['main_indices_history']
+            print(f"  日期范围: {mih['dates'][0]} ~ {mih['dates'][-1]}")
+            print(f"  总天数: {len(mih['dates'])}")
+            for code in ['HS300', 'CSI500', 'CSI1000', 'CSI2000']:
+                if code in mih['main_indices']:
+                    valid_count = sum(1 for x in mih['main_indices'][code] if x is not None)
+                    print(f"  {code}: {valid_count}/{len(mih['dates'])} 条有效数据")
     else:
         print("\n❌ 历史数据生成失败")
 

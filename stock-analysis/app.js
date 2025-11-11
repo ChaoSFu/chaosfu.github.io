@@ -305,28 +305,32 @@ function renderIndicesDashboard(indices) {
       name: '沪深300',
       type: '大盘',
       typeClass: 'type-large',
-      characteristic: '稳健，适合市场中性阶段、机构配置主导'
+      characteristic: '稳健，适合市场中性阶段、机构配置主导',
+      color: '#ef5350'
     },
     {
       key: 'CSI500',
       name: '中证500',
       type: '中盘',
       typeClass: 'type-mid',
-      characteristic: '成长/进攻型，适合牛市中期、风险偏好上升阶段'
+      characteristic: '成长/进攻型，适合牛市中期、风险偏好上升阶段',
+      color: '#42a5f5'
     },
     {
       key: 'CSI1000',
       name: '中证1000',
       type: '小盘',
       typeClass: 'type-small',
-      characteristic: '高Beta、投机性强，适合市场情绪高涨阶段'
+      characteristic: '高Beta、投机性强，适合市场情绪高涨阶段',
+      color: '#66bb6a'
     },
     {
       key: 'CSI2000',
       name: '中证2000',
       type: '微盘',
       typeClass: 'type-micro',
-      characteristic: '超高波动，适合高频/题材性交易阶段，风险极高'
+      characteristic: '超高波动，适合高频/题材性交易阶段，风险极高',
+      color: '#ffa726'
     }
   ];
 
@@ -342,105 +346,229 @@ function renderIndicesDashboard(indices) {
   // 渲染指数走势图表
   const chart = echarts.init(container);
 
-  // 获取历史数据（如果已加载）
-  let dates = [];
-  let seriesData = {};
+  // 检查是否有历史OHLC数据
+  if (historyData && historyData.main_indices_history) {
+    // 使用蜡烛图展示历史OHLC数据
+    const mainIndicesHistory = historyData.main_indices_history;
+    const dates = mainIndicesHistory.dates || [];
 
-  if (historyData && historyData.indices_trend) {
-    // 使用历史数据
-    dates = historyData.dates || [];
-    const indicesTrend = historyData.indices_trend;
+    // 为每个指数创建一个子图
+    const gridHeight = (80 / indexConfigs.length) + '%';
+    const grids = [];
+    const xAxes = [];
+    const yAxes = [];
+    const series = [];
 
-    indexConfigs.forEach(config => {
-      seriesData[config.key] = indicesTrend[config.key] || [];
-    });
-  } else {
-    // 没有历史数据，只显示今日数据
-    dates = [currentData?.date || '今日'];
-    indexConfigs.forEach(config => {
-      const indexData = indices[config.key];
-      seriesData[config.key] = indexData ? [indexData.ret || 0] : [null];
-    });
-  }
+    indexConfigs.forEach((config, idx) => {
+      const indexHistory = mainIndicesHistory.main_indices[config.key] || [];
 
-  // 构建series数组
-  const series = indexConfigs
-    .filter(config => indices[config.key]) // 只显示有数据的指数
-    .map(config => ({
-      name: config.name,
-      type: 'line',
-      data: seriesData[config.key] || [],
-      smooth: true,
-      showSymbol: true, // 始终显示数据点
-      symbol: 'circle',
-      symbolSize: 6, // 数据点大小
-      lineStyle: {
-        width: 2.5 // 增加线条宽度
-      },
-      emphasis: {
-        // 鼠标悬停时的效果
-        symbolSize: 10,
-        lineStyle: {
-          width: 3.5
-        }
-      }
-    }));
+      // 准备K线数据：[open, close, low, high]
+      const candlestickData = indexHistory.map(item => {
+        if (!item) return [0, 0, 0, 0];
+        return [
+          item.open || 0,
+          item.close || 0,
+          item.low || 0,
+          item.high || 0
+        ];
+      });
 
-  const option = {
-    title: {
-      text: '主要指数走势对比',
-      left: 'center',
-      textStyle: { fontSize: 16, fontWeight: 600 }
-    },
-    tooltip: {
-      trigger: 'axis',
-      formatter: function(params) {
-        let result = params[0].axisValue + '<br/>';
-        params.forEach(item => {
-          if (item.data !== null && item.data !== undefined) {
-            const value = item.data.toFixed(2);
-            result += `${item.marker} ${item.seriesName}: <strong>${value}%</strong><br/>`;
+      const gridTop = (idx * 80 / indexConfigs.length + 12) + '%';
+      const gridBottom = (100 - (idx + 1) * 80 / indexConfigs.length - 2) + '%';
+
+      grids.push({
+        left: '5%',
+        right: '5%',
+        top: gridTop,
+        bottom: gridBottom,
+        containLabel: true
+      });
+
+      xAxes.push({
+        type: 'category',
+        data: dates,
+        gridIndex: idx,
+        axisLabel: {
+          show: idx === indexConfigs.length - 1, // 只在最后一个子图显示
+          fontSize: 10,
+          rotate: 30,
+          formatter: function(value) {
+            return value.substring(5); // 只显示月-日
           }
-        });
-        return result;
-      }
-    },
-    legend: {
-      data: indexConfigs
-        .filter(config => indices[config.key])
-        .map(config => config.name),
-      bottom: 10,
-      textStyle: { fontSize: 12 }
-    },
-    grid: {
-      left: '3%',
-      right: '4%',
-      bottom: '15%',
-      top: '15%',
-      containLabel: true
-    },
-    xAxis: {
-      type: 'category',
-      data: dates,
-      axisLabel: {
-        rotate: dates.length > 10 ? 45 : 0,
-        fontSize: 11
-      }
-    },
-    yAxis: {
-      type: 'value',
-      axisLabel: {
-        formatter: v => v.toFixed(2) + '%',
-        fontSize: 11
-      },
-      splitLine: {
-        lineStyle: { type: 'dashed', color: '#e0e0e0' }
-      }
-    },
-    series: series
-  };
+        },
+        splitLine: {
+          show: false
+        }
+      });
 
-  chart.setOption(option);
+      yAxes.push({
+        scale: true,
+        gridIndex: idx,
+        splitLine: {
+          lineStyle: { type: 'dashed', color: '#e0e0e0' }
+        },
+        axisLabel: {
+          fontSize: 10,
+          formatter: v => v.toFixed(0)
+        }
+      });
+
+      series.push({
+        name: config.name,
+        type: 'candlestick',
+        data: candlestickData,
+        xAxisIndex: idx,
+        yAxisIndex: idx,
+        itemStyle: {
+          color: '#ef5350',      // 阳线颜色
+          color0: '#26a69a',     // 阴线颜色
+          borderColor: '#ef5350',
+          borderColor0: '#26a69a'
+        }
+      });
+    });
+
+    const option = {
+      title: {
+        text: '主要指数走势对比（K线图）',
+        left: 'center',
+        textStyle: { fontSize: 16, fontWeight: 600 }
+      },
+      tooltip: {
+        trigger: 'axis',
+        axisPointer: {
+          type: 'cross'
+        },
+        formatter: function(params) {
+          if (!params || params.length === 0) return '';
+          const dateIdx = params[0].dataIndex;
+          const date = dates[dateIdx];
+
+          let result = `<strong>${date}</strong><br/>`;
+
+          params.forEach(param => {
+            const config = indexConfigs[param.seriesIndex];
+            const indexHistory = mainIndicesHistory.main_indices[config.key] || [];
+            const kdata = indexHistory[dateIdx];
+
+            if (kdata) {
+              const ret = (kdata.ret || 0) * 100;
+              result += `<strong>${param.seriesName}</strong><br/>`;
+              result += `开盘: ${kdata.open.toFixed(2)}<br/>`;
+              result += `收盘: ${kdata.close.toFixed(2)}<br/>`;
+              result += `最高: ${kdata.high.toFixed(2)}<br/>`;
+              result += `最低: ${kdata.low.toFixed(2)}<br/>`;
+              result += `涨跌幅: <strong style="color: ${ret >= 0 ? '#ef5350' : '#26a69a'}">${ret.toFixed(2)}%</strong><br/><br/>`;
+            }
+          });
+
+          return result;
+        }
+      },
+      grid: grids,
+      xAxis: xAxes,
+      yAxis: yAxes,
+      series: series
+    };
+
+    chart.setOption(option);
+  } else {
+    // 如果没有历史OHLC数据，使用折线图展示
+    console.warn('没有main_indices_history数据，使用折线图展示');
+
+    let dates = [];
+    let seriesData = {};
+
+    if (historyData && historyData.indices_trend) {
+      dates = historyData.dates || [];
+      const indicesTrend = historyData.indices_trend;
+
+      indexConfigs.forEach(config => {
+        seriesData[config.key] = indicesTrend[config.key] || [];
+      });
+    } else {
+      dates = [currentData?.date || '今日'];
+      indexConfigs.forEach(config => {
+        const indexData = indices[config.key];
+        seriesData[config.key] = indexData ? [indexData.ret || 0] : [null];
+      });
+    }
+
+    const series = indexConfigs
+      .filter(config => indices[config.key])
+      .map(config => ({
+        name: config.name,
+        type: 'line',
+        data: seriesData[config.key] || [],
+        smooth: true,
+        showSymbol: true,
+        symbol: 'circle',
+        symbolSize: 6,
+        lineStyle: {
+          width: 2.5,
+          color: config.color
+        },
+        itemStyle: {
+          color: config.color
+        }
+      }));
+
+    const option = {
+      title: {
+        text: '主要指数走势对比',
+        left: 'center',
+        textStyle: { fontSize: 16, fontWeight: 600 }
+      },
+      tooltip: {
+        trigger: 'axis',
+        formatter: function(params) {
+          let result = params[0].axisValue + '<br/>';
+          params.forEach(item => {
+            if (item.data !== null && item.data !== undefined) {
+              const value = item.data.toFixed(2);
+              result += `${item.marker} ${item.seriesName}: <strong>${value}%</strong><br/>`;
+            }
+          });
+          return result;
+        }
+      },
+      legend: {
+        data: indexConfigs
+          .filter(config => indices[config.key])
+          .map(config => config.name),
+        bottom: 10,
+        textStyle: { fontSize: 12 }
+      },
+      grid: {
+        left: '3%',
+        right: '4%',
+        bottom: '15%',
+        top: '15%',
+        containLabel: true
+      },
+      xAxis: {
+        type: 'category',
+        data: dates,
+        axisLabel: {
+          rotate: dates.length > 10 ? 45 : 0,
+          fontSize: 11
+        }
+      },
+      yAxis: {
+        type: 'value',
+        axisLabel: {
+          formatter: v => v.toFixed(2) + '%',
+          fontSize: 11
+        },
+        splitLine: {
+          lineStyle: { type: 'dashed', color: '#e0e0e0' }
+        }
+      },
+      series: series
+    };
+
+    chart.setOption(option);
+  }
 
   // 响应式调整
   window.addEventListener('resize', () => {

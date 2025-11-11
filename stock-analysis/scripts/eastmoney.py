@@ -201,8 +201,9 @@ def fetch_index_data():
     # 1.000001=上证指数（用于对比）
     params = {
         'secids': '1.000903,1.000300,1.000905,1.000852,2.932000,1.000001',
-        'fields': 'f12,f14,f2,f3,f4,f5,f6'
+        'fields': 'f12,f14,f2,f3,f4,f5,f6,f15,f16,f17'
         # f2=最新价, f3=涨跌幅, f4=涨跌额, f5=成交量, f6=成交额
+        # f15=最高, f16=最低, f17=开盘
     }
 
     try:
@@ -248,10 +249,18 @@ def fetch_index_data():
                 pct = item.get('f3', 0) / 100.0  # 涨跌幅转小数
                 price = item.get('f2', 0)
 
+                # 获取OHLC数据
+                open_price = item.get('f17', 0) if item.get('f17') else price
+                high = item.get('f15', 0) if item.get('f15') else price
+                low = item.get('f16', 0) if item.get('f16') else price
+
                 records.append({
                     'date': today,
                     'index_code': index_code,
                     'index_name': name_map.get(index_code, ''),
+                    'open': open_price,
+                    'high': high,
+                    'low': low,
                     'close': price,
                     'prev_close': price / (1 + pct) if pct != 0 else price,
                     'ret': pct,
@@ -264,6 +273,99 @@ def fetch_index_data():
 
     except Exception as e:
         print(f"  [指数] ❌ 请求失败: {e}")
+        return None
+
+
+def fetch_index_kline(index_code, days=30):
+    """
+    获取指数的历史K线数据（日线）
+
+    参数:
+        index_code: 指数代码，如 'HS300', 'CSI500', 'CSI1000', 'CSI2000'
+        days: 获取最近N天的数据，默认30天
+
+    返回:
+        DataFrame with columns: date, open, high, low, close, volume, ret
+    """
+    # 映射：我们的代码 -> 东方财富secid
+    secid_map = {
+        'HS300': '1.000300',      # 沪深300
+        'CSI500': '1.000905',     # 中证500
+        'CSI1000': '1.000852',    # 中证1000
+        'CSI2000': '2.932000',    # 中证2000 (市场代码2)
+        'SHCOMP': '1.000001'      # 上证指数
+    }
+
+    if index_code not in secid_map:
+        print(f"  [K线] ⚠️  不支持的指数代码: {index_code}")
+        return None
+
+    secid = secid_map[index_code]
+    url = "https://push2his.eastmoney.com/api/qt/stock/kline/get"
+
+    params = {
+        'secid': secid,
+        'klt': '101',  # 101=日K线, 102=周K线, 103=月K线
+        'fqt': '1',    # 复权类型：0=不复权, 1=前复权, 2=后复权
+        'lmt': str(days),  # 获取最近N条数据
+        'end': '20500000',  # 结束日期（足够大的未来日期）
+        'iscca': '1',
+        'fields1': 'f1,f2,f3,f4,f5,f6,f7,f8',
+        'fields2': 'f51,f52,f53,f54,f55,f56,f57,f58,f59,f60,f61,f62,f63,f64',
+        'ut': 'f057cbcbce2a86e2866ab8877db1d059',
+        'forcect': '1'
+    }
+
+    try:
+        print(f"  [K线] 请求 {index_code} 最近{days}天数据...")
+        response = requests.get(url, params=params, headers=HEADERS, timeout=10)
+        response.raise_for_status()
+
+        data = response.json()
+        if data.get('rc') != 0 or 'data' not in data:
+            print(f"  [K线] ⚠️  API返回异常: {data}")
+            return None
+
+        klines_str = data['data'].get('klines', [])
+        if not klines_str:
+            print(f"  [K线] ⚠️  没有K线数据")
+            return None
+
+        # 解析K线数据
+        # 格式: "日期,开盘,收盘,最高,最低,成交量,成交额,振幅,涨跌幅,涨跌额,换手率"
+        records = []
+        for kline in klines_str:
+            parts = kline.split(',')
+            if len(parts) < 11:
+                continue
+
+            date_str = parts[0]  # YYYY-MM-DD
+            open_price = float(parts[1])
+            close_price = float(parts[2])
+            high_price = float(parts[3])
+            low_price = float(parts[4])
+            volume = float(parts[5])
+            # turnover = float(parts[6])  # 成交额
+            # amplitude = float(parts[7])  # 振幅
+            ret = float(parts[8]) / 100.0  # 涨跌幅(%)转小数
+
+            records.append({
+                'date': date_str,
+                'index_code': index_code,
+                'open': open_price,
+                'high': high_price,
+                'low': low_price,
+                'close': close_price,
+                'volume': volume,
+                'ret': ret
+            })
+
+        df = pd.DataFrame(records)
+        print(f"  [K线] ✅ 成功获取 {len(df)} 条K线数据")
+        return df
+
+    except Exception as e:
+        print(f"  [K线] ❌ 请求失败: {e}")
         return None
 
 
