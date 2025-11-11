@@ -11,7 +11,8 @@ def to_json(out_path, industry_boards, concept_boards, indices):
     exclude_keys = {'risk_on', 'broad_strength', 'advice'}
     for key, value in indices.items():
         if key not in exclude_keys and isinstance(value, dict) and 'ret' in value:
-            indices_data[key] = {"ret": value["ret"]}
+            # 保存完整的指数数据（ret, volume, turnover）
+            indices_data[key] = value
 
     result = {
         "date": date.today().isoformat(),
