@@ -75,6 +75,61 @@ def generate_main_indices_history(archives, dates):
         'main_indices': main_indices
     }
 
+def generate_market_indices_history(archives, dates):
+    """
+    生成大盘指数的历史OHLC数据（从archive中读取market_indices字段）
+    用于大盘看板展示（上证指数、深证成指、创业板指、科创50、北证50）
+
+    返回:
+    {
+        "dates": ["2025-11-01", "2025-11-02", ...],
+        "market_indices": {
+            "SHCOMP": [
+                {"open": 3200.5, "close": 3220.8, "low": 3195.2, "high": 3230.1, "ret": 0.006, "volume": 1800000},
+                ...
+            ],
+            "SZCOMP": [...],
+            "CYBZ": [...],
+            "KCB50": [...],
+            "BJ50": [...]
+        }
+    }
+    """
+    # 大盘指数列表
+    market_index_codes = ['SHCOMP', 'SZCOMP', 'CYBZ', 'KCB50', 'BJ50']
+
+    market_indices = {code: [] for code in market_index_codes}
+
+    for date_str in dates:
+        if date_str not in archives:
+            # 如果该日期没有数据,填充空数据
+            for code in market_index_codes:
+                market_indices[code].append(None)
+            continue
+
+        market_indices_data = archives[date_str].get('market_indices', {})
+
+        for code in market_index_codes:
+            index_data = market_indices_data.get(code, {})
+            if index_data and isinstance(index_data, dict):
+                # 提取OHLC数据
+                market_indices[code].append({
+                    'open': index_data.get('open', 0),
+                    'close': index_data.get('close', 0),
+                    'low': index_data.get('low', 0),
+                    'high': index_data.get('high', 0),
+                    'ret': index_data.get('ret', 0),
+                    'volume': index_data.get('volume', 0)
+                })
+            else:
+                # 数据缺失
+                market_indices[code].append(None)
+
+    return {
+        'dates': dates,
+        'market_indices': market_indices
+    }
+
 
 def generate_main_indices_history_from_api(days=30):
     """
@@ -430,6 +485,9 @@ def generate_history(archive_dir, days=7):
     # 优先使用archive数据，保持与板块数据的一致性
     main_indices_history = generate_main_indices_history(archives, dates)
 
+    # 生成大盘指数的历史OHLC数据（用于大盘看板）
+    market_indices_history = generate_market_indices_history(archives, dates)
+
     # 生成最近10天的每日详细数据
     daily_records = []
     recent_dates = dates[-10:] if len(dates) >= 10 else dates  # 取最近10天
@@ -502,6 +560,7 @@ def generate_history(archive_dir, days=7):
         'market_trend': market_trend,
         'indices_trend': indices_trend,
         'main_indices_history': main_indices_history,  # 新增：主要指数历史OHLC数据
+        'market_indices_history': market_indices_history,  # 新增：大盘指数历史OHLC数据
         'hot_boards': hot_boards[:20],  # Top 20
         'board_rotation': board_rotation,
         'daily_records': daily_records,  # 新增：每日详细数据
