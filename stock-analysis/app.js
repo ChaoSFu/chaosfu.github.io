@@ -454,6 +454,140 @@ function renderIndicesDashboard(indices) {
   window.addEventListener('resize', () => {
     chart.resize();
   });
+
+  // 渲染量价关系图
+  renderVolumePriceChart(indices, indexConfigs);
+}
+
+function renderVolumePriceChart(indices, indexConfigs) {
+  const container = document.getElementById('volume-price-chart');
+  if (!container) return;
+
+  // 准备数据
+  const data = indexConfigs
+    .filter(config => indices[config.key])
+    .map(config => {
+      const indexData = indices[config.key];
+      return {
+        name: config.name,
+        ret: (indexData.ret || 0) * 100, // 转换为百分比
+        turnover: indexData.turnover || 0,
+        type: config.type
+      };
+    });
+
+  // 如果没有成交额数据，不渲染图表
+  const hasTurnoverData = data.some(d => d.turnover > 0);
+  if (!hasTurnoverData) {
+    container.innerHTML = '<p style="text-align: center; color: #999; padding: 50px 0;">暂无成交额数据</p>';
+    return;
+  }
+
+  const chart = echarts.init(container);
+
+  // 准备散点数据：[成交额, 涨跌幅, 指数名称]
+  const scatterData = data.map(d => ({
+    value: [d.turnover / 100000000, d.ret, d.name], // 成交额转换为亿元
+    name: d.name,
+    itemStyle: {
+      color: d.ret >= 0 ? '#ef5350' : '#26a69a'
+    }
+  }));
+
+  const option = {
+    title: {
+      text: '成交额 vs 涨跌幅',
+      subtext: '气泡大小代表指数市值体量',
+      left: 'center',
+      textStyle: { fontSize: 16, fontWeight: 600 }
+    },
+    tooltip: {
+      trigger: 'item',
+      formatter: function(params) {
+        const turnover = params.value[0].toFixed(0);
+        const ret = params.value[1].toFixed(2);
+        const name = params.value[2];
+        return `<strong>${name}</strong><br/>成交额: ${turnover}亿元<br/>涨跌幅: ${ret}%`;
+      }
+    },
+    grid: {
+      left: '10%',
+      right: '10%',
+      bottom: '15%',
+      top: '20%',
+      containLabel: true
+    },
+    xAxis: {
+      name: '成交额（亿元）',
+      nameLocation: 'middle',
+      nameGap: 30,
+      nameTextStyle: { fontSize: 12, fontWeight: 500 },
+      type: 'value',
+      axisLabel: {
+        formatter: v => v.toFixed(0),
+        fontSize: 11
+      },
+      splitLine: {
+        lineStyle: { type: 'dashed', color: '#e0e0e0' }
+      }
+    },
+    yAxis: {
+      name: '涨跌幅（%）',
+      nameLocation: 'middle',
+      nameGap: 50,
+      nameTextStyle: { fontSize: 12, fontWeight: 500 },
+      type: 'value',
+      axisLabel: {
+        formatter: v => v.toFixed(2) + '%',
+        fontSize: 11
+      },
+      splitLine: {
+        lineStyle: { type: 'dashed', color: '#e0e0e0' }
+      }
+    },
+    series: [{
+      type: 'scatter',
+      data: scatterData,
+      symbolSize: function(data) {
+        // 根据指数名称调整气泡大小
+        const name = data[2];
+        const sizeMap = {
+          '中证100': 80,
+          '沪深300': 70,
+          '中证500': 60,
+          '中证1000': 50,
+          '中证2000': 40,
+          '上证指数': 65
+        };
+        return sizeMap[name] || 50;
+      },
+      label: {
+        show: true,
+        formatter: params => params.value[2],
+        fontSize: 11,
+        fontWeight: 500,
+        position: 'inside'
+      },
+      emphasis: {
+        label: {
+          show: true,
+          fontSize: 13,
+          fontWeight: 600
+        },
+        itemStyle: {
+          borderColor: '#333',
+          borderWidth: 2
+        }
+      }
+    }]
+  };
+
+  chart.setOption(option);
+
+  // 响应式调整
+  window.addEventListener('resize', () => {
+    chart.resize();
+  });
 }
 
 function displayTodayData(data) {

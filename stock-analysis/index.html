@@ -93,11 +93,56 @@
       <section>
         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
           <h2 style="margin: 0;">主要指数看板</h2>
-          <button id="market-analyze-btn" style="padding: 8px 16px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border: none; border-radius: 8px; cursor: pointer; font-size: 14px; font-weight: 500; transition: all 0.3s; box-shadow: 0 2px 6px rgba(102, 126, 234, 0.4);"
-                  onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 4px 12px rgba(102, 126, 234, 0.6)';"
-                  onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 2px 6px rgba(102, 126, 234, 0.4)';">
-            🎯 AI全市场分析
-          </button>
+          <div style="display: flex; gap: 8px; align-items: center;">
+            <button onclick="document.getElementById('indices-help').style.display = document.getElementById('indices-help').style.display === 'none' ? 'block' : 'none'"
+                    style="background: none; border: 1px solid #999; border-radius: 50%; width: 20px; height: 20px; cursor: pointer; font-size: 12px; color: #666;">?</button>
+            <button id="market-analyze-btn" style="padding: 8px 16px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border: none; border-radius: 8px; cursor: pointer; font-size: 14px; font-weight: 500; transition: all 0.3s; box-shadow: 0 2px 6px rgba(102, 126, 234, 0.4);"
+                    onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 4px 12px rgba(102, 126, 234, 0.6)';"
+                    onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 2px 6px rgba(102, 126, 234, 0.4)';">
+              🎯 AI全市场分析
+            </button>
+          </div>
+        </div>
+
+        <div id="indices-help" style="display: none; background: #f5f9ff; border-left: 3px solid #2196F3; padding: 12px; margin-bottom: 1rem; font-size: 0.85rem; line-height: 1.6;">
+          <h3 style="margin: 0 0 8px 0; font-size: 0.95rem; color: #333;">📈 指数介绍</h3>
+
+          <p style="margin: 8px 0;"><strong>中证100（超大盘）</strong><br>
+          从沪深300中挑选市值最大的100只股票，以金融、能源、消费龙头为主<br>
+          <span style="color: #666; font-size: 0.8rem;">· 特点：权重、防守型，波动小、股息高<br>
+          · 适用场景：市场震荡或风险偏好下降阶段，机构避险首选</span></p>
+
+          <p style="margin: 8px 0;"><strong>沪深300（大盘）</strong><br>
+          沪深两市市值最大、流动性最好的300只股票，覆盖主要行业龙头<br>
+          <span style="color: #666; font-size: 0.8rem;">· 特点：稳健、代表性强，反映A股整体走势<br>
+          · 适用场景：市场中性阶段、机构配置主导，被动投资首选</span></p>
+
+          <p style="margin: 8px 0;"><strong>中证500（中盘）</strong><br>
+          在沪深300之外选取500只中盘股，多为行业细分龙头<br>
+          <span style="color: #666; font-size: 0.8rem;">· 特点：均衡、成长性较好，介于大盘和小盘之间<br>
+          · 适用场景：经济复苏初期、政策支持行业，分散化配置</span></p>
+
+          <p style="margin: 8px 0;"><strong>中证1000（小盘）</strong><br>
+          除沪深300和中证500外的1000只小盘成长股<br>
+          <span style="color: #666; font-size: 0.8rem;">· 特点：高弹性、成长型，波动大、上涨空间大<br>
+          · 适用场景：市场风险偏好回升、流动性宽松、题材炒作活跃</span></p>
+
+          <p style="margin: 8px 0;"><strong>中证2000（微盘）</strong><br>
+          除沪深300、中证500、中证1000外的2000只微小盘股<br>
+          <span style="color: #666; font-size: 0.8rem;">· 特点：超高弹性，最活跃、波动最大<br>
+          · 适用场景：极度宽松流动性、题材爆发、牛市后期</span></p>
+
+          <p style="margin: 8px 0;"><strong>上证指数（综合）</strong><br>
+          上海证券交易所所有股票的综合指数<br>
+          <span style="color: #666; font-size: 0.8rem;">· 特点：权重偏向大盘金融股、老蓝筹<br>
+          · 适用场景：观察大盘整体走势的参考基准</span></p>
+
+          <p style="margin: 8px 0;"><strong>💡 量价关系</strong><br>
+          成交额反映资金参与度，与涨跌幅结合可判断市场情绪：<br>
+          <span style="color: #666; font-size: 0.8rem;">· 放量上涨：资金积极入场，趋势较强<br>
+          · 缩量上涨：惜售心态，可能面临抛压<br>
+          · 放量下跌：恐慌性抛售，可能见底信号<br>
+          · 缩量下跌：观望情绪浓厚，尚未企稳</span></p>
         </div>
         <p style="font-size: 0.875rem; color: #666; margin-bottom: 1rem;">
           根据不同市值体量指数特征，判断当前市场风格和投资机会。点击"AI全市场分析"可一次性分析所有指数，识别风险与机会。
@@ -111,6 +156,12 @@
 
         <!-- 主要指数走势图 -->
         <div id="indices-dashboard" style="height: 400px; margin-top: 16px;"></div>
+
+        <!-- 量价关系图 -->
+        <div style="margin-top: 24px;">
+          <h3 style="margin-bottom: 1rem;">量价关系分析</h3>
+          <div id="volume-price-chart" style="height: 350px;"></div>
+        </div>
       </section>
 
       <!-- AI设置弹窗 -->

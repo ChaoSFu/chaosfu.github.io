@@ -46,12 +46,15 @@ def core_stocks(stocks_df: pd.DataFrame):
 
 def market_regime(idx_df: pd.DataFrame):
     """
-    idx_df: date,index_code,ret  (支持所有主要指数)
+    idx_df: date,index_code,ret,volume,turnover  (支持所有主要指数)
     返回所有指数数据 + 市场判断指标
     """
-    piv = idx_df.pivot(index="date", columns="index_code", values="ret").reset_index().iloc[-1]
+    # 获取最新一天的数据
+    latest_date = idx_df['date'].max()
+    latest_data = idx_df[idx_df['date'] == latest_date]
 
     # 提取核心指数用于市场判断
+    piv = idx_df.pivot(index="date", columns="index_code", values="ret").reset_index().iloc[-1]
     hs300 = piv.get("HS300", 0)
     csi1000 = piv.get("CSI1000", 0)
     shcomp = piv.get("SHCOMP", 0)
@@ -73,11 +76,14 @@ def market_regime(idx_df: pd.DataFrame):
         "advice": advice
     }
 
-    # 添加所有指数数据（使用大写键名）
-    for index_code in piv.index:
-        if index_code != 'date':
-            value = piv.get(index_code, 0)
-            result[index_code] = {"ret": float(value) if pd.notna(value) else 0.0}
+    # 添加所有指数数据（包含成交量和成交额）
+    for _, row in latest_data.iterrows():
+        index_code = row['index_code']
+        result[index_code] = {
+            "ret": float(row['ret']) if pd.notna(row['ret']) else 0.0,
+            "volume": float(row.get('volume', 0)) if pd.notna(row.get('volume', 0)) else 0.0,
+            "turnover": float(row.get('turnover', 0)) if pd.notna(row.get('turnover', 0)) else 0.0
+        }
 
     # 兼容旧代码的小写键名
     if "HS300" in result:
