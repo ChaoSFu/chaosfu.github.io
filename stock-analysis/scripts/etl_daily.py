@@ -49,8 +49,11 @@ def is_trading_time():
     - 上午：9:30-11:30
     - 下午：13:00-15:00
     """
-    from datetime import datetime, time
-    now = datetime.now()
+    from datetime import datetime, time, timezone, timedelta
+
+    # 使用北京时间（UTC+8）
+    beijing_tz = timezone(timedelta(hours=8))
+    now = datetime.now(beijing_tz)
     current_time = now.time()
 
     morning_start = time(9, 30)
@@ -70,8 +73,11 @@ def is_trading_day():
     简单判断：排除周末（周六、周日）+ 检查交易时间
     注意：不包含法定节假日判断，如需更精确请使用交易日历API
     """
-    from datetime import datetime
-    today = datetime.today()
+    from datetime import datetime, timezone, timedelta
+
+    # 使用北京时间（UTC+8）
+    beijing_tz = timezone(timedelta(hours=8))
+    today = datetime.now(beijing_tz)
     weekday = today.weekday()  # 0=Monday, 6=Sunday
 
     # 周六(5)和周日(6)不是交易日
@@ -106,13 +112,15 @@ def main():
     # 检测是否为交易日（MOCK模式和显式跳过检测时除外）
     if args.mode != "MOCK" and not args.skip_trading_day_check:
         if not is_trading_day():
-            from datetime import datetime
-            now = datetime.now()
+            from datetime import datetime, timezone, timedelta
+            # 使用北京时间（UTC+8）
+            beijing_tz = timezone(timedelta(hours=8))
+            now = datetime.now(beijing_tz)
             weekday_name = ['星期一', '星期二', '星期三', '星期四', '星期五', '星期六', '星期日']
             today_name = weekday_name[now.weekday()]
             current_time_str = now.strftime('%H:%M:%S')
 
-            print(f"\n⚠️  当前时间: {today_name} {current_time_str}")
+            print(f"\n⚠️  当前时间（北京时间）: {today_name} {current_time_str}")
 
             if now.weekday() >= 5:
                 print("⚠️  周末非交易日，跳过数据抓取")
