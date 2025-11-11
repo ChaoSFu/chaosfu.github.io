@@ -42,8 +42,11 @@ function initTabs() {
 }
 
 // ============================================
-// 2. 从客户端获取东方财富实时数据
+// 2. 从客户端获取东方财富实时数据（已禁用，使用GitHub Actions更新的本地数据）
 // ============================================
+// 注：以下函数已禁用，因为前端直接调用会遇到CORS限制
+// 数据更新由GitHub Actions定期执行，前端只需读取daily.json
+/*
 async function fetchRealtimeData() {
   try {
     console.log('🔄 正在从东方财富获取实时数据...');
@@ -219,22 +222,17 @@ function processData(industryBoards, conceptBoards, indices) {
     disclaimer: '本页面仅为个人研究与技术演示，不构成投资建议。'
   };
 }
+*/
 
 // ============================================
 // 3. 加载今日数据
 // ============================================
 async function loadTodayData() {
   try {
-    // 优先尝试获取实时数据
-    const realtimeData = await fetchRealtimeData();
-
-    if (realtimeData) {
-      currentData = realtimeData;
-    } else {
-      // 回退到本地数据
-      const res = await fetch('./data/daily.json', {cache:'no-store'});
-      currentData = await res.json();
-    }
+    // 直接加载本地数据（由GitHub Actions定期更新）
+    // 注：前端直接调用东方财富API会遇到CORS跨域限制，因此使用后端更新的数据
+    const res = await fetch('./data/daily.json', {cache:'no-store'});
+    currentData = await res.json();
 
     displayTodayData(currentData);
 
