@@ -297,15 +297,8 @@ function renderIndicesDashboard(indices) {
   const container = document.getElementById('indices-dashboard');
   if (!container) return;
 
-  // 指数配置：名称、类型、特征描述（移除上证50）
+  // 指数配置：只保留沪深300、中证500、中证1000、中证2000
   const indexConfigs = [
-    {
-      key: 'CSI100',
-      name: '中证100',
-      type: '超大盘',
-      typeClass: 'type-ultra',
-      characteristic: '权重、防守型，适合市场震荡或风险偏好下降阶段'
-    },
     {
       key: 'HS300',
       name: '沪深300',
