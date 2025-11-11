@@ -279,8 +279,9 @@ def fetch_market_indices():
     # 1.000688=科创50, 0.899050=北证50
     params = {
         'secids': '1.000001,0.399001,0.399006,1.000688,0.899050',
-        'fields': 'f12,f14,f2,f3,f4,f5,f6'
+        'fields': 'f12,f14,f2,f3,f4,f5,f6,f15,f16,f17'
         # f2=最新价, f3=涨跌幅, f4=涨跌额, f5=成交量, f6=成交额
+        # f15=最高, f16=最低, f17=开盘
     }
 
     try:
@@ -321,13 +322,24 @@ def fetch_market_indices():
             code = item.get('f12', '')
             if code in code_map:
                 index_code = code_map[code]
-                pct = item.get('f3', 0) / 100.0  # 涨跌幅转小数
-                price = item.get('f2', 0)
+                # f3返回的是百分比的100倍，如-39表示-0.39%
+                # 除以10000转换为小数形式：-39/10000 = -0.0039
+                pct = item.get('f3', 0) / 10000.0
+                # f2返回的值需要除以100得到实际点数
+                price = item.get('f2', 0) / 100.0
+
+                # 获取OHLC数据
+                open_price = item.get('f17', 0) / 100.0 if item.get('f17') else price
+                high = item.get('f15', 0) / 100.0 if item.get('f15') else price
+                low = item.get('f16', 0) / 100.0 if item.get('f16') else price
 
                 records.append({
                     'date': today,
                     'index_code': index_code,
                     'index_name': name_map.get(index_code, ''),
+                    'open': open_price,
+                    'high': high,
+                    'low': low,
                     'close': price,
                     'prev_close': price / (1 + pct) if pct != 0 else price,
                     'ret': pct,

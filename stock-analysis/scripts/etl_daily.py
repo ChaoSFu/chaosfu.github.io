@@ -158,8 +158,11 @@ def main():
             index_code = row['index_code']
             market_indices_dict[index_code] = {
                 "name": row.get('index_name', index_code),
+                "open": float(row.get('open', 0)) if pd.notna(row.get('open', 0)) else 0.0,
+                "high": float(row.get('high', 0)) if pd.notna(row.get('high', 0)) else 0.0,
+                "low": float(row.get('low', 0)) if pd.notna(row.get('low', 0)) else 0.0,
+                "close": float(row.get('close', 0)) if pd.notna(row.get('close', 0)) else 0.0,
                 "ret": float(row['ret']) if pd.notna(row['ret']) else 0.0,
-                "close": float(row['close']) if pd.notna(row.get('close', 0)) else 0.0,
                 "volume": float(row.get('volume', 0)) if pd.notna(row.get('volume', 0)) else 0.0,
                 "turnover": float(row.get('turnover', 0)) if pd.notna(row.get('turnover', 0)) else 0.0
             }
