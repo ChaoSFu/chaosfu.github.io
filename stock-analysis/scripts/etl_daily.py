@@ -157,7 +157,26 @@ def main():
     new_boards = {'industry': set(), 'concept': set()}
     if args.enable_history:
         from generate_history import detect_new_boards
-        new_boards = detect_new_boards(args.archive_dir, lookback_days=10)
+
+        # 提取今天的行业板块和概念板块 Top10（用于检测新上榜）
+        if 'bk_type' in boards_df.columns:
+            industry_df = boards_df[boards_df['bk_type'] == 'industry'].head(10)
+            concept_df = boards_df[boards_df['bk_type'] == 'concept'].head(10)
+
+            today_industry = [{'code': row['bk_code'], 'name': row['bk_name']}
+                             for _, row in industry_df.iterrows()]
+            today_concept = [{'code': row['bk_code'], 'name': row['bk_name']}
+                            for _, row in concept_df.iterrows()]
+
+            new_boards = detect_new_boards(
+                args.archive_dir,
+                today_industry_boards=today_industry,
+                today_concept_boards=today_concept,
+                lookback_days=10
+            )
+        else:
+            # 向后兼容：如果没有分类，使用旧逻辑
+            new_boards = detect_new_boards(args.archive_dir, lookback_days=10)
 
     def process_boards(df, board_type, top_n=10):
         """处理指定类型的板块，保持涨幅排序"""

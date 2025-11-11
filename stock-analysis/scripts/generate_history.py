@@ -266,12 +266,14 @@ def generate_history(archive_dir, days=7):
         'generated_at': date.today().isoformat()
     }
 
-def detect_new_boards(archive_dir, lookback_days=10):
+def detect_new_boards(archive_dir, today_industry_boards=None, today_concept_boards=None, lookback_days=10):
     """
     检测新上榜的板块（前N个交易日都未进入前10）
 
     参数:
         archive_dir: 存档目录
+        today_industry_boards: 今天的行业板块列表（可选，如果提供则不从存档读取）
+        today_concept_boards: 今天的概念板块列表（可选，如果提供则不从存档读取）
         lookback_days: 回溯天数，默认10个交易日
 
     返回:
@@ -293,37 +295,41 @@ def detect_new_boards(archive_dir, lookback_days=10):
         except ValueError:
             continue
 
-    if len(all_dates) == 0:
-        return {'industry': set(), 'concept': set()}
-
-    # 最新交易日的数据
-    latest_date = all_dates[0]
-    today_data = load_archive(archive_dir, latest_date)
-    if not today_data:
-        return {'industry': set(), 'concept': set()}
-
     # 获取今天的Top10板块（分类型）
     today_industry = set()
     today_concept = set()
 
-    if 'industry_boards' in today_data:
-        # 新格式
-        today_industry = {b['code'] for b in today_data.get('industry_boards', [])[:10]}
-        today_concept = {b['code'] for b in today_data.get('concept_boards', [])[:10]}
-    elif 'boards' in today_data:
-        # 旧格式兼容
-        for b in today_data.get('boards', [])[:10]:
-            if b.get('type') == 'concept':
-                today_concept.add(b['code'])
-            else:
-                today_industry.add(b['code'])
+    if today_industry_boards is not None and today_concept_boards is not None:
+        # 使用传入的今天的板块列表
+        today_industry = {b['code'] for b in today_industry_boards[:10]}
+        today_concept = {b['code'] for b in today_concept_boards[:10]}
+    elif len(all_dates) > 0:
+        # 从存档中读取最新交易日的数据（用于向后兼容）
+        latest_date = all_dates[0]
+        today_data = load_archive(archive_dir, latest_date)
+        if not today_data:
+            return {'industry': set(), 'concept': set()}
 
-    # 统计过去N个交易日出现在Top10的板块（从第2个交易日开始，跳过今天）
+        if 'industry_boards' in today_data:
+            # 新格式
+            today_industry = {b['code'] for b in today_data.get('industry_boards', [])[:10]}
+            today_concept = {b['code'] for b in today_data.get('concept_boards', [])[:10]}
+        elif 'boards' in today_data:
+            # 旧格式兼容
+            for b in today_data.get('boards', [])[:10]:
+                if b.get('type') == 'concept':
+                    today_concept.add(b['code'])
+                else:
+                    today_industry.add(b['code'])
+    else:
+        return {'industry': set(), 'concept': set()}
+
+    # 统计过去N个交易日出现在Top10的板块
     historical_industry = set()
     historical_concept = set()
 
-    # 取过去N个交易日（跳过第一个，即今天）
-    past_dates = all_dates[1:lookback_days+1]
+    # 取过去N个交易日（从存档中的所有日期开始）
+    past_dates = all_dates[:lookback_days]
 
     for past_date_str in past_dates:
         past_data = load_archive(archive_dir, past_date_str)
