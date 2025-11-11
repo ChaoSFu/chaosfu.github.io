@@ -267,6 +267,82 @@ def fetch_index_data():
         return None
 
 
+def fetch_market_indices():
+    """
+    获取大盘核心指数数据（用于大盘看板）
+    包括：上证指数/深证成指/创业板指/科创50/北证50
+    """
+    url = "https://push2.eastmoney.com/api/qt/ulist.np/get"
+
+    # secids 格式: 市场代码.指数代码
+    # 1.000001=上证指数, 0.399001=深证成指, 0.399006=创业板指
+    # 1.000688=科创50, 0.899050=北证50
+    params = {
+        'secids': '1.000001,0.399001,0.399006,1.000688,0.899050',
+        'fields': 'f12,f14,f2,f3,f4,f5,f6'
+        # f2=最新价, f3=涨跌幅, f4=涨跌额, f5=成交量, f6=成交额
+    }
+
+    try:
+        print(f"  [大盘指数] 请求东方财富大盘核心指数数据...")
+        response = requests.get(url, params=params, headers=HEADERS, timeout=10)
+        response.raise_for_status()
+
+        data = response.json()
+        if data.get('rc') != 0 or 'data' not in data:
+            print(f"  [大盘指数] ⚠️  API返回异常")
+            return None
+
+        indices = data['data']['diff']
+        print(f"  [大盘指数] ✅ 成功获取 {len(indices)} 个大盘指数数据")
+
+        # 映射：东方财富代码 -> 我们的代码
+        code_map = {
+            '000001': 'SHCOMP',      # 上证指数
+            '399001': 'SZCOMP',      # 深证成指
+            '399006': 'CYBZ',        # 创业板指
+            '000688': 'KCB50',       # 科创50
+            '899050': 'BJ50'         # 北证50
+        }
+
+        # 指数中文名称
+        name_map = {
+            'SHCOMP': '上证指数',
+            'SZCOMP': '深证成指',
+            'CYBZ': '创业板指',
+            'KCB50': '科创50',
+            'BJ50': '北证50'
+        }
+
+        records = []
+        today = date.today().isoformat()
+
+        for item in indices:
+            code = item.get('f12', '')
+            if code in code_map:
+                index_code = code_map[code]
+                pct = item.get('f3', 0) / 100.0  # 涨跌幅转小数
+                price = item.get('f2', 0)
+
+                records.append({
+                    'date': today,
+                    'index_code': index_code,
+                    'index_name': name_map.get(index_code, ''),
+                    'close': price,
+                    'prev_close': price / (1 + pct) if pct != 0 else price,
+                    'ret': pct,
+                    'volume': item.get('f5', 0),      # 成交量
+                    'turnover': item.get('f6', 0),    # 成交额
+                })
+
+        df = pd.DataFrame(records)
+        return df
+
+    except Exception as e:
+        print(f"  [大盘指数] ❌ 请求失败: {e}")
+        return None
+
+
 def load_eastmoney_data(top_boards=20, stocks_per_board=10):
     """
     加载东方财富完整数据
@@ -331,13 +407,23 @@ def load_eastmoney_data(top_boards=20, stocks_per_board=10):
     if indices_df is None or indices_df.empty:
         raise Exception("指数数据获取失败")
 
+    time.sleep(0.5)
+
+    # 4. 获取大盘核心指数数据
+    print()
+    market_indices_df = fetch_market_indices()
+    if market_indices_df is None or market_indices_df.empty:
+        print("  ⚠️  大盘核心指数数据获取失败，继续使用现有数据")
+        market_indices_df = pd.DataFrame()
+
     print("\n" + "=" * 50)
     print("✅ 数据获取完成！")
     print(f"   板块: {len(boards_df)} 个")
     print(f"   个股: {len(stocks_df)} 只")
     print(f"   指数: {len(indices_df)} 个")
+    print(f"   大盘指数: {len(market_indices_df)} 个")
 
-    return boards_df, stocks_df, indices_df
+    return boards_df, stocks_df, indices_df, market_indices_df
 
 
 if __name__ == "__main__":

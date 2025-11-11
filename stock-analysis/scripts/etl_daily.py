@@ -5,7 +5,7 @@ import pandas as pd
 from sources import load_mock, load_csv, load_api
 from factors import board_metrics, core_stocks, market_regime
 
-def to_json(out_path, industry_boards, concept_boards, indices):
+def to_json(out_path, industry_boards, concept_boards, indices, market_indices=None):
     # 提取所有指数数据（排除市场判断字段）
     indices_data = {}
     exclude_keys = {'risk_on', 'broad_strength', 'advice'}
@@ -24,6 +24,7 @@ def to_json(out_path, industry_boards, concept_boards, indices):
         "industry_boards": industry_boards,
         "concept_boards": concept_boards,
         "indices": indices_data,
+        "market_indices": market_indices if market_indices else {},  # 新增：大盘核心指数
         "disclaimer": "本页面仅为个人研究与技术演示，不构成投资建议。"
     }
     with open(out_path, "w", encoding="utf-8") as f:
@@ -134,21 +135,34 @@ def main():
 
     if args.mode == "EASTMONEY":
         from sources import load_eastmoney
-        bk, stk, idx = load_eastmoney(top_boards=args.top_boards, stocks_per_board=args.stocks_per_board)
+        bk, stk, idx, market_idx = load_eastmoney(top_boards=args.top_boards, stocks_per_board=args.stocks_per_board)
     elif args.mode == "CSV":
-        bk, stk, idx = load_csv(args.board_csv, args.stock_csv, args.index_csv)
+        bk, stk, idx, market_idx = load_csv(args.board_csv, args.stock_csv, args.index_csv)
     elif args.mode == "API":
         from os import getenv
         api_key = getenv("DATA_API_KEY","")
-        bk, stk, idx = load_api(api_key)
+        bk, stk, idx, market_idx = load_api(api_key)
     else:  # MOCK
         print("⚠️  使用 Mock 数据（仅用于测试）")
-        bk, stk, idx = load_mock()
+        bk, stk, idx, market_idx = load_mock()
 
     # 计算
     boards_df = board_metrics(bk, stk)
     stocks_df = core_stocks(stk)
     indices = market_regime(idx)
+
+    # 处理大盘核心指数数据
+    market_indices_dict = {}
+    if not market_idx.empty:
+        for _, row in market_idx.iterrows():
+            index_code = row['index_code']
+            market_indices_dict[index_code] = {
+                "name": row.get('index_name', index_code),
+                "ret": float(row['ret']) if pd.notna(row['ret']) else 0.0,
+                "close": float(row['close']) if pd.notna(row.get('close', 0)) else 0.0,
+                "volume": float(row.get('volume', 0)) if pd.notna(row.get('volume', 0)) else 0.0,
+                "turnover": float(row.get('turnover', 0)) if pd.notna(row.get('turnover', 0)) else 0.0
+            }
 
     # 聚合输出（分别处理行业板块和概念板块）
     # 按涨幅排序（而不是综合评分），综合评分仅用于购买推荐
@@ -221,7 +235,7 @@ def main():
     industry_boards = process_boards(boards_df, 'industry', top_n=10)
     concept_boards = process_boards(boards_df, 'concept', top_n=10)
 
-    daily_data = to_json(args.out, industry_boards, concept_boards, indices)
+    daily_data = to_json(args.out, industry_boards, concept_boards, indices, market_indices_dict)
 
     print("\n" + "=" * 60)
     print(f"✅ 数据已保存: {args.out}")
@@ -229,6 +243,7 @@ def main():
     print(f"   行业板块: {len(industry_boards)}")
     print(f"   概念板块: {len(concept_boards)}")
     print(f"   个股数: {len(stocks_df)}")
+    print(f"   大盘指数: {len(market_indices_dict)}")
     print(f"   市场节奏: {indices['advice']}")
 
     # 存档当日数据

@@ -581,6 +581,126 @@ function renderVolumePriceChart(indices, indexConfigs) {
   });
 }
 
+function renderMarketIndicesChart(marketIndices) {
+  const container = document.getElementById('market-indices-chart');
+  if (!container) return;
+
+  // 如果没有数据，显示提示
+  if (!marketIndices || Object.keys(marketIndices).length === 0) {
+    container.innerHTML = '<p style="text-align: center; color: #999; padding: 50px 0;">暂无大盘指数数据</p>';
+    return;
+  }
+
+  const chart = echarts.init(container);
+
+  // 指数配置（按照用户要求的顺序）
+  const indexConfigs = [
+    { key: 'SHCOMP', name: '上证指数', color: '#ef5350' },
+    { key: 'SZCOMP', name: '深证成指', color: '#42a5f5' },
+    { key: 'CYBZ', name: '创业板指', color: '#66bb6a' },
+    { key: 'KCB50', name: '科创50', color: '#ffa726' },
+    { key: 'BJ50', name: '北证50', color: '#ab47bc' }
+  ];
+
+  // 准备数据
+  const seriesData = [];
+  indexConfigs.forEach(config => {
+    const indexData = marketIndices[config.key];
+    if (indexData) {
+      // 计算今日数据点（使用涨跌幅）
+      const ret = (indexData.ret || 0) * 100; // 转换为百分比
+
+      seriesData.push({
+        name: config.name,
+        type: 'bar',
+        data: [ret],
+        itemStyle: {
+          color: ret >= 0 ? '#ef5350' : '#26a69a'
+        },
+        label: {
+          show: true,
+          position: ret >= 0 ? 'top' : 'bottom',
+          formatter: params => {
+            const value = params.value.toFixed(2);
+            return `${value}%`;
+          },
+          fontSize: 12,
+          fontWeight: 600
+        }
+      });
+    }
+  });
+
+  const option = {
+    title: {
+      text: '大盘指数涨跌幅',
+      left: 'center',
+      textStyle: { fontSize: 16, fontWeight: 600 }
+    },
+    tooltip: {
+      trigger: 'axis',
+      axisPointer: {
+        type: 'shadow'
+      },
+      formatter: function(params) {
+        const item = params[0];
+        const indexKey = indexConfigs[item.dataIndex].key;
+        const indexData = marketIndices[indexKey];
+
+        let result = `<strong>${item.seriesName}</strong><br/>`;
+        result += `涨跌幅: <strong style="color: ${item.value >= 0 ? '#ef5350' : '#26a69a'}">${item.value.toFixed(2)}%</strong><br/>`;
+        if (indexData.close) {
+          result += `收盘价: ${indexData.close.toFixed(2)}<br/>`;
+        }
+        if (indexData.turnover) {
+          const turnoverBillion = (indexData.turnover / 100000000).toFixed(0);
+          result += `成交额: ${turnoverBillion}亿`;
+        }
+        return result;
+      }
+    },
+    grid: {
+      left: '3%',
+      right: '4%',
+      bottom: '10%',
+      top: '15%',
+      containLabel: true
+    },
+    xAxis: {
+      type: 'category',
+      data: indexConfigs
+        .filter(config => marketIndices[config.key])
+        .map(config => config.name),
+      axisLabel: {
+        fontSize: 12,
+        interval: 0
+      }
+    },
+    yAxis: {
+      type: 'value',
+      name: '涨跌幅(%)',
+      nameTextStyle: {
+        fontSize: 12
+      },
+      axisLabel: {
+        formatter: v => v.toFixed(1) + '%',
+        fontSize: 11
+      },
+      splitLine: {
+        lineStyle: { type: 'dashed', color: '#e0e0e0' }
+      }
+    },
+    series: seriesData
+  };
+
+  chart.setOption(option);
+
+  // 响应式调整
+  window.addEventListener('resize', () => {
+    chart.resize();
+  });
+}
+
 function displayTodayData(data) {
   // 更新日期
   document.getElementById('date').textContent = data.date;
@@ -594,6 +714,11 @@ function displayTodayData(data) {
     // 旧格式兼容：显示在行业板块位置
     renderBoardList(data.boards, 'industry-board-list');
     document.getElementById('concept-board-list').innerHTML = '<p>暂无概念板块数据</p>';
+  }
+
+  // 显示大盘看板
+  if (data.market_indices) {
+    renderMarketIndicesChart(data.market_indices);
   }
 
   // 显示指数看板

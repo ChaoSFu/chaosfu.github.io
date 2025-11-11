@@ -30,13 +30,25 @@ def load_mock():
         [d, "CSI2000", -0.001,  150000000, 220000000000],   # 中证2000
         [d, "SHCOMP",   0.004,  580000000, 860000000000],   # 上证指数
     ], columns=["date", "index_code", "ret", "volume", "turnover"])
-    return bk, stk, idx
+
+    # —— 模拟大盘核心指数
+    market_idx = pd.DataFrame([
+        [d, "SHCOMP",  "上证指数", 3200.5, 3200.0, 0.005, 580000000, 860000000000],   # 上证指数
+        [d, "SZCOMP",  "深证成指", 11000.2, 11000.0, 0.008, 520000000, 780000000000], # 深证成指
+        [d, "CYBZ",    "创业板指", 2300.8, 2300.0, 0.012, 340000000, 520000000000],   # 创业板指
+        [d, "KCB50",   "科创50", 980.5, 980.0, 0.015, 120000000, 180000000000],       # 科创50
+        [d, "BJ50",    "北证50", 850.3, 850.0, 0.010, 45000000, 68000000000],         # 北证50
+    ], columns=["date", "index_code", "index_name", "close", "prev_close", "ret", "volume", "turnover"])
+
+    return bk, stk, idx, market_idx
 
 def load_csv(board_csv, stock_csv, index_csv):
     bk = pd.read_csv(board_csv)
     stk = pd.read_csv(stock_csv)
     idx = pd.read_csv(index_csv)
-    return bk, stk, idx
+    # CSV模式暂不支持大盘指数，返回空DataFrame
+    market_idx = pd.DataFrame()
+    return bk, stk, idx, market_idx
 
 def load_api(api_key:str=""):
     """
@@ -53,6 +65,7 @@ def load_api(api_key:str=""):
 def load_eastmoney(top_boards=20, stocks_per_board=10):
     """
     直接从东方财富获取数据（推荐）
+    返回: (boards_df, stocks_df, indices_df, market_indices_df)
     """
     from eastmoney import load_eastmoney_data
     return load_eastmoney_data(top_boards, stocks_per_board)
