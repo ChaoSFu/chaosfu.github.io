@@ -863,11 +863,22 @@ async function loadHistoryData() {
       console.log('✅ 加载大盘指数历史数据:', marketIndicesHistory);
       // 渲染大盘看板（默认显示上证指数）
       renderMarketIndicesChart('SHCOMP');
+    } else {
+      console.warn('⚠️  未找到market_indices_history数据');
     }
 
-    // 重新渲染主要指数看板，使用历史数据
-    if (currentData && currentData.indices) {
-      renderIndicesDashboard(currentData.indices);
+    // 加载主要指数历史数据
+    if (historyData.main_indices_history) {
+      console.log('✅ 加载主要指数历史数据:', historyData.main_indices_history);
+      // 渲染主要指数看板（默认显示沪深300）
+      if (currentData && currentData.indices) {
+        renderIndicesDashboard(currentData.indices);
+      } else {
+        // 如果还没有加载今日数据，直接渲染主要指数看板
+        renderMainIndicesChart('HS300');
+      }
+    } else {
+      console.warn('⚠️  未找到main_indices_history数据');
     }
   } catch (error) {
     console.error('历史数据加载失败:', error);
