@@ -1711,6 +1711,49 @@ async function init() {
   const marketBtn = document.getElementById('market-analyze-btn');
   if (marketBtn) {
     marketBtn.addEventListener('click', analyzeAllIndicesWithAI);
+    // 添加hover效果
+    marketBtn.addEventListener('mouseover', function() {
+      this.style.transform = 'translateY(-2px)';
+      this.style.boxShadow = '0 4px 12px rgba(102, 126, 234, 0.6)';
+    });
+    marketBtn.addEventListener('mouseout', function() {
+      this.style.transform = 'translateY(0)';
+      this.style.boxShadow = '0 2px 6px rgba(102, 126, 234, 0.4)';
+    });
+  }
+
+  // 初始化帮助按钮
+  const metricsHelpBtn = document.getElementById('metrics-help-btn');
+  if (metricsHelpBtn) {
+    metricsHelpBtn.addEventListener('click', function() {
+      const helpDiv = document.getElementById('metrics-help');
+      if (helpDiv) {
+        helpDiv.style.display = helpDiv.style.display === 'none' ? 'block' : 'none';
+      }
+    });
+  }
+
+  const indicesHelpBtn = document.getElementById('indices-help-btn');
+  if (indicesHelpBtn) {
+    indicesHelpBtn.addEventListener('click', function() {
+      const helpDiv = document.getElementById('indices-help');
+      if (helpDiv) {
+        helpDiv.style.display = helpDiv.style.display === 'none' ? 'block' : 'none';
+      }
+    });
+  }
+
+  // 初始化AI设置按钮hover效果
+  const aiSettingsBtn = document.getElementById('ai-settings-btn');
+  if (aiSettingsBtn) {
+    aiSettingsBtn.addEventListener('mouseover', function() {
+      this.style.transform = 'translateY(-2px)';
+      this.style.boxShadow = '0 4px 12px rgba(0,0,0,0.2)';
+    });
+    aiSettingsBtn.addEventListener('mouseout', function() {
+      this.style.transform = 'translateY(0)';
+      this.style.boxShadow = '0 2px 8px rgba(0,0,0,0.15)';
+    });
   }
 
   // 加载今日数据
