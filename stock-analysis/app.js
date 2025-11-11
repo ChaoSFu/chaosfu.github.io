@@ -610,28 +610,6 @@ function displayTodayData(data) {
     renderIndicesDashboard(data.indices);
   }
 
-  // 显示宽基强弱图
-  const chart = echarts.init(document.getElementById('broad'));
-  chart.setOption({
-    title: { text: '宽基指数涨跌幅对比', left: 'center', textStyle: { fontSize: 14 } },
-    tooltip: { trigger: 'axis' },
-    xAxis: {type:'category', data: ['沪深300','中证1000','上证综指']},
-    yAxis: {type:'value', axisLabel:{formatter: v => (v*100).toFixed(2)+'%'}},
-    series: [{
-      type:'bar',
-      data:[
-        data.indices.hs300.ret,
-        data.indices.csi1000.ret,
-        data.indices.shcomp.ret
-      ],
-      itemStyle: {
-        color: function(params) {
-          return params.data >= 0 ? '#ef5350' : '#26a69a';
-        }
-      }
-    }]
-  });
-
   // 显示免责声明
   document.getElementById('disclaimer').textContent = data.disclaimer || '本页面仅为个人研究与技术演示，不构成投资建议。';
 }
