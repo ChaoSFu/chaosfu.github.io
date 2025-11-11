@@ -5,6 +5,7 @@
 let currentData = null;
 let historyData = null;
 let currentIndicesData = null; // 保存当前指数数据用于批量分析
+let marketIndicesHistory = null; // 保存大盘指数历史数据
 
 // ============================================
 // 1. 标签切换功能
@@ -581,116 +582,143 @@ function renderVolumePriceChart(indices, indexConfigs) {
   });
 }
 
-function renderMarketIndicesChart(marketIndices) {
+function renderMarketIndicesChart(currentIndexCode = 'SHCOMP') {
   const container = document.getElementById('market-indices-chart');
-  if (!container) return;
+  if (!container) {
+    console.error('market-indices-chart容器不存在');
+    return;
+  }
 
-  // 如果没有数据，显示提示
-  if (!marketIndices || Object.keys(marketIndices).length === 0) {
-    container.innerHTML = '<p style="text-align: center; color: #999; padding: 50px 0;">暂无大盘指数数据</p>';
+  // 如果没有历史数据，显示提示
+  if (!marketIndicesHistory || !marketIndicesHistory.dates || marketIndicesHistory.dates.length === 0) {
+    console.warn('market_indices_history数据为空');
+    container.innerHTML = '<p style="text-align: center; color: #999; padding: 50px 0;">暂无历史数据，请稍后刷新</p>';
     return;
   }
 
   const chart = echarts.init(container);
 
-  // 指数配置（按照用户要求的顺序）
-  const indexConfigs = [
-    { key: 'SHCOMP', name: '上证指数', color: '#ef5350' },
-    { key: 'SZCOMP', name: '深证成指', color: '#42a5f5' },
-    { key: 'CYBZ', name: '创业板指', color: '#66bb6a' },
-    { key: 'KCB50', name: '科创50', color: '#ffa726' },
-    { key: 'BJ50', name: '北证50', color: '#ab47bc' }
-  ];
+  // 指数配置
+  const indexConfig = {
+    'SHCOMP': { name: '上证指数', color: '#ef5350' },
+    'SZCOMP': { name: '深证成指', color: '#42a5f5' },
+    'CYBZ': { name: '创业板指', color: '#66bb6a' },
+    'KCB50': { name: '科创50', color: '#ffa726' },
+    'BJ50': { name: '北证50', color: '#ab47bc' }
+  };
+
+  const config = indexConfig[currentIndexCode];
+  if (!config) {
+    console.error('未知的指数代码:', currentIndexCode);
+    return;
+  }
+
+  // 获取历史数据
+  const dates = marketIndicesHistory.dates || [];
+  const indexHistory = marketIndicesHistory.market_indices[currentIndexCode] || [];
 
   // 准备数据
-  const seriesData = [];
-  indexConfigs.forEach(config => {
-    const indexData = marketIndices[config.key];
-    if (indexData) {
-      // 计算今日数据点（使用涨跌幅）
-      const ret = (indexData.ret || 0) * 100; // 转换为百分比
-
-      seriesData.push({
-        name: config.name,
-        type: 'bar',
-        data: [ret],
-        itemStyle: {
-          color: ret >= 0 ? '#ef5350' : '#26a69a'
-        },
-        label: {
-          show: true,
-          position: ret >= 0 ? 'top' : 'bottom',
-          formatter: params => {
-            const value = params.value.toFixed(2);
-            return `${value}%`;
-          },
-          fontSize: 12,
-          fontWeight: 600
-        }
-      });
-    }
-  });
+  const closeData = indexHistory.map(item => item.close || 0);
+  const retData = indexHistory.map(item => (item.ret || 0) * 100); // 转换为百分比
 
   const option = {
     title: {
-      text: '大盘指数涨跌幅',
+      text: `${config.name} - 最近30天走势`,
       left: 'center',
       textStyle: { fontSize: 16, fontWeight: 600 }
     },
     tooltip: {
       trigger: 'axis',
-      axisPointer: {
-        type: 'shadow'
-      },
       formatter: function(params) {
-        const item = params[0];
-        const indexKey = indexConfigs[item.dataIndex].key;
-        const indexData = marketIndices[indexKey];
+        const dateIdx = params[0].dataIndex;
+        const date = dates[dateIdx];
+        const close = closeData[dateIdx];
+        const ret = retData[dateIdx];
 
-        let result = `<strong>${item.seriesName}</strong><br/>`;
-        result += `涨跌幅: <strong style="color: ${item.value >= 0 ? '#ef5350' : '#26a69a'}">${item.value.toFixed(2)}%</strong><br/>`;
-        if (indexData.close) {
-          result += `收盘价: ${indexData.close.toFixed(2)}<br/>`;
-        }
-        if (indexData.turnover) {
-          const turnoverBillion = (indexData.turnover / 100000000).toFixed(0);
-          result += `成交额: ${turnoverBillion}亿`;
-        }
-        return result;
+        return `<strong>${date}</strong><br/>` +
+               `收盘价: ${close.toFixed(2)}<br/>` +
+               `涨跌幅: <strong style="color: ${ret >= 0 ? '#ef5350' : '#26a69a'}">${ret.toFixed(2)}%</strong>`;
       }
+    },
+    legend: {
+      data: ['收盘价', '涨跌幅'],
+      bottom: 10
     },
     grid: {
       left: '3%',
       right: '4%',
-      bottom: '10%',
+      bottom: '15%',
       top: '15%',
       containLabel: true
     },
     xAxis: {
       type: 'category',
-      data: indexConfigs
-        .filter(config => marketIndices[config.key])
-        .map(config => config.name),
+      data: dates,
       axisLabel: {
-        fontSize: 12,
-        interval: 0
+        fontSize: 10,
+        rotate: 30,
+        formatter: function(value) {
+          // 只显示月-日
+          return value.substring(5);
+        }
       }
     },
-    yAxis: {
-      type: 'value',
-      name: '涨跌幅(%)',
-      nameTextStyle: {
-        fontSize: 12
+    yAxis: [
+      {
+        type: 'value',
+        name: '收盘价',
+        position: 'left',
+        axisLabel: {
+          fontSize: 10,
+          formatter: v => v.toFixed(0)
+        },
+        splitLine: {
+          lineStyle: { type: 'dashed', color: '#e0e0e0' }
+        }
       },
-      axisLabel: {
-        formatter: v => v.toFixed(1) + '%',
-        fontSize: 11
-      },
-      splitLine: {
-        lineStyle: { type: 'dashed', color: '#e0e0e0' }
+      {
+        type: 'value',
+        name: '涨跌幅(%)',
+        position: 'right',
+        axisLabel: {
+          fontSize: 10,
+          formatter: v => v.toFixed(1) + '%'
+        }
       }
-    },
-    series: seriesData
+    ],
+    series: [
+      {
+        name: '收盘价',
+        type: 'line',
+        yAxisIndex: 0,
+        data: closeData,
+        smooth: true,
+        lineStyle: {
+          width: 2,
+          color: config.color
+        },
+        itemStyle: {
+          color: config.color
+        },
+        areaStyle: {
+          color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
+            { offset: 0, color: config.color + '40' },
+            { offset: 1, color: config.color + '05' }
+          ])
+        }
+      },
+      {
+        name: '涨跌幅',
+        type: 'bar',
+        yAxisIndex: 1,
+        data: retData,
+        itemStyle: {
+          color: function(params) {
+            return params.value >= 0 ? '#ef535080' : '#26a69a80';
+          }
+        }
+      }
+    ]
   };
 
   chart.setOption(option);
@@ -716,11 +744,6 @@ function displayTodayData(data) {
     document.getElementById('concept-board-list').innerHTML = '<p>暂无概念板块数据</p>';
   }
 
-  // 显示大盘看板
-  if (data.market_indices) {
-    renderMarketIndicesChart(data.market_indices);
-  }
-
   // 显示指数看板
   if (data.indices) {
     renderIndicesDashboard(data.indices);
@@ -738,6 +761,14 @@ async function loadHistoryData() {
     const res = await fetch('./data/history.json', {cache:'no-store'});
     historyData = await res.json();
     displayHistoryData(historyData);
+
+    // 加载大盘指数历史数据
+    if (historyData.market_indices_history) {
+      marketIndicesHistory = historyData.market_indices_history;
+      console.log('✅ 加载大盘指数历史数据:', marketIndicesHistory);
+      // 渲染大盘看板（默认显示上证指数）
+      renderMarketIndicesChart('SHCOMP');
+    }
 
     // 重新渲染主要指数看板，使用历史数据
     if (currentData && currentData.indices) {
@@ -1873,6 +1904,25 @@ async function init() {
       this.style.boxShadow = '0 2px 8px rgba(0,0,0,0.15)';
     });
   }
+
+  // 绑定大盘看板tab切换事件
+  const marketTabs = document.querySelectorAll('.market-tab');
+  marketTabs.forEach(tab => {
+    tab.addEventListener('click', function() {
+      const indexCode = this.getAttribute('data-index');
+
+      // 更新tab样式
+      marketTabs.forEach(t => {
+        t.style.background = 'white';
+        t.style.color = '#333';
+      });
+      this.style.background = '#667eea';
+      this.style.color = 'white';
+
+      // 重新渲染图表
+      renderMarketIndicesChart(indexCode);
+    });
+  });
 
   // 加载今日数据
   await loadTodayData();

@@ -94,12 +94,21 @@
         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
           <h2 style="margin: 0;">大盘看板</h2>
         </div>
-        <p style="font-size: 0.875rem; color: #666; margin-bottom: 1rem;">
-          展示上证指数、深证成指、创业板指、科创50、北证50的实时走势
+        <p style="font-size: 0.875rem; color: #666; margin-bottom: 0.5rem;">
+          展示上证指数、深证成指、创业板指、科创50、北证50最近30天的走势
         </p>
 
+        <!-- 指数切换Tab -->
+        <div class="market-tabs" style="display: flex; gap: 8px; margin-bottom: 16px; flex-wrap: wrap;">
+          <button class="market-tab active" data-index="SHCOMP" style="padding: 8px 16px; border: 1px solid #ddd; background: #667eea; color: white; border-radius: 6px; cursor: pointer; font-size: 14px; transition: all 0.3s;">上证指数</button>
+          <button class="market-tab" data-index="SZCOMP" style="padding: 8px 16px; border: 1px solid #ddd; background: white; color: #333; border-radius: 6px; cursor: pointer; font-size: 14px; transition: all 0.3s;">深证成指</button>
+          <button class="market-tab" data-index="CYBZ" style="padding: 8px 16px; border: 1px solid #ddd; background: white; color: #333; border-radius: 6px; cursor: pointer; font-size: 14px; transition: all 0.3s;">创业板指</button>
+          <button class="market-tab" data-index="KCB50" style="padding: 8px 16px; border: 1px solid #ddd; background: white; color: #333; border-radius: 6px; cursor: pointer; font-size: 14px; transition: all 0.3s;">科创50</button>
+          <button class="market-tab" data-index="BJ50" style="padding: 8px 16px; border: 1px solid #ddd; background: white; color: #333; border-radius: 6px; cursor: pointer; font-size: 14px; transition: all 0.3s;">北证50</button>
+        </div>
+
         <!-- 大盘指数走势图 -->
-        <div id="market-indices-chart" style="height: 400px; margin-top: 16px;"></div>
+        <div id="market-indices-chart" style="height: 400px;"></div>
       </section>
 
       <section>
