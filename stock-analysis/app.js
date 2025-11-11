@@ -294,47 +294,205 @@ function renderBoardList(boards, containerId) {
   });
 }
 
-function renderIndicesDashboard(indices) {
+function renderMainIndicesChart(currentIndexCode = 'HS300') {
   const container = document.getElementById('indices-dashboard');
-  if (!container) return;
+  if (!container) {
+    console.error('indices-dashboard容器不存在');
+    return;
+  }
 
-  // 指数配置：只保留沪深300、中证500、中证1000、中证2000
+  // 指数配置映射
+  const indexConfigMap = {
+    'HS300': { name: '沪深300', color: '#ef5350', description: '大盘蓝筹' },
+    'CSI500': { name: '中证500', color: '#42a5f5', description: '中盘成长' },
+    'CSI1000': { name: '中证1000', color: '#66bb6a', description: '小盘股' },
+    'CSI2000': { name: '中证2000', color: '#ffa726', description: '微盘股' }
+  };
+
+  const config = indexConfigMap[currentIndexCode];
+  if (!config) {
+    console.error('未知的指数代码:', currentIndexCode);
+    return;
+  }
+
+  // 如果没有历史数据，显示提示
+  if (!historyData || !historyData.main_indices_history || !historyData.main_indices_history.dates || historyData.main_indices_history.dates.length === 0) {
+    console.warn('main_indices_history数据为空');
+    container.innerHTML = '<p style="text-align: center; color: #999; padding: 50px 0;">暂无历史数据，请稍后刷新</p>';
+    return;
+  }
+
+  const mainIndicesHistory = historyData.main_indices_history;
+  const dates = mainIndicesHistory.dates || [];
+  const indexHistory = mainIndicesHistory.main_indices[currentIndexCode] || [];
+
+  // 准备K线数据：[open, close, low, high]
+  const candlestickData = indexHistory.map(item => {
+    if (!item) return [0, 0, 0, 0];
+    return [
+      item.open || 0,
+      item.close || 0,
+      item.low || 0,
+      item.high || 0
+    ];
+  });
+
+  // 准备成交量数据
+  const volumeData = indexHistory.map(item => {
+    if (!item) return 0;
+    return (item.volume || 0) / 100000000; // 转换为亿
+  });
+
+  // 初始化ECharts
+  const chart = echarts.init(container);
+
+  const option = {
+    title: {
+      text: `${config.name}走势（K线图）`,
+      left: 'center',
+      textStyle: { fontSize: 16, fontWeight: 600 }
+    },
+    tooltip: {
+      trigger: 'axis',
+      axisPointer: {
+        type: 'cross'
+      },
+      formatter: function(params) {
+        if (!params || params.length === 0) return '';
+        const dateIdx = params[0].dataIndex;
+        const date = dates[dateIdx];
+        const kdata = indexHistory[dateIdx];
+
+        if (!kdata) return '';
+
+        const ret = (kdata.ret || 0) * 100;
+        const volume = (kdata.volume || 0) / 100000000;
+
+        let result = `<strong>${date}</strong><br/>`;
+        result += `开盘: ${kdata.open.toFixed(2)}<br/>`;
+        result += `收盘: ${kdata.close.toFixed(2)}<br/>`;
+        result += `最高: ${kdata.high.toFixed(2)}<br/>`;
+        result += `最低: ${kdata.low.toFixed(2)}<br/>`;
+        result += `涨跌幅: <strong style="color: ${ret >= 0 ? '#ef5350' : '#26a69a'}">${ret.toFixed(2)}%</strong><br/>`;
+        result += `成交量: ${volume.toFixed(2)}亿手`;
+
+        return result;
+      }
+    },
+    grid: [
+      {
+        left: '5%',
+        right: '5%',
+        top: '15%',
+        height: '50%',
+        containLabel: true
+      },
+      {
+        left: '5%',
+        right: '5%',
+        top: '72%',
+        height: '18%',
+        containLabel: true
+      }
+    ],
+    xAxis: [
+      {
+        type: 'category',
+        data: dates,
+        gridIndex: 0,
+        axisLabel: {
+          show: false
+        },
+        splitLine: {
+          show: false
+        }
+      },
+      {
+        type: 'category',
+        data: dates,
+        gridIndex: 1,
+        axisLabel: {
+          fontSize: 10,
+          rotate: 30,
+          formatter: function(value) {
+            return value.substring(5); // 只显示月-日
+          }
+        }
+      }
+    ],
+    yAxis: [
+      {
+        scale: true,
+        gridIndex: 0,
+        splitLine: {
+          lineStyle: { type: 'dashed', color: '#e0e0e0' }
+        },
+        axisLabel: {
+          fontSize: 11,
+          formatter: v => v.toFixed(0)
+        }
+      },
+      {
+        scale: true,
+        gridIndex: 1,
+        splitLine: {
+          show: false
+        },
+        axisLabel: {
+          fontSize: 10,
+          formatter: v => v.toFixed(0) + '亿'
+        }
+      }
+    ],
+    series: [
+      {
+        name: config.name,
+        type: 'candlestick',
+        data: candlestickData,
+        xAxisIndex: 0,
+        yAxisIndex: 0,
+        itemStyle: {
+          color: '#ef5350',      // 阳线颜色
+          color0: '#26a69a',     // 阴线颜色
+          borderColor: '#ef5350',
+          borderColor0: '#26a69a'
+        }
+      },
+      {
+        name: '成交量',
+        type: 'bar',
+        data: volumeData,
+        xAxisIndex: 1,
+        yAxisIndex: 1,
+        itemStyle: {
+          color: function(params) {
+            const kdata = indexHistory[params.dataIndex];
+            if (!kdata) return '#999';
+            return kdata.ret >= 0 ? '#ef5350' : '#26a69a';
+          }
+        }
+      }
+    ]
+  };
+
+  chart.setOption(option);
+
+  // 响应式调整
+  window.addEventListener('resize', () => {
+    chart.resize();
+  });
+}
+
+// 保留renderIndicesDashboard作为入口函数
+function renderIndicesDashboard(indices) {
+  // 保存当前指数数据用于批量分析
   const indexConfigs = [
-    {
-      key: 'HS300',
-      name: '沪深300',
-      type: '大盘',
-      typeClass: 'type-large',
-      characteristic: '稳健，适合市场中性阶段、机构配置主导',
-      color: '#ef5350'
-    },
-    {
-      key: 'CSI500',
-      name: '中证500',
-      type: '中盘',
-      typeClass: 'type-mid',
-      characteristic: '成长/进攻型，适合牛市中期、风险偏好上升阶段',
-      color: '#42a5f5'
-    },
-    {
-      key: 'CSI1000',
-      name: '中证1000',
-      type: '小盘',
-      typeClass: 'type-small',
-      characteristic: '高Beta、投机性强，适合市场情绪高涨阶段',
-      color: '#66bb6a'
-    },
-    {
-      key: 'CSI2000',
-      name: '中证2000',
-      type: '微盘',
-      typeClass: 'type-micro',
-      characteristic: '超高波动，适合高频/题材性交易阶段，风险极高',
-      color: '#ffa726'
-    }
+    { key: 'HS300', name: '沪深300' },
+    { key: 'CSI500', name: '中证500' },
+    { key: 'CSI1000', name: '中证1000' },
+    { key: 'CSI2000', name: '中证2000' }
   ];
 
-  // 保存当前指数数据用于批量分析
   currentIndicesData = { indices, indexConfigs: [] };
   indexConfigs.forEach(config => {
     const indexData = indices[config.key];
@@ -343,237 +501,8 @@ function renderIndicesDashboard(indices) {
     }
   });
 
-  // 渲染指数走势图表
-  const chart = echarts.init(container);
-
-  // 检查是否有历史OHLC数据
-  if (historyData && historyData.main_indices_history) {
-    // 使用蜡烛图展示历史OHLC数据
-    const mainIndicesHistory = historyData.main_indices_history;
-    const dates = mainIndicesHistory.dates || [];
-
-    // 为每个指数创建一个子图
-    const gridHeight = (80 / indexConfigs.length) + '%';
-    const grids = [];
-    const xAxes = [];
-    const yAxes = [];
-    const series = [];
-
-    indexConfigs.forEach((config, idx) => {
-      const indexHistory = mainIndicesHistory.main_indices[config.key] || [];
-
-      // 准备K线数据：[open, close, low, high]
-      const candlestickData = indexHistory.map(item => {
-        if (!item) return [0, 0, 0, 0];
-        return [
-          item.open || 0,
-          item.close || 0,
-          item.low || 0,
-          item.high || 0
-        ];
-      });
-
-      const gridTop = (idx * 80 / indexConfigs.length + 12) + '%';
-      const gridBottom = (100 - (idx + 1) * 80 / indexConfigs.length - 2) + '%';
-
-      grids.push({
-        left: '5%',
-        right: '5%',
-        top: gridTop,
-        bottom: gridBottom,
-        containLabel: true
-      });
-
-      xAxes.push({
-        type: 'category',
-        data: dates,
-        gridIndex: idx,
-        axisLabel: {
-          show: idx === indexConfigs.length - 1, // 只在最后一个子图显示
-          fontSize: 10,
-          rotate: 30,
-          formatter: function(value) {
-            return value.substring(5); // 只显示月-日
-          }
-        },
-        splitLine: {
-          show: false
-        }
-      });
-
-      yAxes.push({
-        scale: true,
-        gridIndex: idx,
-        splitLine: {
-          lineStyle: { type: 'dashed', color: '#e0e0e0' }
-        },
-        axisLabel: {
-          fontSize: 10,
-          formatter: v => v.toFixed(0)
-        }
-      });
-
-      series.push({
-        name: config.name,
-        type: 'candlestick',
-        data: candlestickData,
-        xAxisIndex: idx,
-        yAxisIndex: idx,
-        itemStyle: {
-          color: '#ef5350',      // 阳线颜色
-          color0: '#26a69a',     // 阴线颜色
-          borderColor: '#ef5350',
-          borderColor0: '#26a69a'
-        }
-      });
-    });
-
-    const option = {
-      title: {
-        text: '主要指数走势对比（K线图）',
-        left: 'center',
-        textStyle: { fontSize: 16, fontWeight: 600 }
-      },
-      tooltip: {
-        trigger: 'axis',
-        axisPointer: {
-          type: 'cross'
-        },
-        formatter: function(params) {
-          if (!params || params.length === 0) return '';
-          const dateIdx = params[0].dataIndex;
-          const date = dates[dateIdx];
-
-          let result = `<strong>${date}</strong><br/>`;
-
-          params.forEach(param => {
-            const config = indexConfigs[param.seriesIndex];
-            const indexHistory = mainIndicesHistory.main_indices[config.key] || [];
-            const kdata = indexHistory[dateIdx];
-
-            if (kdata) {
-              const ret = (kdata.ret || 0) * 100;
-              result += `<strong>${param.seriesName}</strong><br/>`;
-              result += `开盘: ${kdata.open.toFixed(2)}<br/>`;
-              result += `收盘: ${kdata.close.toFixed(2)}<br/>`;
-              result += `最高: ${kdata.high.toFixed(2)}<br/>`;
-              result += `最低: ${kdata.low.toFixed(2)}<br/>`;
-              result += `涨跌幅: <strong style="color: ${ret >= 0 ? '#ef5350' : '#26a69a'}">${ret.toFixed(2)}%</strong><br/><br/>`;
-            }
-          });
-
-          return result;
-        }
-      },
-      grid: grids,
-      xAxis: xAxes,
-      yAxis: yAxes,
-      series: series
-    };
-
-    chart.setOption(option);
-  } else {
-    // 如果没有历史OHLC数据，使用折线图展示
-    console.warn('没有main_indices_history数据，使用折线图展示');
-
-    let dates = [];
-    let seriesData = {};
-
-    if (historyData && historyData.indices_trend) {
-      dates = historyData.dates || [];
-      const indicesTrend = historyData.indices_trend;
-
-      indexConfigs.forEach(config => {
-        seriesData[config.key] = indicesTrend[config.key] || [];
-      });
-    } else {
-      dates = [currentData?.date || '今日'];
-      indexConfigs.forEach(config => {
-        const indexData = indices[config.key];
-        seriesData[config.key] = indexData ? [indexData.ret || 0] : [null];
-      });
-    }
-
-    const series = indexConfigs
-      .filter(config => indices[config.key])
-      .map(config => ({
-        name: config.name,
-        type: 'line',
-        data: seriesData[config.key] || [],
-        smooth: true,
-        showSymbol: true,
-        symbol: 'circle',
-        symbolSize: 6,
-        lineStyle: {
-          width: 2.5,
-          color: config.color
-        },
-        itemStyle: {
-          color: config.color
-        }
-      }));
-
-    const option = {
-      title: {
-        text: '主要指数走势对比',
-        left: 'center',
-        textStyle: { fontSize: 16, fontWeight: 600 }
-      },
-      tooltip: {
-        trigger: 'axis',
-        formatter: function(params) {
-          let result = params[0].axisValue + '<br/>';
-          params.forEach(item => {
-            if (item.data !== null && item.data !== undefined) {
-              const value = item.data.toFixed(2);
-              result += `${item.marker} ${item.seriesName}: <strong>${value}%</strong><br/>`;
-            }
-          });
-          return result;
-        }
-      },
-      legend: {
-        data: indexConfigs
-          .filter(config => indices[config.key])
-          .map(config => config.name),
-        bottom: 10,
-        textStyle: { fontSize: 12 }
-      },
-      grid: {
-        left: '3%',
-        right: '4%',
-        bottom: '15%',
-        top: '15%',
-        containLabel: true
-      },
-      xAxis: {
-        type: 'category',
-        data: dates,
-        axisLabel: {
-          rotate: dates.length > 10 ? 45 : 0,
-          fontSize: 11
-        }
-      },
-      yAxis: {
-        type: 'value',
-        axisLabel: {
-          formatter: v => v.toFixed(2) + '%',
-          fontSize: 11
-        },
-        splitLine: {
-          lineStyle: { type: 'dashed', color: '#e0e0e0' }
-        }
-      },
-      series: series
-    };
-
-    chart.setOption(option);
-  }
-
-  // 响应式调整
-  window.addEventListener('resize', () => {
-    chart.resize();
-  });
+  // 默认渲染沪深300
+  renderMainIndicesChart('HS300');
 
   // 渲染量价关系图
   renderVolumePriceChart(indices, indexConfigs);
@@ -2087,6 +2016,25 @@ async function init() {
 
       // 重新渲染图表
       renderMarketIndicesChart(indexCode);
+    });
+  });
+
+  // 绑定主要指数看板tab切换事件
+  const mainIndexTabs = document.querySelectorAll('.main-index-tab');
+  mainIndexTabs.forEach(tab => {
+    tab.addEventListener('click', function() {
+      const indexCode = this.getAttribute('data-index');
+
+      // 更新tab样式
+      mainIndexTabs.forEach(t => {
+        t.style.background = 'white';
+        t.style.color = '#333';
+      });
+      this.style.background = '#667eea';
+      this.style.color = 'white';
+
+      // 重新渲染图表
+      renderMainIndicesChart(indexCode);
     });
   });
 

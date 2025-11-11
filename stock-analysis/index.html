@@ -162,8 +162,16 @@
           <div id="market-analysis-content"></div>
         </div>
 
+        <!-- 指数切换Tab -->
+        <div class="main-indices-tabs" style="display: flex; gap: 8px; margin-bottom: 16px; margin-top: 16px; flex-wrap: wrap;">
+          <button class="main-index-tab active" data-index="HS300" style="padding: 8px 16px; border: 1px solid #ddd; background: #667eea; color: white; border-radius: 6px; cursor: pointer; font-size: 14px; transition: all 0.3s;">沪深300</button>
+          <button class="main-index-tab" data-index="CSI500" style="padding: 8px 16px; border: 1px solid #ddd; background: white; color: #333; border-radius: 6px; cursor: pointer; font-size: 14px; transition: all 0.3s;">中证500</button>
+          <button class="main-index-tab" data-index="CSI1000" style="padding: 8px 16px; border: 1px solid #ddd; background: white; color: #333; border-radius: 6px; cursor: pointer; font-size: 14px; transition: all 0.3s;">中证1000</button>
+          <button class="main-index-tab" data-index="CSI2000" style="padding: 8px 16px; border: 1px solid #ddd; background: white; color: #333; border-radius: 6px; cursor: pointer; font-size: 14px; transition: all 0.3s;">中证2000</button>
+        </div>
+
         <!-- 主要指数走势图 -->
-        <div id="indices-dashboard" style="height: 400px; margin-top: 16px;"></div>
+        <div id="indices-dashboard" style="height: 400px;"></div>
 
         <!-- 量价关系图 -->
         <div style="margin-top: 24px;">
