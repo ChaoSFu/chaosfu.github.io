@@ -2093,11 +2093,27 @@ async function loadBoardKlineData(boardCode, boardName, chartId) {
     // 从东方财富API获取板块K线数据
     const url = `https://push2his.eastmoney.com/api/qt/stock/kline/get?secid=90.${boardCode}&klt=101&fqt=0&lmt=30&end=20500000&iscca=1&fields1=f1,f2,f3,f4,f5,f6,f7,f8&fields2=f51,f52,f53,f54,f55,f56,f57,f58,f59,f60,f61&ut=f057cbcbce2a86e2866ab8877db1d059&forcect=1`;
 
-    const response = await fetch(url);
+    console.log(`🌐 请求URL: ${url}`);
+
+    const response = await fetch(url, {
+      method: 'GET',
+      mode: 'cors',
+      cache: 'no-cache',
+      headers: {
+        'Accept': 'application/json',
+      }
+    });
+
+    if (!response.ok) {
+      throw new Error(`HTTP错误: ${response.status} ${response.statusText}`);
+    }
+
     const data = await response.json();
 
+    console.log(`📦 API响应:`, data);
+
     if (data.rc !== 0 || !data.data || !data.data.klines) {
-      throw new Error('API返回数据异常');
+      throw new Error(`API返回数据异常: rc=${data.rc}`);
     }
 
     const klines = data.data.klines;
@@ -2140,8 +2156,24 @@ async function loadBoardKlineData(boardCode, boardName, chartId) {
     console.log(`✅ 成功加载${boardName}的K线数据，共${dates.length}天`);
 
   } catch (error) {
-    console.error('加载板块K线失败:', error);
-    chartContainer.innerHTML = '<div style="display: flex; align-items: center; justify-content: center; height: 100%;"><span style="color: #f44336;">加载失败，请重试</span></div>';
+    console.error('❌ 加载板块K线失败:', error);
+    console.error('错误类型:', error.name);
+    console.error('错误信息:', error.message);
+
+    let errorMsg = '加载失败';
+    if (error.name === 'TypeError' && error.message.includes('Failed to fetch')) {
+      errorMsg = '网络连接失败，请检查网络或稍后重试';
+      console.error('💡 提示: 可能是网络问题、DNS解析失败、或CORS策略阻止');
+    } else if (error.message.includes('HTTP错误')) {
+      errorMsg = `服务器错误: ${error.message}`;
+    } else if (error.message.includes('API返回数据异常')) {
+      errorMsg = `数据异常: ${error.message}`;
+    }
+
+    chartContainer.innerHTML = `<div style="display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100%; gap: 8px;">
+      <span style="color: #f44336; font-size: 14px;">${errorMsg}</span>
+      <span style="color: #999; font-size: 12px;">板块代码: ${boardCode}</span>
+    </div>`;
   }
 }
 
@@ -2286,8 +2318,38 @@ function renderBoardKlineChart(chartId, boardName, dates, candlestickData, volum
 // ============================================
 // 6. 初始化应用
 // ============================================
+
+// 网络诊断：测试东方财富API是否可访问
+async function checkAPIConnection() {
+  console.log('🔍 检查东方财富API连接...');
+  const testUrl = 'https://push2his.eastmoney.com/api/qt/stock/kline/get?secid=90.BK1042&klt=101&fqt=0&lmt=1&end=20500000&iscca=1&fields1=f1&fields2=f51&ut=f057cbcbce2a86e2866ab8877db1d059&forcect=1';
+
+  try {
+    const response = await fetch(testUrl, {
+      method: 'GET',
+      mode: 'cors',
+      cache: 'no-cache'
+    });
+
+    if (response.ok) {
+      console.log('✅ 东方财富API连接正常');
+      return true;
+    } else {
+      console.warn(`⚠️  东方财富API返回错误: ${response.status}`);
+      return false;
+    }
+  } catch (error) {
+    console.error('❌ 东方财富API连接失败:', error.message);
+    console.error('💡 可能原因: 1) 网络问题 2) DNS解析失败 3) 防火墙/代理阻止 4) CORS策略');
+    return false;
+  }
+}
+
 async function init() {
   console.log('🚀 A股板块热度分析系统 - 启动中...');
+
+  // 网络诊断
+  await checkAPIConnection();
 
   // 初始化标签切换
   initTabs();
