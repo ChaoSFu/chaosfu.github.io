@@ -279,7 +279,7 @@ function renderBoardList(boards, containerId) {
         <div style="display: flex; align-items: center; gap: 8px;">
           <b>${idx+1}. ${b.name || '未知'}</b>
           <span class="badge ${riskBadge}" title="基于综合评分的推荐">${stance}</span>${newBadge}
-          <button class="board-expand-btn" data-board-id="${boardId}" style="padding: 4px 12px; font-size: 12px; background: #667eea; color: white; border: none; border-radius: 4px; cursor: pointer;">
+          <button class="board-expand-btn" data-board-id="${boardId}" data-board-code="${b.code}" data-board-name="${b.name}" data-chart-id="${chartId}" style="padding: 4px 12px; font-size: 12px; background: #667eea; color: white; border: none; border-radius: 4px; cursor: pointer;">
             📊 查看详情
           </button>
         </div>
@@ -314,14 +314,9 @@ function renderBoardList(boards, containerId) {
 
         <!-- K线图 -->
         <div>
-          <h4 style="margin: 0 0 8px 0; font-size: 14px; color: #333;">30天K线走势</h4>
+          <h4 style="margin: 0 0 8px 0; font-size: 14px; color: #333;">30天K线走势 <span style="font-size: 12px; color: #999; font-weight: normal;">(展开后自动刷新)</span></h4>
           <div id="${chartId}" style="height: 350px; background: #fafafa; display: flex; align-items: center; justify-content: center;">
-            <span style="color: #999;">点击"加载K线图"按钮加载数据</span>
-          </div>
-          <div style="margin-top: 8px; text-align: center;">
-            <button class="load-kline-btn" data-board-code="${b.code}" data-board-name="${b.name}" data-chart-id="${chartId}" style="padding: 8px 20px; background: #4CAF50; color: white; border: none; border-radius: 6px; cursor: pointer; font-size: 13px;">
-              加载K线图
-            </button>
+            <span style="color: #999;">加载中...</span>
           </div>
         </div>
       </div>
@@ -343,10 +338,10 @@ function renderBoardList(boards, containerId) {
         detailDiv.style.display = 'block';
         this.textContent = '📊 收起';
 
-        // 获取板块信息
-        const boardCode = this.closest('.card').querySelector('.load-kline-btn').getAttribute('data-board-code');
-        const boardName = this.closest('.card').querySelector('.load-kline-btn').getAttribute('data-board-name');
-        const chartId = this.closest('.card').querySelector('.load-kline-btn').getAttribute('data-chart-id');
+        // 从按钮的 data 属性获取板块信息
+        const boardCode = this.getAttribute('data-board-code');
+        const boardName = this.getAttribute('data-board-name');
+        const chartId = this.getAttribute('data-chart-id');
 
         // 立即加载K线图
         console.log(`🔄 自动加载K线图: ${boardName}`);
@@ -367,34 +362,12 @@ function renderBoardList(boards, containerId) {
         this.textContent = '📊 查看详情';
 
         // 停止自动刷新
-        const boardCode = this.closest('.card').querySelector('.load-kline-btn').getAttribute('data-board-code');
+        const boardCode = this.getAttribute('data-board-code');
         if (refreshTimers[boardCode]) {
           clearInterval(refreshTimers[boardCode]);
           delete refreshTimers[boardCode];
           console.log(`⏹️  停止自动刷新: ${boardCode}`);
         }
-      }
-    });
-  });
-
-  // 为加载K线按钮添加事件监听（手动刷新）
-  container.querySelectorAll('.load-kline-btn').forEach(btn => {
-    btn.addEventListener('click', async function() {
-      const boardCode = this.getAttribute('data-board-code');
-      const boardName = this.getAttribute('data-board-name');
-      const chartId = this.getAttribute('data-chart-id');
-
-      this.disabled = true;
-      this.textContent = '刷新中...';
-
-      try {
-        await loadBoardKlineData(boardCode, boardName, chartId);
-        this.textContent = '手动刷新';
-      } catch (error) {
-        console.error('加载K线图失败:', error);
-        this.textContent = '加载失败，点击重试';
-      } finally {
-        this.disabled = false;
       }
     });
   });
