@@ -329,23 +329,55 @@ function renderBoardList(boards, containerId) {
     container.appendChild(div);
   });
 
+  // 存储自动刷新定时器
+  const refreshTimers = {};
+
   // 为展开按钮添加事件监听
   container.querySelectorAll('.board-expand-btn').forEach(btn => {
-    btn.addEventListener('click', function() {
+    btn.addEventListener('click', async function() {
       const boardId = this.getAttribute('data-board-id');
       const detailDiv = document.getElementById(boardId);
 
       if (detailDiv.style.display === 'none') {
+        // 展开
         detailDiv.style.display = 'block';
         this.textContent = '📊 收起';
+
+        // 获取板块信息
+        const boardCode = this.closest('.card').querySelector('.load-kline-btn').getAttribute('data-board-code');
+        const boardName = this.closest('.card').querySelector('.load-kline-btn').getAttribute('data-board-name');
+        const chartId = this.closest('.card').querySelector('.load-kline-btn').getAttribute('data-chart-id');
+
+        // 立即加载K线图
+        console.log(`🔄 自动加载K线图: ${boardName}`);
+        await loadBoardKlineData(boardCode, boardName, chartId);
+
+        // 启动自动刷新（每10秒）
+        if (refreshTimers[boardCode]) {
+          clearInterval(refreshTimers[boardCode]);
+        }
+        refreshTimers[boardCode] = setInterval(async () => {
+          console.log(`🔄 自动刷新K线图: ${boardName}`);
+          await loadBoardKlineData(boardCode, boardName, chartId);
+        }, 10000); // 10秒
+
       } else {
+        // 收起
         detailDiv.style.display = 'none';
         this.textContent = '📊 查看详情';
+
+        // 停止自动刷新
+        const boardCode = this.closest('.card').querySelector('.load-kline-btn').getAttribute('data-board-code');
+        if (refreshTimers[boardCode]) {
+          clearInterval(refreshTimers[boardCode]);
+          delete refreshTimers[boardCode];
+          console.log(`⏹️  停止自动刷新: ${boardCode}`);
+        }
       }
     });
   });
 
-  // 为加载K线按钮添加事件监听
+  // 为加载K线按钮添加事件监听（手动刷新）
   container.querySelectorAll('.load-kline-btn').forEach(btn => {
     btn.addEventListener('click', async function() {
       const boardCode = this.getAttribute('data-board-code');
@@ -353,11 +385,11 @@ function renderBoardList(boards, containerId) {
       const chartId = this.getAttribute('data-chart-id');
 
       this.disabled = true;
-      this.textContent = '加载中...';
+      this.textContent = '刷新中...';
 
       try {
         await loadBoardKlineData(boardCode, boardName, chartId);
-        this.textContent = '刷新K线图';
+        this.textContent = '手动刷新';
       } catch (error) {
         console.error('加载K线图失败:', error);
         this.textContent = '加载失败，点击重试';
