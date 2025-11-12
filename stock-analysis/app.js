@@ -323,12 +323,27 @@ function renderMainIndicesChart(currentIndexCode = 'HS300') {
   }
 
   const mainIndicesHistory = historyData.main_indices_history;
-  const dates = mainIndicesHistory.dates || [];
-  const indexHistory = mainIndicesHistory.main_indices[currentIndexCode] || [];
+  const allDates = mainIndicesHistory.dates || [];
+  const allIndexHistory = mainIndicesHistory.main_indices[currentIndexCode] || [];
+
+  // 过滤掉null值，只保留有效数据
+  const validData = [];
+  const dates = [];
+  for (let i = 0; i < allDates.length; i++) {
+    if (allIndexHistory[i] && allIndexHistory[i] !== null) {
+      dates.push(allDates[i]);
+      validData.push(allIndexHistory[i]);
+    }
+  }
+
+  if (validData.length === 0) {
+    console.warn('没有有效的指数数据');
+    container.innerHTML = '<p style="text-align: center; color: #999; padding: 50px 0;">暂无有效数据</p>';
+    return;
+  }
 
   // 准备K线数据：[open, close, low, high]
-  const candlestickData = indexHistory.map(item => {
-    if (!item) return [0, 0, 0, 0];
+  const candlestickData = validData.map(item => {
     return [
       item.open || 0,
       item.close || 0,
@@ -338,8 +353,7 @@ function renderMainIndicesChart(currentIndexCode = 'HS300') {
   });
 
   // 准备成交量数据
-  const volumeData = indexHistory.map(item => {
-    if (!item) return 0;
+  const volumeData = validData.map(item => {
     return (item.volume || 0) / 100000000; // 转换为亿
   });
 
@@ -361,7 +375,7 @@ function renderMainIndicesChart(currentIndexCode = 'HS300') {
         if (!params || params.length === 0) return '';
         const dateIdx = params[0].dataIndex;
         const date = dates[dateIdx];
-        const kdata = indexHistory[dateIdx];
+        const kdata = validData[dateIdx];
 
         if (!kdata) return '';
 
@@ -671,11 +685,27 @@ function renderMarketIndicesChart(currentIndexCode = 'SHCOMP') {
   }
 
   // 获取历史数据
-  const dates = marketIndicesHistory.dates || [];
-  const indexHistory = marketIndicesHistory.market_indices[currentIndexCode] || [];
+  const allDates = marketIndicesHistory.dates || [];
+  const allIndexHistory = marketIndicesHistory.market_indices[currentIndexCode] || [];
+
+  // 过滤掉null值，只保留有效数据
+  const validData = [];
+  const dates = [];
+  for (let i = 0; i < allDates.length; i++) {
+    if (allIndexHistory[i] && allIndexHistory[i] !== null) {
+      dates.push(allDates[i]);
+      validData.push(allIndexHistory[i]);
+    }
+  }
+
+  if (validData.length === 0) {
+    console.warn('没有有效的大盘指数数据');
+    container.innerHTML = '<p style="text-align: center; color: #999; padding: 50px 0;">暂无有效数据</p>';
+    return;
+  }
 
   // 准备K线数据：[open, close, low, high]
-  const candlestickData = indexHistory.map(item => {
+  const candlestickData = validData.map(item => {
     return [
       item.open || 0,
       item.close || 0,
@@ -685,7 +715,7 @@ function renderMarketIndicesChart(currentIndexCode = 'SHCOMP') {
   });
 
   // 准备成交量数据
-  const volumeData = indexHistory.map((item, idx) => {
+  const volumeData = validData.map(item => {
     const volume = item.volume || 0;
     // 根据涨跌确定颜色
     const isUp = item.close >= item.open;
@@ -711,7 +741,10 @@ function renderMarketIndicesChart(currentIndexCode = 'SHCOMP') {
       formatter: function(params) {
         const dateIdx = params[0].dataIndex;
         const date = dates[dateIdx];
-        const kdata = indexHistory[dateIdx];
+        const kdata = validData[dateIdx];
+
+        if (!kdata) return '';
+
         const ret = (kdata.ret || 0) * 100; // 转换为百分比
 
         return `<strong>${date}</strong><br/>` +
