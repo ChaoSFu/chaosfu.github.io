@@ -268,13 +268,20 @@ function renderBoardList(boards, containerId) {
     // 格式化综合评分
     const scoreText = b.score !== undefined ? b.score.toFixed(2) : 'N/A';
 
+    // 生成唯一ID
+    const boardId = `board-${b.code}`;
+    const chartId = `board-chart-${b.code}`;
+
     const div = document.createElement('div');
     div.className = 'card';
     div.innerHTML = `
       <div class="grid">
-        <div>
+        <div style="display: flex; align-items: center; gap: 8px;">
           <b>${idx+1}. ${b.name || '未知'}</b>
           <span class="badge ${riskBadge}" title="基于综合评分的推荐">${stance}</span>${newBadge}
+          <button class="board-expand-btn" data-board-id="${boardId}" style="padding: 4px 12px; font-size: 12px; background: #667eea; color: white; border: none; border-radius: 4px; cursor: pointer;">
+            📊 查看详情
+          </button>
         </div>
         <div>涨幅：${((b.ret || 0)*100).toFixed(2)}%</div>
         <div>综合评分：<strong>${scoreText}</strong></div>
@@ -282,15 +289,82 @@ function renderBoardList(boards, containerId) {
         <div>持续性：${b.persistence || 0}</div>
       </div>
       <div style="margin-top: 0.5rem;">
-        <small style="color: #666;">分歧：${(b.dispersion ?? 0).toFixed(3)}</small> |
-        <small style="color: #666;">核心个股：${
-          b.core_stocks && b.core_stocks.length > 0
-            ? b.core_stocks.map(s=>`${s.name}(${s.code}) ${((s.ret || 0)*100).toFixed(1)}%`).join('， ')
-            : '暂无数据'
-        }</small>
+        <small style="color: #666;">分歧：${(b.dispersion ?? 0).toFixed(3)}</small>
+      </div>
+
+      <!-- 可折叠区域 -->
+      <div id="${boardId}" class="board-detail" style="display: none; margin-top: 16px; padding-top: 16px; border-top: 1px solid #e0e0e0;">
+        <!-- 核心个股信息 -->
+        <div style="margin-bottom: 16px;">
+          <h4 style="margin: 0 0 8px 0; font-size: 14px; color: #333;">核心个股</h4>
+          <div style="display: grid; gap: 8px;">
+            ${b.core_stocks && b.core_stocks.length > 0
+              ? b.core_stocks.map(s => `
+                  <div style="display: flex; justify-content: space-between; padding: 8px; background: #f5f5f5; border-radius: 4px;">
+                    <span><strong>${s.name}</strong> (${s.code})</span>
+                    <span style="color: ${(s.ret || 0) >= 0 ? '#ef5350' : '#26a69a'}; font-weight: 600;">
+                      ${((s.ret || 0)*100).toFixed(2)}%
+                    </span>
+                  </div>
+                `).join('')
+              : '<p style="color: #999; margin: 0;">暂无核心个股数据</p>'
+            }
+          </div>
+        </div>
+
+        <!-- K线图 -->
+        <div>
+          <h4 style="margin: 0 0 8px 0; font-size: 14px; color: #333;">30天K线走势</h4>
+          <div id="${chartId}" style="height: 350px; background: #fafafa; display: flex; align-items: center; justify-content: center;">
+            <span style="color: #999;">点击"加载K线图"按钮加载数据</span>
+          </div>
+          <div style="margin-top: 8px; text-align: center;">
+            <button class="load-kline-btn" data-board-code="${b.code}" data-board-name="${b.name}" data-chart-id="${chartId}" style="padding: 8px 20px; background: #4CAF50; color: white; border: none; border-radius: 6px; cursor: pointer; font-size: 13px;">
+              加载K线图
+            </button>
+          </div>
+        </div>
       </div>
     `;
     container.appendChild(div);
+  });
+
+  // 为展开按钮添加事件监听
+  container.querySelectorAll('.board-expand-btn').forEach(btn => {
+    btn.addEventListener('click', function() {
+      const boardId = this.getAttribute('data-board-id');
+      const detailDiv = document.getElementById(boardId);
+
+      if (detailDiv.style.display === 'none') {
+        detailDiv.style.display = 'block';
+        this.textContent = '📊 收起';
+      } else {
+        detailDiv.style.display = 'none';
+        this.textContent = '📊 查看详情';
+      }
+    });
+  });
+
+  // 为加载K线按钮添加事件监听
+  container.querySelectorAll('.load-kline-btn').forEach(btn => {
+    btn.addEventListener('click', async function() {
+      const boardCode = this.getAttribute('data-board-code');
+      const boardName = this.getAttribute('data-board-name');
+      const chartId = this.getAttribute('data-chart-id');
+
+      this.disabled = true;
+      this.textContent = '加载中...';
+
+      try {
+        await loadBoardKlineData(boardCode, boardName, chartId);
+        this.textContent = '刷新K线图';
+      } catch (error) {
+        console.error('加载K线图失败:', error);
+        this.textContent = '加载失败，点击重试';
+      } finally {
+        this.disabled = false;
+      }
+    });
   });
 }
 
@@ -1981,6 +2055,206 @@ async function batchAnalyzeAllIndices() {
     btn.style.opacity = '1';
     btn.style.cursor = 'pointer';
   }
+}
+
+// ============================================
+// 5. 板块K线图加载和渲染
+// ============================================
+async function loadBoardKlineData(boardCode, boardName, chartId) {
+  console.log(`📊 加载板块K线数据: ${boardName} (${boardCode})`);
+
+  const chartContainer = document.getElementById(chartId);
+  if (!chartContainer) {
+    console.error('图表容器不存在');
+    return;
+  }
+
+  // 显示加载中
+  chartContainer.innerHTML = '<div style="display: flex; align-items: center; justify-content: center; height: 100%;"><span style="color: #999;">加载中...</span></div>';
+
+  try {
+    // 从东方财富API获取板块K线数据
+    const url = `https://push2his.eastmoney.com/api/qt/stock/kline/get?secid=90.${boardCode}&klt=101&fqt=0&lmt=30&end=20500000&iscca=1&fields1=f1,f2,f3,f4,f5,f6,f7,f8&fields2=f51,f52,f53,f54,f55,f56,f57,f58,f59,f60,f61&ut=f057cbcbce2a86e2866ab8877db1d059&forcect=1`;
+
+    const response = await fetch(url);
+    const data = await response.json();
+
+    if (data.rc !== 0 || !data.data || !data.data.klines) {
+      throw new Error('API返回数据异常');
+    }
+
+    const klines = data.data.klines;
+    if (klines.length === 0) {
+      chartContainer.innerHTML = '<div style="display: flex; align-items: center; justify-content: center; height: 100%;"><span style="color: #999;">暂无K线数据</span></div>';
+      return;
+    }
+
+    // 解析K线数据
+    const dates = [];
+    const candlestickData = [];
+    const volumeData = [];
+
+    klines.forEach(kline => {
+      const parts = kline.split(',');
+      if (parts.length < 10) return;
+
+      const date = parts[0];
+      const open = parseFloat(parts[1]);
+      const close = parseFloat(parts[2]);
+      const high = parseFloat(parts[3]);
+      const low = parseFloat(parts[4]);
+      const volume = parseFloat(parts[5]);
+      const ret = parseFloat(parts[8]) / 100; // 涨跌幅
+
+      dates.push(date);
+      candlestickData.push([open, close, low, high]);
+      volumeData.push({
+        value: volume,
+        ret: ret,
+        itemStyle: {
+          color: close >= open ? '#ef5350' : '#26a69a'
+        }
+      });
+    });
+
+    // 渲染K线图
+    renderBoardKlineChart(chartId, boardName, dates, candlestickData, volumeData);
+
+    console.log(`✅ 成功加载${boardName}的K线数据，共${dates.length}天`);
+
+  } catch (error) {
+    console.error('加载板块K线失败:', error);
+    chartContainer.innerHTML = '<div style="display: flex; align-items: center; justify-content: center; height: 100%;"><span style="color: #f44336;">加载失败，请重试</span></div>';
+  }
+}
+
+function renderBoardKlineChart(chartId, boardName, dates, candlestickData, volumeData) {
+  const container = document.getElementById(chartId);
+  if (!container) {
+    console.error('图表容器不存在');
+    return;
+  }
+
+  // 清空容器
+  container.innerHTML = '';
+
+  // 初始化ECharts
+  const chart = echarts.init(container);
+
+  const option = {
+    title: {
+      text: `${boardName} - 最近30天K线`,
+      left: 'center',
+      textStyle: { fontSize: 14, fontWeight: 600 }
+    },
+    tooltip: {
+      trigger: 'axis',
+      axisPointer: {
+        type: 'cross'
+      },
+      formatter: function(params) {
+        const dateIdx = params[0].dataIndex;
+        const date = dates[dateIdx];
+        const kdata = candlestickData[dateIdx];
+        const vdata = volumeData[dateIdx];
+
+        const open = kdata[0];
+        const close = kdata[1];
+        const low = kdata[2];
+        const high = kdata[3];
+        const ret = (vdata.ret || 0) * 100;
+
+        return `<strong>${date}</strong><br/>` +
+               `开盘: ${open.toFixed(2)}<br/>` +
+               `收盘: ${close.toFixed(2)}<br/>` +
+               `最高: ${high.toFixed(2)}<br/>` +
+               `最低: ${low.toFixed(2)}<br/>` +
+               `涨跌幅: <strong style="color: ${ret >= 0 ? '#ef5350' : '#26a69a'}">${ret.toFixed(2)}%</strong><br/>` +
+               `成交量: ${(vdata.value / 100000000).toFixed(2)}亿`;
+      }
+    },
+    grid: [
+      {
+        left: '8%',
+        right: '4%',
+        top: '15%',
+        height: '50%'
+      },
+      {
+        left: '8%',
+        right: '4%',
+        top: '70%',
+        height: '18%'
+      }
+    ],
+    xAxis: [
+      {
+        type: 'category',
+        data: dates,
+        gridIndex: 0,
+        axisLabel: { show: false }
+      },
+      {
+        type: 'category',
+        data: dates,
+        gridIndex: 1,
+        axisLabel: {
+          fontSize: 10,
+          rotate: 30,
+          formatter: v => v.substring(5)
+        }
+      }
+    ],
+    yAxis: [
+      {
+        scale: true,
+        gridIndex: 0,
+        splitLine: {
+          lineStyle: { type: 'dashed', color: '#e0e0e0' }
+        },
+        axisLabel: { fontSize: 10 }
+      },
+      {
+        scale: true,
+        gridIndex: 1,
+        splitNumber: 2,
+        axisLabel: {
+          fontSize: 10,
+          formatter: v => (v / 100000000).toFixed(0) + '亿'
+        },
+        splitLine: { show: false }
+      }
+    ],
+    series: [
+      {
+        name: 'K线',
+        type: 'candlestick',
+        data: candlestickData,
+        xAxisIndex: 0,
+        yAxisIndex: 0,
+        itemStyle: {
+          color: '#ef5350',
+          color0: '#26a69a',
+          borderColor: '#ef5350',
+          borderColor0: '#26a69a'
+        }
+      },
+      {
+        name: '成交量',
+        type: 'bar',
+        data: volumeData,
+        xAxisIndex: 1,
+        yAxisIndex: 1
+      }
+    ]
+  };
+
+  chart.setOption(option);
+
+  // 响应式调整
+  window.addEventListener('resize', () => {
+    chart.resize();
+  });
 }
 
 // ============================================

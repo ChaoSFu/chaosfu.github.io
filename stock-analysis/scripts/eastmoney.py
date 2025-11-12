@@ -376,6 +376,92 @@ def fetch_index_kline(index_code, days=30):
         return None
 
 
+def fetch_board_kline(board_code, board_type='industry', days=30):
+    """
+    获取板块的历史K线数据（日线）
+
+    参数:
+        board_code: 板块代码，如 'BK1031'（光伏设备）
+        board_type: 板块类型，'industry'=行业板块, 'concept'=概念板块
+        days: 获取最近N天的数据，默认30天
+
+    返回:
+        DataFrame with columns: date, open, high, low, close, volume, turnover, ret
+    """
+    # 板块K线API
+    # 板块代码格式：90.BK1031（行业板块）或 90.BK0XXX（概念板块）
+    secid = f"90.{board_code}"
+    url = "https://push2his.eastmoney.com/api/qt/stock/kline/get"
+
+    params = {
+        'secid': secid,
+        'klt': '101',  # 101=日K线
+        'fqt': '0',    # 板块不需要复权
+        'lmt': str(days),
+        'end': '20500000',
+        'iscca': '1',
+        'fields1': 'f1,f2,f3,f4,f5,f6,f7,f8',
+        'fields2': 'f51,f52,f53,f54,f55,f56,f57,f58,f59,f60,f61',
+        'ut': 'f057cbcbce2a86e2866ab8877db1d059',
+        'forcect': '1'
+    }
+
+    try:
+        print(f"  [板块K线] 请求 {board_code} 最近{days}天数据...")
+        response = requests.get(url, params=params, headers=HEADERS, timeout=10)
+        response.raise_for_status()
+
+        data = response.json()
+        if data.get('rc') != 0 or 'data' not in data:
+            print(f"  [板块K线] ⚠️  API返回异常")
+            return None
+
+        klines_str = data['data'].get('klines', [])
+        if not klines_str:
+            print(f"  [板块K线] ⚠️  没有K线数据")
+            return None
+
+        # 解析K线数据
+        # 格式：日期,开盘,收盘,最高,最低,成交量,成交额,振幅,涨跌幅,涨跌额,换手率
+        records = []
+        for kline_str in klines_str:
+            parts = kline_str.split(',')
+            if len(parts) < 10:
+                continue
+
+            date_str = parts[0]
+            open_price = float(parts[1])
+            close_price = float(parts[2])
+            high_price = float(parts[3])
+            low_price = float(parts[4])
+            volume = float(parts[5])
+            turnover = float(parts[6])
+            pct_chg = float(parts[8])  # 涨跌幅(%)
+
+            records.append({
+                'date': date_str,
+                'open': open_price,
+                'high': high_price,
+                'low': low_price,
+                'close': close_price,
+                'volume': volume,
+                'turnover': turnover,
+                'ret': pct_chg / 100  # 转换为小数
+            })
+
+        if not records:
+            print(f"  [板块K线] ⚠️  解析K线数据失败")
+            return None
+
+        df = pd.DataFrame(records)
+        print(f"  [板块K线] ✅ 成功获取 {len(df)} 条K线数据")
+        return df
+
+    except Exception as e:
+        print(f"  [板块K线] ⚠️  请求失败: {e}")
+        return None
+
+
 def fetch_market_indices():
     """
     获取大盘核心指数数据（用于大盘看板）
