@@ -480,7 +480,7 @@ function renderMainIndicesChart(currentIndexCode = 'HS300') {
         yAxisIndex: 1,
         itemStyle: {
           color: function(params) {
-            const kdata = indexHistory[params.dataIndex];
+            const kdata = validData[params.dataIndex];
             if (!kdata) return '#999';
             return kdata.ret >= 0 ? '#ef5350' : '#26a69a';
           }
