@@ -314,7 +314,7 @@ function renderBoardList(boards, containerId) {
 
         <!-- K线图 -->
         <div>
-          <h4 style="margin: 0 0 8px 0; font-size: 14px; color: #333;">30天K线走势 <span style="font-size: 12px; color: #999; font-weight: normal;">(展开后自动刷新)</span></h4>
+          <h4 style="margin: 0 0 8px 0; font-size: 14px; color: #333;">30天K线走势 <span style="font-size: 12px; color: #999; font-weight: normal;">(每20秒自动刷新)</span></h4>
           <div id="${chartId}" style="height: 350px; background: #fafafa; display: flex; align-items: center; justify-content: center;">
             <span style="color: #999;">加载中...</span>
           </div>
@@ -324,8 +324,9 @@ function renderBoardList(boards, containerId) {
     container.appendChild(div);
   });
 
-  // 存储自动刷新定时器
+  // 存储自动刷新定时器和加载状态
   const refreshTimers = {};
+  const loadingState = {};
 
   // 为展开按钮添加事件监听
   container.querySelectorAll('.board-expand-btn').forEach(btn => {
@@ -345,16 +346,26 @@ function renderBoardList(boards, containerId) {
 
         // 立即加载K线图
         console.log(`🔄 自动加载K线图: ${boardName}`);
+        loadingState[boardCode] = true;
         await loadBoardKlineData(boardCode, boardName, chartId);
+        loadingState[boardCode] = false;
 
-        // 启动自动刷新（每10秒）
+        // 启动自动刷新（每20秒）
         if (refreshTimers[boardCode]) {
           clearInterval(refreshTimers[boardCode]);
         }
         refreshTimers[boardCode] = setInterval(async () => {
+          // 如果上一次还在加载中，跳过本次刷新
+          if (loadingState[boardCode]) {
+            console.log(`⏭️  跳过刷新(上次请求未完成): ${boardName}`);
+            return;
+          }
+
           console.log(`🔄 自动刷新K线图: ${boardName}`);
+          loadingState[boardCode] = true;
           await loadBoardKlineData(boardCode, boardName, chartId);
-        }, 10000); // 10秒
+          loadingState[boardCode] = false;
+        }, 20000); // 20秒
 
       } else {
         // 收起
@@ -366,6 +377,7 @@ function renderBoardList(boards, containerId) {
         if (refreshTimers[boardCode]) {
           clearInterval(refreshTimers[boardCode]);
           delete refreshTimers[boardCode];
+          delete loadingState[boardCode];
           console.log(`⏹️  停止自动刷新: ${boardCode}`);
         }
       }
