@@ -2152,11 +2152,19 @@ function renderBoardKlineChart(chartId, boardName, dates, candlestickData, volum
     return;
   }
 
+  // 检查是否已有实例，如果有则先销毁
+  let chart = echarts.getInstanceByDom(container);
+  if (chart) {
+    console.log(`♻️  销毁旧的图表实例: ${boardName}`);
+    chart.dispose();
+  }
+
   // 清空容器
   container.innerHTML = '';
 
-  // 初始化ECharts
-  const chart = echarts.init(container);
+  // 初始化新的ECharts实例
+  chart = echarts.init(container);
+  console.log(`📊 创建新的图表实例: ${boardName}`);
 
   const option = {
     title: {
@@ -2268,10 +2276,11 @@ function renderBoardKlineChart(chartId, boardName, dates, candlestickData, volum
 
   chart.setOption(option);
 
-  // 响应式调整
-  window.addEventListener('resize', () => {
+  // 确保图表正确渲染
+  setTimeout(() => {
     chart.resize();
-  });
+    console.log(`✅ ${boardName} 图表渲染完成`);
+  }, 100);
 }
 
 // ============================================
