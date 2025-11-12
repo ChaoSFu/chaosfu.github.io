@@ -156,9 +156,15 @@ def generate_main_indices_history_from_api(days=30):
     print("=" * 60)
 
     try:
+        import sys
+        import os
+        # 添加scripts目录到路径
+        script_dir = os.path.dirname(os.path.abspath(__file__))
+        if script_dir not in sys.path:
+            sys.path.insert(0, script_dir)
         from eastmoney import fetch_index_kline
-    except ImportError:
-        print("❌ 无法导入eastmoney模块")
+    except ImportError as e:
+        print(f"❌ 无法导入eastmoney模块: {e}")
         return None
 
     # 主要指数列表
@@ -248,9 +254,15 @@ def generate_market_indices_history_from_api(days=30):
     print("=" * 60)
 
     try:
+        import sys
+        import os
+        # 添加scripts目录到路径
+        script_dir = os.path.dirname(os.path.abspath(__file__))
+        if script_dir not in sys.path:
+            sys.path.insert(0, script_dir)
         from eastmoney import fetch_index_kline
-    except ImportError:
-        print("❌ 无法导入eastmoney模块")
+    except ImportError as e:
+        print(f"❌ 无法导入eastmoney模块: {e}")
         return None
 
     # 大盘核心指数列表
