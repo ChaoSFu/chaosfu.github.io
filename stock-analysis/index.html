@@ -197,13 +197,15 @@
           <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
             <label style="font-weight: 500; color: #333; font-size: 14px;">分析提示词 (Prompt):</label>
             <div style="display: flex; gap: 8px;">
-              <button id="reset-prompt-btn" style="padding: 4px 12px; background: #f0f0f0; color: #666; border: none; border-radius: 4px; cursor: pointer; font-size: 12px;">恢复默认</button>
-              <button id="save-prompt-btn" style="padding: 4px 12px; background: #52c41a; color: white; border: none; border-radius: 4px; cursor: pointer; font-size: 12px;">💾 保存</button>
+              <button id="edit-prompt-btn" style="padding: 4px 12px; background: #1890ff; color: white; border: none; border-radius: 4px; cursor: pointer; font-size: 12px;">✏️ 修改</button>
+              <button id="reset-prompt-btn" style="padding: 4px 12px; background: #f0f0f0; color: #666; border: none; border-radius: 4px; cursor: pointer; font-size: 12px; display: none;">恢复默认</button>
+              <button id="save-prompt-btn" style="padding: 4px 12px; background: #52c41a; color: white; border: none; border-radius: 4px; cursor: pointer; font-size: 12px; display: none;">💾 保存</button>
+              <button id="cancel-edit-btn" style="padding: 4px 12px; background: #ff4d4f; color: white; border: none; border-radius: 4px; cursor: pointer; font-size: 12px; display: none;">取消</button>
             </div>
           </div>
-          <textarea id="ai-analysis-prompt" style="width: 100%; min-height: 120px; padding: 12px; border: 1px solid #ddd; border-radius: 8px; font-size: 13px; line-height: 1.6; resize: vertical; font-family: inherit;" placeholder="输入分析提示词..."></textarea>
-          <p style="font-size: 12px; color: #999; margin-top: 4px;">
-            提示词会自动附加当前市场数据。修改后点击"保存"将存储到浏览器本地。
+          <textarea id="ai-analysis-prompt" style="width: 100%; min-height: 120px; padding: 12px; border: 1px solid #ddd; border-radius: 8px; font-size: 13px; line-height: 1.6; resize: vertical; font-family: inherit; background: #f9f9f9; cursor: not-allowed;" placeholder="输入分析提示词..." readonly></textarea>
+          <p id="prompt-edit-hint" style="font-size: 12px; color: #999; margin-top: 4px;">
+            点击"修改"按钮可自定义分析提示词。提示词会自动附加当前市场数据。
           </p>
         </div>
 

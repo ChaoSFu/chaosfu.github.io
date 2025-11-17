@@ -2145,12 +2145,57 @@ async function runAIAnalysis() {
 function initAIAnalysis() {
   // 加载保存的prompt
   const promptTextarea = document.getElementById('ai-analysis-prompt');
+  const editBtn = document.getElementById('edit-prompt-btn');
+  const saveBtn = document.getElementById('save-prompt-btn');
+  const resetBtn = document.getElementById('reset-prompt-btn');
+  const cancelBtn = document.getElementById('cancel-edit-btn');
+  const hintText = document.getElementById('prompt-edit-hint');
+
+  let originalPromptValue = ''; // 保存编辑前的值，用于取消时恢复
+
   if (promptTextarea) {
     promptTextarea.value = getAIAnalysisPrompt();
   }
 
+  // 进入编辑模式
+  function enterEditMode() {
+    originalPromptValue = promptTextarea.value;
+    promptTextarea.readOnly = false;
+    promptTextarea.style.background = 'white';
+    promptTextarea.style.cursor = 'text';
+    promptTextarea.style.borderColor = '#1890ff';
+
+    editBtn.style.display = 'none';
+    saveBtn.style.display = 'inline-block';
+    resetBtn.style.display = 'inline-block';
+    cancelBtn.style.display = 'inline-block';
+
+    hintText.textContent = '编辑完成后点击"保存"将存储到浏览器本地，或点击"取消"放弃修改。';
+    hintText.style.color = '#1890ff';
+  }
+
+  // 退出编辑模式
+  function exitEditMode() {
+    promptTextarea.readOnly = true;
+    promptTextarea.style.background = '#f9f9f9';
+    promptTextarea.style.cursor = 'not-allowed';
+    promptTextarea.style.borderColor = '#ddd';
+
+    editBtn.style.display = 'inline-block';
+    saveBtn.style.display = 'none';
+    resetBtn.style.display = 'none';
+    cancelBtn.style.display = 'none';
+
+    hintText.textContent = '点击"修改"按钮可自定义分析提示词。提示词会自动附加当前市场数据。';
+    hintText.style.color = '#999';
+  }
+
+  // 编辑按钮
+  if (editBtn) {
+    editBtn.addEventListener('click', enterEditMode);
+  }
+
   // 保存prompt按钮
-  const saveBtn = document.getElementById('save-prompt-btn');
   if (saveBtn) {
     saveBtn.addEventListener('click', function() {
       const prompt = promptTextarea.value;
@@ -2158,19 +2203,27 @@ function initAIAnalysis() {
       this.textContent = '✅ 已保存';
       setTimeout(() => {
         this.textContent = '💾 保存';
-      }, 2000);
+        exitEditMode();
+      }, 1500);
     });
   }
 
   // 恢复默认按钮
-  const resetBtn = document.getElementById('reset-prompt-btn');
   if (resetBtn) {
     resetBtn.addEventListener('click', function() {
       promptTextarea.value = DEFAULT_AI_ANALYSIS_PROMPT;
       this.textContent = '✅ 已恢复';
       setTimeout(() => {
         this.textContent = '恢复默认';
-      }, 2000);
+      }, 1500);
+    });
+  }
+
+  // 取消编辑按钮
+  if (cancelBtn) {
+    cancelBtn.addEventListener('click', function() {
+      promptTextarea.value = originalPromptValue;
+      exitEditMode();
     });
   }
 
