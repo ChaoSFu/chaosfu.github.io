@@ -40,6 +40,94 @@
           <h2 style="margin: 0;">今日数据</h2>
           <small id="date" style="color: #666;"></small>
         </div>
+      </section>
+
+      <!-- 1. 大盘看板 -->
+      <section>
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
+          <h2 style="margin: 0;">大盘看板</h2>
+        </div>
+        <p style="font-size: 0.875rem; color: #666; margin-bottom: 0.5rem;">
+          展示上证指数、深证成指、创业板指、科创50、北证50最近30天的走势
+        </p>
+
+        <!-- 指数切换Tab -->
+        <div class="market-tabs" style="display: flex; gap: 8px; margin-bottom: 16px; flex-wrap: wrap;">
+          <button class="market-tab active" data-index="SHCOMP" style="padding: 8px 16px; border: 1px solid #ddd; background: #667eea; color: white; border-radius: 6px; cursor: pointer; font-size: 14px; transition: all 0.3s;">上证指数</button>
+          <button class="market-tab" data-index="SZCOMP" style="padding: 8px 16px; border: 1px solid #ddd; background: white; color: #333; border-radius: 6px; cursor: pointer; font-size: 14px; transition: all 0.3s;">深证成指</button>
+          <button class="market-tab" data-index="CYBZ" style="padding: 8px 16px; border: 1px solid #ddd; background: white; color: #333; border-radius: 6px; cursor: pointer; font-size: 14px; transition: all 0.3s;">创业板指</button>
+          <button class="market-tab" data-index="KCB50" style="padding: 8px 16px; border: 1px solid #ddd; background: white; color: #333; border-radius: 6px; cursor: pointer; font-size: 14px; transition: all 0.3s;">科创50</button>
+          <button class="market-tab" data-index="BJ50" style="padding: 8px 16px; border: 1px solid #ddd; background: white; color: #333; border-radius: 6px; cursor: pointer; font-size: 14px; transition: all 0.3s;">北证50</button>
+        </div>
+
+        <!-- 大盘指数走势图 -->
+        <div id="market-indices-chart" style="height: 400px;"></div>
+      </section>
+
+      <!-- 2. 主要指数看板 -->
+      <section>
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
+          <h2 style="margin: 0;">主要指数看板</h2>
+          <button id="indices-help-btn" style="background: none; border: 1px solid #999; border-radius: 50%; width: 20px; height: 20px; cursor: pointer; font-size: 12px; color: #666;">?</button>
+        </div>
+
+        <div id="indices-help" style="display: none; background: #f5f9ff; border-left: 3px solid #2196F3; padding: 12px; margin-bottom: 1rem; font-size: 0.85rem; line-height: 1.6;">
+          <h3 style="margin: 0 0 8px 0; font-size: 0.95rem; color: #333;">📈 指数介绍</h3>
+
+          <p style="margin: 8px 0;"><strong>沪深300（大盘）</strong><br>
+          沪深两市市值最大、流动性最好的300只股票，覆盖主要行业龙头<br>
+          <span style="color: #666; font-size: 0.8rem;">· 特点：稳健、代表性强，反映A股整体走势<br>
+          · 适用场景：市场中性阶段、机构配置主导，被动投资首选</span></p>
+
+          <p style="margin: 8px 0;"><strong>中证500（中盘）</strong><br>
+          在沪深300之外选取500只中盘股，多为行业细分龙头<br>
+          <span style="color: #666; font-size: 0.8rem;">· 特点：均衡、成长性较好，介于大盘和小盘之间<br>
+          · 适用场景：经济复苏初期、政策支持行业，分散化配置</span></p>
+
+          <p style="margin: 8px 0;"><strong>中证1000（小盘）</strong><br>
+          除沪深300和中证500外的1000只小盘成长股<br>
+          <span style="color: #666; font-size: 0.8rem;">· 特点：高弹性、成长型，波动大、上涨空间大<br>
+          · 适用场景：市场风险偏好回升、流动性宽松、题材炒作活跃</span></p>
+
+          <p style="margin: 8px 0;"><strong>中证2000（微盘）</strong><br>
+          除沪深300、中证500、中证1000外的2000只微小盘股<br>
+          <span style="color: #666; font-size: 0.8rem;">· 特点：超高弹性，最活跃、波动最大<br>
+          · 适用场景：极度宽松流动性、题材爆发、牛市后期</span></p>
+
+          <p style="margin: 8px 0;"><strong>💡 量价关系</strong><br>
+          成交额反映资金参与度，与涨跌幅结合可判断市场情绪：<br>
+          <span style="color: #666; font-size: 0.8rem;">· 放量上涨：资金积极入场，趋势较强<br>
+          · 缩量上涨：惜售心态，可能面临抛压<br>
+          · 放量下跌：恐慌性抛售，可能见底信号<br>
+          · 缩量下跌：观望情绪浓厚，尚未企稳</span></p>
+        </div>
+        <p style="font-size: 0.875rem; color: #666; margin-bottom: 1rem;">
+          根据不同市值体量指数特征，判断当前市场风格和投资机会。
+        </p>
+
+        <!-- 指数切换Tab -->
+        <div class="main-indices-tabs" style="display: flex; gap: 8px; margin-bottom: 16px; margin-top: 16px; flex-wrap: wrap;">
+          <button class="main-index-tab active" data-index="HS300" style="padding: 8px 16px; border: 1px solid #ddd; background: #667eea; color: white; border-radius: 6px; cursor: pointer; font-size: 14px; transition: all 0.3s;">沪深300</button>
+          <button class="main-index-tab" data-index="CSI500" style="padding: 8px 16px; border: 1px solid #ddd; background: white; color: #333; border-radius: 6px; cursor: pointer; font-size: 14px; transition: all 0.3s;">中证500</button>
+          <button class="main-index-tab" data-index="CSI1000" style="padding: 8px 16px; border: 1px solid #ddd; background: white; color: #333; border-radius: 6px; cursor: pointer; font-size: 14px; transition: all 0.3s;">中证1000</button>
+          <button class="main-index-tab" data-index="CSI2000" style="padding: 8px 16px; border: 1px solid #ddd; background: white; color: #333; border-radius: 6px; cursor: pointer; font-size: 14px; transition: all 0.3s;">中证2000</button>
+        </div>
+
+        <!-- 主要指数走势图 -->
+        <div id="indices-dashboard" style="height: 400px;"></div>
+
+        <!-- 量价关系图 -->
+        <div style="margin-top: 24px;">
+          <h3 style="margin-bottom: 1rem;">量价关系分析</h3>
+          <div id="volume-price-chart" style="height: 350px;"></div>
+        </div>
+      </section>
+
+      <!-- 3. 板块看板 -->
+      <section>
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
+          <h2 style="margin: 0;">板块看板</h2>
+        </div>
         <p style="font-size: 0.875rem; color: #666; margin-bottom: 0.5rem;">
           排序依据：<strong>涨幅</strong>（从高到低） | 购买推荐基于：<strong>综合评分</strong>
           <button id="metrics-help-btn" style="background: none; border: 1px solid #999; border-radius: 50%; width: 20px; height: 20px; cursor: pointer; font-size: 12px; color: #666; margin-left: 8px;">?</button>
@@ -77,106 +165,62 @@
           <span style="color: #666; font-size: 0.8rem;">· 表明该板块刚刚启动，可能具有介入价值<br>
           · 行业板块和概念板块分别独立计算</span></p>
         </div>
-      </section>
 
-      <section>
         <h3 style="margin-bottom: 1rem;">行业板块 Top 10</h3>
         <div id="industry-board-list"></div>
-      </section>
 
-      <section>
-        <h3 style="margin-bottom: 1rem;">概念板块 Top 10</h3>
+        <h3 style="margin-bottom: 1rem; margin-top: 2rem;">概念板块 Top 10</h3>
         <div id="concept-board-list"></div>
       </section>
 
-      <!-- 大盘看板 -->
+      <!-- 4. AI市场分析看板 -->
       <section>
         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
-          <h2 style="margin: 0;">大盘看板</h2>
-        </div>
-        <p style="font-size: 0.875rem; color: #666; margin-bottom: 0.5rem;">
-          展示上证指数、深证成指、创业板指、科创50、北证50最近30天的走势
-        </p>
-
-        <!-- 指数切换Tab -->
-        <div class="market-tabs" style="display: flex; gap: 8px; margin-bottom: 16px; flex-wrap: wrap;">
-          <button class="market-tab active" data-index="SHCOMP" style="padding: 8px 16px; border: 1px solid #ddd; background: #667eea; color: white; border-radius: 6px; cursor: pointer; font-size: 14px; transition: all 0.3s;">上证指数</button>
-          <button class="market-tab" data-index="SZCOMP" style="padding: 8px 16px; border: 1px solid #ddd; background: white; color: #333; border-radius: 6px; cursor: pointer; font-size: 14px; transition: all 0.3s;">深证成指</button>
-          <button class="market-tab" data-index="CYBZ" style="padding: 8px 16px; border: 1px solid #ddd; background: white; color: #333; border-radius: 6px; cursor: pointer; font-size: 14px; transition: all 0.3s;">创业板指</button>
-          <button class="market-tab" data-index="KCB50" style="padding: 8px 16px; border: 1px solid #ddd; background: white; color: #333; border-radius: 6px; cursor: pointer; font-size: 14px; transition: all 0.3s;">科创50</button>
-          <button class="market-tab" data-index="BJ50" style="padding: 8px 16px; border: 1px solid #ddd; background: white; color: #333; border-radius: 6px; cursor: pointer; font-size: 14px; transition: all 0.3s;">北证50</button>
+          <h2 style="margin: 0;">AI市场分析</h2>
+          <button id="ai-analysis-help-btn" style="background: none; border: 1px solid #999; border-radius: 50%; width: 20px; height: 20px; cursor: pointer; font-size: 12px; color: #666;">?</button>
         </div>
 
-        <!-- 大盘指数走势图 -->
-        <div id="market-indices-chart" style="height: 400px;"></div>
-      </section>
-
-      <section>
-        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
-          <h2 style="margin: 0;">主要指数看板</h2>
-          <div style="display: flex; gap: 8px; align-items: center;">
-            <button id="indices-help-btn" style="background: none; border: 1px solid #999; border-radius: 50%; width: 20px; height: 20px; cursor: pointer; font-size: 12px; color: #666;">?</button>
-            <button id="market-analyze-btn" style="padding: 8px 16px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border: none; border-radius: 8px; cursor: pointer; font-size: 14px; font-weight: 500; transition: all 0.3s; box-shadow: 0 2px 6px rgba(102, 126, 234, 0.4);">
-              🎯 AI全市场分析
-            </button>
-          </div>
+        <div id="ai-analysis-help" style="display: none; background: #fff3e0; border-left: 3px solid #ff9800; padding: 12px; margin-bottom: 1rem; font-size: 0.85rem; line-height: 1.6;">
+          <h3 style="margin: 0 0 8px 0; font-size: 0.95rem; color: #333;">🤖 AI分析说明</h3>
+          <p style="margin: 8px 0;">基于当前页面的大盘、主要指数、板块数据，通过AI进行量价分析，识别市场机会与风险。</p>
+          <p style="margin: 8px 0;"><strong>数据来源：</strong>本页面展示的实时数据</p>
+          <p style="margin: 8px 0;"><strong>分析维度：</strong>大盘走势、市值风格、板块热度、量价配合</p>
+          <p style="margin: 8px 0;"><strong>自定义Prompt：</strong>您可以修改分析提示词，调整分析重点和输出格式</p>
         </div>
 
-        <div id="indices-help" style="display: none; background: #f5f9ff; border-left: 3px solid #2196F3; padding: 12px; margin-bottom: 1rem; font-size: 0.85rem; line-height: 1.6;">
-          <h3 style="margin: 0 0 8px 0; font-size: 0.95rem; color: #333;">📈 指数介绍</h3>
-
-          <p style="margin: 8px 0;"><strong>沪深300（大盘）</strong><br>
-          沪深两市市值最大、流动性最好的300只股票，覆盖主要行业龙头<br>
-          <span style="color: #666; font-size: 0.8rem;">· 特点：稳健、代表性强，反映A股整体走势<br>
-          · 适用场景：市场中性阶段、机构配置主导，被动投资首选</span></p>
-
-          <p style="margin: 8px 0;"><strong>中证500（中盘）</strong><br>
-          在沪深300之外选取500只中盘股，多为行业细分龙头<br>
-          <span style="color: #666; font-size: 0.8rem;">· 特点：均衡、成长性较好，介于大盘和小盘之间<br>
-          · 适用场景：经济复苏初期、政策支持行业，分散化配置</span></p>
-
-          <p style="margin: 8px 0;"><strong>中证1000（小盘）</strong><br>
-          除沪深300和中证500外的1000只小盘成长股<br>
-          <span style="color: #666; font-size: 0.8rem;">· 特点：高弹性、成长型，波动大、上涨空间大<br>
-          · 适用场景：市场风险偏好回升、流动性宽松、题材炒作活跃</span></p>
-
-          <p style="margin: 8px 0;"><strong>中证2000（微盘）</strong><br>
-          除沪深300、中证500、中证1000外的2000只微小盘股<br>
-          <span style="color: #666; font-size: 0.8rem;">· 特点：超高弹性，最活跃、波动最大<br>
-          · 适用场景：极度宽松流动性、题材爆发、牛市后期</span></p>
-
-          <p style="margin: 8px 0;"><strong>💡 量价关系</strong><br>
-          成交额反映资金参与度，与涨跌幅结合可判断市场情绪：<br>
-          <span style="color: #666; font-size: 0.8rem;">· 放量上涨：资金积极入场，趋势较强<br>
-          · 缩量上涨：惜售心态，可能面临抛压<br>
-          · 放量下跌：恐慌性抛售，可能见底信号<br>
-          · 缩量下跌：观望情绪浓厚，尚未企稳</span></p>
-        </div>
         <p style="font-size: 0.875rem; color: #666; margin-bottom: 1rem;">
-          根据不同市值体量指数特征，判断当前市场风格和投资机会。点击"AI全市场分析"可一次性分析所有指数，识别风险与机会。
+          综合分析大盘、主要指数、板块数据，识别市场机会与风险。可自定义分析提示词。
         </p>
 
-        <!-- AI全市场分析结果 -->
-        <div id="market-analysis-result" style="display: none; margin-bottom: 16px; padding: 16px; background: linear-gradient(135deg, #f6ffed 0%, #f0f9ff 100%); border: 1px solid #b7eb8f; border-radius: 12px;">
-          <h3 style="margin: 0 0 12px 0; color: #333; font-size: 16px;">📊 AI市场分析结果</h3>
-          <div id="market-analysis-content"></div>
+        <!-- Prompt编辑区域 -->
+        <div style="margin-bottom: 16px;">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+            <label style="font-weight: 500; color: #333; font-size: 14px;">分析提示词 (Prompt):</label>
+            <div style="display: flex; gap: 8px;">
+              <button id="reset-prompt-btn" style="padding: 4px 12px; background: #f0f0f0; color: #666; border: none; border-radius: 4px; cursor: pointer; font-size: 12px;">恢复默认</button>
+              <button id="save-prompt-btn" style="padding: 4px 12px; background: #52c41a; color: white; border: none; border-radius: 4px; cursor: pointer; font-size: 12px;">💾 保存</button>
+            </div>
+          </div>
+          <textarea id="ai-analysis-prompt" style="width: 100%; min-height: 120px; padding: 12px; border: 1px solid #ddd; border-radius: 8px; font-size: 13px; line-height: 1.6; resize: vertical; font-family: inherit;" placeholder="输入分析提示词..."></textarea>
+          <p style="font-size: 12px; color: #999; margin-top: 4px;">
+            提示词会自动附加当前市场数据。修改后点击"保存"将存储到浏览器本地。
+          </p>
         </div>
 
-        <!-- 指数切换Tab -->
-        <div class="main-indices-tabs" style="display: flex; gap: 8px; margin-bottom: 16px; margin-top: 16px; flex-wrap: wrap;">
-          <button class="main-index-tab active" data-index="HS300" style="padding: 8px 16px; border: 1px solid #ddd; background: #667eea; color: white; border-radius: 6px; cursor: pointer; font-size: 14px; transition: all 0.3s;">沪深300</button>
-          <button class="main-index-tab" data-index="CSI500" style="padding: 8px 16px; border: 1px solid #ddd; background: white; color: #333; border-radius: 6px; cursor: pointer; font-size: 14px; transition: all 0.3s;">中证500</button>
-          <button class="main-index-tab" data-index="CSI1000" style="padding: 8px 16px; border: 1px solid #ddd; background: white; color: #333; border-radius: 6px; cursor: pointer; font-size: 14px; transition: all 0.3s;">中证1000</button>
-          <button class="main-index-tab" data-index="CSI2000" style="padding: 8px 16px; border: 1px solid #ddd; background: white; color: #333; border-radius: 6px; cursor: pointer; font-size: 14px; transition: all 0.3s;">中证2000</button>
+        <!-- 分析按钮 -->
+        <div style="margin-bottom: 16px;">
+          <button id="run-ai-analysis-btn" style="padding: 12px 24px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border: none; border-radius: 8px; cursor: pointer; font-size: 15px; font-weight: 600; transition: all 0.3s; box-shadow: 0 2px 8px rgba(102, 126, 234, 0.4); width: 100%;">
+            🎯 开始AI分析
+          </button>
         </div>
 
-        <!-- 主要指数走势图 -->
-        <div id="indices-dashboard" style="height: 400px;"></div>
-
-        <!-- 量价关系图 -->
-        <div style="margin-top: 24px;">
-          <h3 style="margin-bottom: 1rem;">量价关系分析</h3>
-          <div id="volume-price-chart" style="height: 350px;"></div>
+        <!-- 分析结果区域 -->
+        <div id="ai-analysis-result" style="display: none; padding: 16px; background: linear-gradient(135deg, #f6ffed 0%, #f0f9ff 100%); border: 1px solid #b7eb8f; border-radius: 12px;">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+            <h3 style="margin: 0; color: #333; font-size: 16px;">📊 AI分析结果</h3>
+            <small id="ai-analysis-time" style="color: #999;"></small>
+          </div>
+          <div id="ai-analysis-content" style="line-height: 1.8; color: #333;"></div>
         </div>
       </section>
 

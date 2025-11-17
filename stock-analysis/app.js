@@ -1878,25 +1878,160 @@ function renderIndexTrendChart(indexKey, indexName) {
   });
 }
 
-// 全市场AI分析（一次性分析所有指数）
-async function analyzeAllIndicesWithAI() {
+// ============================================
+// AI市场分析功能
+// ============================================
+
+// 默认分析提示词
+const DEFAULT_AI_ANALYSIS_PROMPT = `作为专业的A股市场分析师，请基于以下市场数据进行综合量价分析：
+
+{MARKET_DATA}
+
+请提供：
+
+1. **大盘走势判断**（2-3句话）
+   - 主要大盘指数的趋势如何？
+   - 量价配合情况如何？
+
+2. **市值风格研判**
+   - 当前是大盘主导还是小盘主导？
+   - 市场情绪是风险偏好上升还是下降？
+
+3. **板块机会识别**
+   - 🟢 哪些板块存在机会？（列出具体板块名称和理由）
+   - 新上榜板块是否值得关注？
+
+4. **风险提示**
+   - 🔴 哪些板块或指数存在风险？
+   - 需要警惕的信号有哪些？
+
+5. **操作建议**（2-3句话）
+   - 当前阶段应该关注什么类型的投资机会？
+   - 具体的配置建议
+
+请用简洁专业的语言，控制在400字以内。使用markdown格式。`;
+
+// 获取保存的prompt或使用默认值
+function getAIAnalysisPrompt() {
+  const saved = localStorage.getItem('ai_analysis_prompt');
+  return saved || DEFAULT_AI_ANALYSIS_PROMPT;
+}
+
+// 保存prompt到本地
+function saveAIAnalysisPrompt(prompt) {
+  localStorage.setItem('ai_analysis_prompt', prompt);
+}
+
+// 收集当前页面的市场数据
+function collectMarketData() {
+  if (!currentData) {
+    return '暂无数据';
+  }
+
+  let dataText = '';
+
+  // 1. 大盘指数数据
+  dataText += '## 大盘指数\n';
+  if (marketIndicesHistory && marketIndicesHistory.dates && marketIndicesHistory.dates.length > 0) {
+    const latestDate = marketIndicesHistory.dates[marketIndicesHistory.dates.length - 1];
+    const marketIndices = ['SHCOMP', 'SZCOMP', 'CYBZ', 'KCB50', 'BJ50'];
+    const marketIndexNames = {
+      'SHCOMP': '上证指数',
+      'SZCOMP': '深证成指',
+      'CYBZ': '创业板指',
+      'KCB50': '科创50',
+      'BJ50': '北证50'
+    };
+
+    marketIndices.forEach(code => {
+      const history = marketIndicesHistory.market_indices[code];
+      if (history && history.length > 0) {
+        const latest = history[history.length - 1];
+        if (latest) {
+          const ret = ((latest.ret || 0) * 100).toFixed(2);
+          const volume = ((latest.volume || 0) / 100000000).toFixed(0);
+          dataText += `- ${marketIndexNames[code]}: 涨跌幅 ${ret}%, 成交量 ${volume}亿\n`;
+        }
+      }
+    });
+  } else {
+    dataText += '暂无大盘数据\n';
+  }
+
+  // 2. 主要指数数据（市值体量）
+  dataText += '\n## 主要指数（市值体量）\n';
+  if (currentData.indices) {
+    const mainIndices = [
+      { key: 'HS300', name: '沪深300', desc: '大盘蓝筹' },
+      { key: 'CSI500', name: '中证500', desc: '中盘成长' },
+      { key: 'CSI1000', name: '中证1000', desc: '小盘股' },
+      { key: 'CSI2000', name: '中证2000', desc: '微盘股' }
+    ];
+
+    mainIndices.forEach(idx => {
+      const data = currentData.indices[idx.key];
+      if (data) {
+        const ret = ((data.ret || 0) * 100).toFixed(2);
+        const turnover = ((data.turnover || 0) / 100000000).toFixed(0);
+        dataText += `- ${idx.name}（${idx.desc}）: 涨跌幅 ${ret}%, 成交额 ${turnover}亿\n`;
+      }
+    });
+  }
+
+  // 3. 行业板块数据
+  dataText += '\n## 行业板块 Top 10\n';
+  if (currentData.industry_boards && currentData.industry_boards.length > 0) {
+    currentData.industry_boards.slice(0, 10).forEach((board, idx) => {
+      const ret = ((board.ret || 0) * 100).toFixed(2);
+      const pop = (board.pop || 0).toFixed(2);
+      const newTag = board.is_new ? ' [NEW]' : '';
+      dataText += `${idx + 1}. ${board.name}${newTag}: 涨幅 ${ret}%, 人气 ${pop}, 推荐 ${board.stance || 'N/A'}\n`;
+    });
+  }
+
+  // 4. 概念板块数据
+  dataText += '\n## 概念板块 Top 10\n';
+  if (currentData.concept_boards && currentData.concept_boards.length > 0) {
+    currentData.concept_boards.slice(0, 10).forEach((board, idx) => {
+      const ret = ((board.ret || 0) * 100).toFixed(2);
+      const pop = (board.pop || 0).toFixed(2);
+      const newTag = board.is_new ? ' [NEW]' : '';
+      dataText += `${idx + 1}. ${board.name}${newTag}: 涨幅 ${ret}%, 人气 ${pop}, 推荐 ${board.stance || 'N/A'}\n`;
+    });
+  }
+
+  // 5. 市场节奏
+  dataText += '\n## 市场节奏\n';
+  if (currentData.market) {
+    const riskOn = currentData.market.risk_on ? '风险偏好上升（小盘强于大盘）' : '风险偏好下降（大盘强于小盘）';
+    dataText += `- 市场状态: ${riskOn}\n`;
+    dataText += `- 操作建议: ${currentData.market.advice || 'N/A'}\n`;
+  }
+
+  return dataText;
+}
+
+// 执行AI分析
+async function runAIAnalysis() {
   const apiKey = getOpenAIKey();
 
   if (!apiKey) {
-    alert('请先配置OpenAI API密钥！\n\n点击页面顶部的"⚙️ API配置"按钮进行配置。');
+    alert('请先配置OpenAI API密钥！\n\n点击页面顶部的"⚙️ AI配置"按钮进行配置。');
     return;
   }
 
-  if (!currentIndicesData || !currentIndicesData.indexConfigs || currentIndicesData.indexConfigs.length === 0) {
-    alert('暂无指数数据，请刷新页面后重试。');
+  if (!currentData) {
+    alert('暂无市场数据，请刷新页面后重试。');
     return;
   }
 
-  const btn = document.getElementById('market-analyze-btn');
-  const resultDiv = document.getElementById('market-analysis-result');
-  const contentDiv = document.getElementById('market-analysis-content');
+  const btn = document.getElementById('run-ai-analysis-btn');
+  const resultDiv = document.getElementById('ai-analysis-result');
+  const contentDiv = document.getElementById('ai-analysis-content');
+  const timeDiv = document.getElementById('ai-analysis-time');
+  const promptTextarea = document.getElementById('ai-analysis-prompt');
 
-  if (!btn || !resultDiv || !contentDiv) return;
+  if (!btn || !resultDiv || !contentDiv || !promptTextarea) return;
 
   // 禁用按钮，显示加载状态
   const originalText = btn.innerHTML;
@@ -1907,48 +2042,12 @@ async function analyzeAllIndicesWithAI() {
 
   // 显示结果区域
   resultDiv.style.display = 'block';
-  contentDiv.innerHTML = '<div style="text-align: center; color: #1677ff;">⏳ AI正在分析全市场指数数据，请稍候...</div>';
+  contentDiv.innerHTML = '<div style="text-align: center; color: #1677ff;">⏳ AI正在分析市场数据，请稍候...</div>';
 
   try {
     const selectedModel = getCurrentModel();
-    const configs = currentIndicesData.indexConfigs;
-
-    // 构建包含所有指数信息的prompt
-    let indicesInfo = configs.map(config => {
-      const ret = config.data.ret || 0;
-      const retPct = (ret * 100).toFixed(2);
-      const turnover = config.data.turnover || 0;
-      const turnoverBillion = (turnover / 100000000).toFixed(0);
-
-      return `${config.name}(${config.type})：
-  涨跌幅：${retPct}%
-  成交额：${turnoverBillion}亿
-  特征：${config.characteristic}`;
-    }).join('\n\n');
-
-    const prompt = `作为专业的A股市场分析师，请基于以下各个市值体量指数的量价数据，进行全市场分析：
-
-${indicesInfo}
-
-请提供：
-
-1. **市场风格判断**（2-3句话）
-   - 当前是大盘主导还是小盘主导？
-   - 市场情绪是风险偏好上升还是下降？
-
-2. **风险提示**
-   - 明确指出哪些指数存在风险（列出具体指数名称）
-   - 说明风险原因（例如：高位滞涨、成交萎缩、跌幅过大等）
-
-3. **机会识别**
-   - 明确指出哪些指数存在机会（列出具体指数名称）
-   - 说明机会理由（例如：低位放量、强势突破、量价配合等）
-
-4. **操作建议**（2-3句话）
-   - 当前阶段应该关注哪类体量的指数？
-   - 具体的配置建议
-
-请用简洁专业的语言，控制在300字以内。使用markdown格式，风险部分用🔴标记，机会部分用🟢标记。`;
+    const marketData = collectMarketData();
+    const userPrompt = promptTextarea.value.replace('{MARKET_DATA}', marketData);
 
     // 调用OpenAI API
     const response = await fetch('https://api.openai.com/v1/chat/completions', {
@@ -1962,14 +2061,14 @@ ${indicesInfo}
         messages: [
           {
             role: 'system',
-            content: '你是一位资深的A股市场分析师，擅长从多个市值体量指数的量价数据中，识别市场风格、发现风险和机会。请用简洁专业的中文回答，重点突出风险和机会的具体指数。'
+            content: '你是一位资深的A股市场分析师，擅长从大盘走势、市值风格、板块热度等多维度数据中，进行量价分析，识别市场机会与风险。请用简洁专业的中文回答。'
           },
           {
             role: 'user',
-            content: prompt
+            content: userPrompt
           }
         ],
-        max_tokens: 800,
+        max_tokens: 1000,
         temperature: 0.7
       })
     });
@@ -1984,12 +2083,17 @@ ${indicesInfo}
     // 显示分析结果（markdown转HTML简单处理）
     const htmlContent = analysis
       .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+      .replace(/##\s*(.*?)(\n|$)/g, '<h4 style="margin: 16px 0 8px 0; color: #333;">$1</h4>')
       .replace(/\n\n/g, '</p><p>')
       .replace(/\n/g, '<br>')
       .replace(/🔴/g, '<span style="color: #ff4d4f;">🔴</span>')
       .replace(/🟢/g, '<span style="color: #52c41a;">🟢</span>');
 
-    contentDiv.innerHTML = `<div style="line-height: 1.8; color: #333;"><p>${htmlContent}</p></div>`;
+    contentDiv.innerHTML = `<p>${htmlContent}</p>`;
+
+    // 显示分析时间
+    const now = new Date();
+    timeDiv.textContent = `分析时间: ${now.toLocaleString('zh-CN')}`;
 
     btn.innerHTML = '✅ 分析完成';
     setTimeout(() => {
@@ -2000,7 +2104,7 @@ ${indicesInfo}
     }, 3000);
 
   } catch (error) {
-    console.error('全市场分析失败:', error);
+    console.error('AI市场分析失败:', error);
     contentDiv.innerHTML = `<div style="color: #ff4d4f;">
       <strong>❌ 分析失败</strong><br>${error.message}<br><br>
       请检查API密钥是否正确，或稍后再试。
@@ -2010,6 +2114,66 @@ ${indicesInfo}
     btn.disabled = false;
     btn.style.opacity = '1';
     btn.style.cursor = 'pointer';
+  }
+}
+
+// 初始化AI分析功能
+function initAIAnalysis() {
+  // 加载保存的prompt
+  const promptTextarea = document.getElementById('ai-analysis-prompt');
+  if (promptTextarea) {
+    promptTextarea.value = getAIAnalysisPrompt();
+  }
+
+  // 保存prompt按钮
+  const saveBtn = document.getElementById('save-prompt-btn');
+  if (saveBtn) {
+    saveBtn.addEventListener('click', function() {
+      const prompt = promptTextarea.value;
+      saveAIAnalysisPrompt(prompt);
+      this.textContent = '✅ 已保存';
+      setTimeout(() => {
+        this.textContent = '💾 保存';
+      }, 2000);
+    });
+  }
+
+  // 恢复默认按钮
+  const resetBtn = document.getElementById('reset-prompt-btn');
+  if (resetBtn) {
+    resetBtn.addEventListener('click', function() {
+      promptTextarea.value = DEFAULT_AI_ANALYSIS_PROMPT;
+      this.textContent = '✅ 已恢复';
+      setTimeout(() => {
+        this.textContent = '恢复默认';
+      }, 2000);
+    });
+  }
+
+  // 开始分析按钮
+  const runBtn = document.getElementById('run-ai-analysis-btn');
+  if (runBtn) {
+    runBtn.addEventListener('click', runAIAnalysis);
+    // 添加hover效果
+    runBtn.addEventListener('mouseover', function() {
+      this.style.transform = 'translateY(-2px)';
+      this.style.boxShadow = '0 4px 12px rgba(102, 126, 234, 0.6)';
+    });
+    runBtn.addEventListener('mouseout', function() {
+      this.style.transform = 'translateY(0)';
+      this.style.boxShadow = '0 2px 8px rgba(102, 126, 234, 0.4)';
+    });
+  }
+
+  // AI分析帮助按钮
+  const helpBtn = document.getElementById('ai-analysis-help-btn');
+  if (helpBtn) {
+    helpBtn.addEventListener('click', function() {
+      const helpDiv = document.getElementById('ai-analysis-help');
+      if (helpDiv) {
+        helpDiv.style.display = helpDiv.style.display === 'none' ? 'block' : 'none';
+      }
+    });
   }
 }
 
@@ -2357,20 +2521,8 @@ async function init() {
   // 初始化AI设置
   initAISettings();
 
-  // 初始化全市场分析按钮
-  const marketBtn = document.getElementById('market-analyze-btn');
-  if (marketBtn) {
-    marketBtn.addEventListener('click', analyzeAllIndicesWithAI);
-    // 添加hover效果
-    marketBtn.addEventListener('mouseover', function() {
-      this.style.transform = 'translateY(-2px)';
-      this.style.boxShadow = '0 4px 12px rgba(102, 126, 234, 0.6)';
-    });
-    marketBtn.addEventListener('mouseout', function() {
-      this.style.transform = 'translateY(0)';
-      this.style.boxShadow = '0 2px 6px rgba(102, 126, 234, 0.4)';
-    });
-  }
+  // 初始化AI市场分析功能
+  initAIAnalysis();
 
   // 初始化帮助按钮
   const metricsHelpBtn = document.getElementById('metrics-help-btn');
