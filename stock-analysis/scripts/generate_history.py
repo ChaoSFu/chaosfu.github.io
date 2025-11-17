@@ -641,8 +641,11 @@ def detect_new_boards(archive_dir, today_industry_boards=None, today_concept_boa
     historical_industry = set()
     historical_concept = set()
 
-    # 取过去N个交易日（从存档中的所有日期开始）
-    past_dates = all_dates[:lookback_days]
+    # 取过去N个交易日（排除今天，从存档中的所有日期开始）
+    # 如果传入了today_boards，说明今天的数据还未存档或正在生成中
+    # 需要排除今天的日期（如果存在于存档中）
+    today_str = date.today().isoformat()
+    past_dates = [d for d in all_dates if d != today_str][:lookback_days]
 
     for past_date_str in past_dates:
         past_data = load_archive(archive_dir, past_date_str)
