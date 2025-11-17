@@ -1063,7 +1063,7 @@ function displayRecent10Data(history) {
     `;
     daySection.appendChild(dateHeader);
 
-    // 指数表现
+    // 指数表现 - 显示大盘指数
     const indices = dayData.indices || {};
     const indicesDiv = document.createElement('div');
     indicesDiv.style.marginBottom = '1rem';
@@ -1072,16 +1072,48 @@ function displayRecent10Data(history) {
     indicesDiv.style.borderRadius = '4px';
     indicesDiv.style.fontSize = '0.875rem';
 
-    const hs300Ret = ((indices.hs300?.ret || 0) * 100).toFixed(2);
-    const csi1000Ret = ((indices.csi1000?.ret || 0) * 100).toFixed(2);
-    const shcompRet = ((indices.shcomp?.ret || 0) * 100).toFixed(2);
+    // 从market_indices_history获取大盘指数数据
+    let marketIndicesInfo = [];
+    if (historyData && historyData.market_indices_history) {
+      const mih = historyData.market_indices_history;
+      const dateIndex = mih.dates ? mih.dates.indexOf(dayData.date) : -1;
 
-    indicesDiv.innerHTML = `
-      指数表现:
-      沪深300 <strong style="color: ${indices.hs300?.ret >= 0 ? '#ef5350' : '#26a69a'}">${hs300Ret}%</strong> |
-      中证1000 <strong style="color: ${indices.csi1000?.ret >= 0 ? '#ef5350' : '#26a69a'}">${csi1000Ret}%</strong> |
-      上证综指 <strong style="color: ${indices.shcomp?.ret >= 0 ? '#ef5350' : '#26a69a'}">${shcompRet}%</strong>
-    `;
+      if (dateIndex >= 0) {
+        const indexNames = {
+          'SHCOMP': '上证指数',
+          'SZCOMP': '深证成指',
+          'CYBZ': '创业板指',
+          'KCB50': '科创50',
+          'BJ50': '北证50'
+        };
+
+        ['SHCOMP', 'SZCOMP', 'CYBZ', 'KCB50', 'BJ50'].forEach(code => {
+          const indexHistory = mih.market_indices[code];
+          if (indexHistory && indexHistory[dateIndex]) {
+            const dayIndex = indexHistory[dateIndex];
+            // ret已经是百分比形式，不需要乘以100
+            const ret = (dayIndex.ret || 0).toFixed(2);
+            const color = dayIndex.ret >= 0 ? '#ef5350' : '#26a69a';
+            marketIndicesInfo.push(`${indexNames[code]} <strong style="color: ${color}">${ret}%</strong>`);
+          }
+        });
+      }
+    }
+
+    // 如果没有大盘指数数据，回退到使用indices中的数据
+    if (marketIndicesInfo.length === 0) {
+      // 使用indices数据，注意ret可能已经是百分比形式
+      const shcompData = indices.SHCOMP || indices.shcomp;
+      if (shcompData) {
+        // 检查ret是否已经是百分比形式（绝对值小于10通常是百分比）
+        const retVal = shcompData.ret || 0;
+        const ret = Math.abs(retVal) > 10 ? (retVal * 100).toFixed(2) : retVal.toFixed(2);
+        const color = retVal >= 0 ? '#ef5350' : '#26a69a';
+        marketIndicesInfo.push(`上证指数 <strong style="color: ${color}">${ret}%</strong>`);
+      }
+    }
+
+    indicesDiv.innerHTML = `指数表现: ${marketIndicesInfo.length > 0 ? marketIndicesInfo.join(' | ') : '暂无数据'}`;
     daySection.appendChild(indicesDiv);
 
     // 行业板块
