@@ -168,13 +168,19 @@ def fetch_board_stocks(board_code, top_n=10):
             pct = item.get('f3', 0) / 100.0
             price = item.get('f2', 0)
 
+            # 计算前收盘价，避免除以零
+            if price > 0 and pct > -0.99:  # 避免除以接近0的数
+                prev_close = price / (1 + pct)
+            else:
+                prev_close = price
+
             records.append({
                 'date': today,
                 'bk_code': board_code,
                 'ts_code': item.get('f12', ''),
                 'name': item.get('f14', ''),
                 'close': price,
-                'prev_close': price / (1 + pct) if pct != -1 else price,
+                'prev_close': prev_close,
                 'turnover': item.get('f6', 0),
                 'turnover_ratio': item.get('f8', 0),
                 'amplitude': item.get('f7', 0),
@@ -254,6 +260,12 @@ def fetch_index_data():
                 high = item.get('f15', 0) if item.get('f15') else price
                 low = item.get('f16', 0) if item.get('f16') else price
 
+                # 计算前收盘价，避免除以零
+                if price > 0 and pct > -0.99:  # 避免除以接近0的数
+                    prev_close = price / (1 + pct)
+                else:
+                    prev_close = price
+
                 records.append({
                     'date': today,
                     'index_code': index_code,
@@ -262,7 +274,7 @@ def fetch_index_data():
                     'high': high,
                     'low': low,
                     'close': price,
-                    'prev_close': price / (1 + pct) if pct != 0 else price,
+                    'prev_close': prev_close,
                     'ret': pct,
                     'volume': item.get('f5', 0),      # 成交量
                     'turnover': item.get('f6', 0),    # 成交额
