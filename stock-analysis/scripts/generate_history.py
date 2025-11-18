@@ -461,8 +461,19 @@ def generate_history(archive_dir, days=7):
         if date_str not in archives:
             continue
 
-        boards = archives[date_str].get('boards', [])
-        top10 = boards[:10]
+        archive_data = archives[date_str]
+
+        # 兼容新旧格式
+        if 'industry_boards' in archive_data or 'concept_boards' in archive_data:
+            # 新格式：合并行业板块和概念板块
+            industry_boards = archive_data.get('industry_boards', [])[:10]
+            concept_boards = archive_data.get('concept_boards', [])[:10]
+            all_boards = industry_boards + concept_boards
+        else:
+            # 旧格式
+            all_boards = archive_data.get('boards', [])
+
+        top10 = all_boards[:10]
 
         # 记录当日Top10
         board_rotation[date_str] = [b['name'] for b in top10]
