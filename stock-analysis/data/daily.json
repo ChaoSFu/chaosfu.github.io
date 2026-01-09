@@ -2,7 +2,7 @@
   "date": "2026-01-09",
   "market": {
     "risk_on": true,
-    "broad_strength": -0.73,
+    "broad_strength": -1.13,
     "advice": "OFFENSE"
   },
   "industry_boards": [
@@ -10,65 +10,32 @@
       "code": "BK1027",
       "name": "小金属",
       "type": "industry",
-      "ret": 0.035,
-      "pop": -0.08596,
+      "ret": 0.0368,
+      "pop": -0.15286,
       "persistence": 3,
-      "dispersion": 0.014574,
+      "dispersion": 0.012679,
       "breadth": 1.0,
-      "score": 1.313466,
+      "score": 1.145248,
       "stance": "BUY",
       "is_new": false,
       "core_stocks": [
         {
           "code": "001280",
           "name": "中国铀业",
-          "ret": 0.0807,
-          "core": 0.761288
+          "ret": 0.0819,
+          "core": 0.818381
         },
         {
           "code": "002428",
           "name": "云南锗业",
           "ret": 0.1001,
-          "core": 0.610339
+          "core": 0.395291
         },
         {
-          "code": "600549",
-          "name": "厦门钨业",
-          "ret": 0.1,
-          "core": -0.143474
-        }
-      ]
-    },
-    {
-      "code": "BK0732",
-      "name": "贵金属",
-      "type": "industry",
-      "ret": 0.0348,
-      "pop": -0.468003,
-      "persistence": 3,
-      "dispersion": 0.013344,
-      "breadth": 1.0,
-      "score": 0.678617,
-      "stance": "BUY",
-      "is_new": false,
-      "core_stocks": [
-        {
-          "code": "300139",
-          "name": "晓程科技",
-          "ret": 0.0622,
-          "core": -0.021038
-        },
-        {
-          "code": "600547",
-          "name": "山东黄金",
-          "ret": 0.0587,
-          "core": -0.905618
-        },
-        {
-          "code": "000506",
-          "name": "招金黄金",
-          "ret": 0.0359,
-          "core": -1.049848
+          "code": "000962",
+          "name": "东方钽业",
+          "ret": 0.0658,
+          "core": -0.213692
         }
       ]
     },
@@ -76,12 +43,12 @@
       "code": "BK0447",
       "name": "互联网服务",
       "type": "industry",
-      "ret": 0.0282,
-      "pop": 1.203437,
+      "ret": 0.034,
+      "pop": 1.167623,
       "persistence": 3,
-      "dispersion": 0.035478,
+      "dispersion": 0.035099,
       "breadth": 1.0,
-      "score": 2.325267,
+      "score": 2.36293,
       "stance": "STRONG_BUY",
       "is_new": false,
       "core_stocks": [
@@ -89,19 +56,19 @@
           "code": "301171",
           "name": "易点天下",
           "ret": 0.2,
-          "core": 3.230718
+          "core": 2.800343
         },
         {
           "code": "300785",
           "name": "值得买",
-          "ret": 0.1267,
-          "core": 2.235445
+          "ret": 0.1383,
+          "core": 2.067978
         },
         {
           "code": "300044",
           "name": "ST赛为",
-          "ret": 0.1787,
-          "core": 1.659796
+          "ret": 0.1856,
+          "core": 1.425515
         }
       ]
     },
@@ -109,32 +76,65 @@
       "code": "BK0486",
       "name": "文化传媒",
       "type": "industry",
-      "ret": 0.0274,
-      "pop": 0.725883,
+      "ret": 0.0336,
+      "pop": 0.622206,
       "persistence": 3,
-      "dispersion": 0.016337,
+      "dispersion": 0.02941,
       "breadth": 1.0,
-      "score": 2.067325,
-      "stance": "STRONG_BUY",
+      "score": 1.370206,
+      "stance": "BUY",
       "is_new": false,
       "core_stocks": [
         {
           "code": "300063",
           "name": "天龙集团",
-          "ret": 0.1438,
-          "core": 2.549833
+          "ret": 0.198,
+          "core": 3.379676
         },
         {
           "code": "300058",
           "name": "蓝色光标",
-          "ret": 0.1036,
-          "core": 1.726927
+          "ret": 0.1268,
+          "core": 1.645084
         },
         {
           "code": "301231",
           "name": "荣信文化",
-          "ret": 0.1056,
-          "core": 1.568286
+          "ret": 0.1329,
+          "core": 1.586569
+        }
+      ]
+    },
+    {
+      "code": "BK0732",
+      "name": "贵金属",
+      "type": "industry",
+      "ret": 0.0334,
+      "pop": -0.52604,
+      "persistence": 3,
+      "dispersion": 0.012957,
+      "breadth": 1.0,
+      "score": 0.081627,
+      "stance": "WATCH",
+      "is_new": false,
+      "core_stocks": [
+        {
+          "code": "300139",
+          "name": "晓程科技",
+          "ret": 0.0638,
+          "core": -0.142068
+        },
+        {
+          "code": "600547",
+          "name": "山东黄金",
+          "ret": 0.0515,
+          "core": -1.149393
+        },
+        {
+          "code": "000506",
+          "name": "招金黄金",
+          "ret": 0.0314,
+          "core": -1.277996
         }
       ]
     },
@@ -142,65 +142,32 @@
       "code": "BK1017",
       "name": "采掘行业",
       "type": "industry",
-      "ret": 0.0248,
-      "pop": -0.340656,
+      "ret": 0.0251,
+      "pop": -0.411216,
       "persistence": 3,
-      "dispersion": 0.020971,
+      "dispersion": 0.019639,
       "breadth": 1.0,
-      "score": -0.619766,
+      "score": -0.988293,
       "stance": "AVOID",
       "is_new": false,
       "core_stocks": [
         {
           "code": "300164",
           "name": "通源石油",
-          "ret": 0.0796,
-          "core": 1.033289
+          "ret": 0.073,
+          "core": 0.682893
         },
         {
           "code": "920088",
           "name": "科力股份",
-          "ret": 0.0639,
-          "core": 0.244993
+          "ret": 0.0617,
+          "core": -0.03962
         },
         {
           "code": "002207",
           "name": "准油股份",
           "ret": 0.0299,
-          "core": -0.463271
-        }
-      ]
-    },
-    {
-      "code": "BK1046",
-      "name": "游戏",
-      "type": "industry",
-      "ret": 0.0193,
-      "pop": -0.2929,
-      "persistence": 3,
-      "dispersion": 0.007523,
-      "breadth": 1.0,
-      "score": 0.960413,
-      "stance": "BUY",
-      "is_new": false,
-      "core_stocks": [
-        {
-          "code": "300459",
-          "name": "汤姆猫",
-          "ret": 0.0292,
-          "core": -0.574456
-        },
-        {
-          "code": "300299",
-          "name": "富春股份",
-          "ret": 0.0374,
-          "core": -0.688056
-        },
-        {
-          "code": "002425",
-          "name": "凯撒文化",
-          "ret": 0.0492,
-          "core": -0.968832
+          "core": -0.683896
         }
       ]
     },
@@ -208,32 +175,65 @@
       "code": "BK0480",
       "name": "航天航空",
       "type": "industry",
-      "ret": 0.018,
-      "pop": -0.197389,
+      "ret": 0.024,
+      "pop": -0.224626,
       "persistence": 3,
-      "dispersion": 0.03091,
+      "dispersion": 0.033476,
       "breadth": 1.0,
-      "score": -1.314678,
+      "score": -1.204038,
       "stance": "AVOID",
       "is_new": false,
       "core_stocks": [
         {
           "code": "688543",
           "name": "国科军工",
-          "ret": 0.1531,
-          "core": 2.132317
-        },
-        {
-          "code": "920116",
-          "name": "星图测控",
-          "ret": 0.063,
-          "core": 1.010069
+          "ret": 0.169,
+          "core": 1.966547
         },
         {
           "code": "688066",
           "name": "航天宏图",
-          "ret": 0.0499,
-          "core": 0.846016
+          "ret": 0.0748,
+          "core": 0.830781
+        },
+        {
+          "code": "920116",
+          "name": "星图测控",
+          "ret": 0.066,
+          "core": 0.762852
+        }
+      ]
+    },
+    {
+      "code": "BK1046",
+      "name": "游戏",
+      "type": "industry",
+      "ret": 0.023,
+      "pop": -0.353803,
+      "persistence": 3,
+      "dispersion": 0.007422,
+      "breadth": 1.0,
+      "score": 0.943315,
+      "stance": "BUY",
+      "is_new": false,
+      "core_stocks": [
+        {
+          "code": "300459",
+          "name": "汤姆猫",
+          "ret": 0.0429,
+          "core": -0.634913
+        },
+        {
+          "code": "300299",
+          "name": "富春股份",
+          "ret": 0.0468,
+          "core": -0.796808
+        },
+        {
+          "code": "002425",
+          "name": "凯撒文化",
+          "ret": 0.0518,
+          "core": -1.076707
         }
       ]
     },
@@ -241,12 +241,12 @@
       "code": "BK0727",
       "name": "医疗服务",
       "type": "industry",
-      "ret": 0.0177,
-      "pop": -0.213308,
+      "ret": 0.0229,
+      "pop": -0.210273,
       "persistence": 3,
-      "dispersion": 0.047035,
+      "dispersion": 0.042825,
       "breadth": 1.0,
-      "score": -1.632822,
+      "score": -1.419698,
       "stance": "AVOID",
       "is_new": false,
       "core_stocks": [
@@ -254,19 +254,52 @@
           "code": "300244",
           "name": "迪安诊断",
           "ret": 0.2,
-          "core": 2.243406
+          "core": 1.882636
         },
         {
           "code": "002173",
           "name": "创新医疗",
           "ret": 0.1,
-          "core": 2.073327
+          "core": 1.652189
         },
         {
           "code": "688246",
           "name": "嘉和美康",
-          "ret": 0.0903,
-          "core": 0.50709
+          "ret": 0.0934,
+          "core": 0.290741
+        }
+      ]
+    },
+    {
+      "code": "BK0737",
+      "name": "软件开发",
+      "type": "industry",
+      "ret": 0.0211,
+      "pop": 1.655628,
+      "persistence": 3,
+      "dispersion": 0.054316,
+      "breadth": 1.0,
+      "score": 2.048185,
+      "stance": "STRONG_BUY",
+      "is_new": false,
+      "core_stocks": [
+        {
+          "code": "920207",
+          "name": "众诚科技",
+          "ret": 0.2794,
+          "core": 4.189261
+        },
+        {
+          "code": "301117",
+          "name": "佳缘科技",
+          "ret": 0.0932,
+          "core": 1.861566
+        },
+        {
+          "code": "300830",
+          "name": "金现代",
+          "ret": 0.1474,
+          "core": 1.787348
         }
       ]
     },
@@ -274,65 +307,32 @@
       "code": "BK0482",
       "name": "商业百货",
       "type": "industry",
-      "ret": 0.0177,
-      "pop": 0.184654,
+      "ret": 0.0198,
+      "pop": 0.03373,
       "persistence": 3,
-      "dispersion": 0.026827,
+      "dispersion": 0.024859,
       "breadth": 1.0,
-      "score": -0.463197,
-      "stance": "WATCH",
+      "score": -0.784092,
+      "stance": "AVOID",
       "is_new": true,
       "core_stocks": [
         {
           "code": "600858",
           "name": "银座股份",
           "ret": 0.1008,
-          "core": 0.477219
+          "core": 0.216741
         },
         {
           "code": "600693",
           "name": "东百集团",
-          "ret": 0.0544,
-          "core": 0.340426
+          "ret": 0.0513,
+          "core": 0.098543
         },
         {
           "code": "002187",
           "name": "广百股份",
           "ret": 0.1,
-          "core": 0.09088
-        }
-      ]
-    },
-    {
-      "code": "BK1034",
-      "name": "电源设备",
-      "type": "industry",
-      "ret": 0.0168,
-      "pop": -0.276982,
-      "persistence": 3,
-      "dispersion": 0.015082,
-      "breadth": 1.0,
-      "score": -0.791681,
-      "stance": "AVOID",
-      "is_new": false,
-      "core_stocks": [
-        {
-          "code": "002255",
-          "name": "海陆重工",
-          "ret": 0.0635,
-          "core": 1.048855
-        },
-        {
-          "code": "002364",
-          "name": "中恒电气",
-          "ret": 0.0728,
-          "core": 0.224531
-        },
-        {
-          "code": "300153",
-          "name": "科泰电源",
-          "ret": 0.0491,
-          "core": -0.068663
+          "core": -0.176925
         }
       ]
     }
@@ -342,12 +342,12 @@
       "code": "BK1169",
       "name": "Kimi概念",
       "type": "concept",
-      "ret": 0.0504,
-      "pop": -0.308819,
+      "ret": 0.0598,
+      "pop": -0.353803,
       "persistence": 3,
-      "dispersion": 0.047516,
+      "dispersion": 0.041838,
       "breadth": 1.0,
-      "score": 1.170205,
+      "score": 1.314503,
       "stance": "BUY",
       "is_new": false,
       "core_stocks": [
@@ -355,52 +355,19 @@
           "code": "301171",
           "name": "易点天下",
           "ret": 0.2,
-          "core": 3.231455
+          "core": 2.800343
         },
         {
           "code": "300785",
           "name": "值得买",
-          "ret": 0.1366,
-          "core": 2.340143
+          "ret": 0.1396,
+          "core": 2.082817
         },
         {
-          "code": "600986",
-          "name": "浙文互联",
-          "ret": 0.1003,
-          "core": 0.768054
-        }
-      ]
-    },
-    {
-      "code": "BK1054",
-      "name": "DRG/DIP",
-      "type": "concept",
-      "ret": 0.0501,
-      "pop": -0.372492,
-      "persistence": 3,
-      "dispersion": 0.045386,
-      "breadth": 1.0,
-      "score": 1.038389,
-      "stance": "BUY",
-      "is_new": true,
-      "core_stocks": [
-        {
-          "code": "300244",
-          "name": "迪安诊断",
-          "ret": 0.2,
-          "core": 2.243406
-        },
-        {
-          "code": "301117",
-          "name": "佳缘科技",
-          "ret": 0.0691,
-          "core": 1.880233
-        },
-        {
-          "code": "603716",
-          "name": "塞力医疗",
-          "ret": 0.0428,
-          "core": 1.140699
+          "code": "300170",
+          "name": "汉得信息",
+          "ret": 0.075,
+          "core": 0.598157
         }
       ]
     },
@@ -408,32 +375,65 @@
       "code": "BK1159",
       "name": "Sora概念",
       "type": "concept",
-      "ret": 0.0483,
-      "pop": -0.038204,
+      "ret": 0.0581,
+      "pop": -0.138507,
       "persistence": 3,
-      "dispersion": 0.043911,
+      "dispersion": 0.044233,
       "breadth": 1.0,
-      "score": 1.55915,
+      "score": 1.575818,
       "stance": "STRONG_BUY",
       "is_new": false,
       "core_stocks": [
         {
+          "code": "300063",
+          "name": "天龙集团",
+          "ret": 0.2002,
+          "core": 3.413454
+        },
+        {
           "code": "301171",
           "name": "易点天下",
           "ret": 0.2,
-          "core": 3.231455
+          "core": 2.800343
         },
         {
           "code": "300578",
           "name": "会畅科技",
-          "ret": 0.1927,
-          "core": 2.587823
+          "ret": 0.1999,
+          "core": 2.492261
+        }
+      ]
+    },
+    {
+      "code": "BK1054",
+      "name": "DRG/DIP",
+      "type": "concept",
+      "ret": 0.0556,
+      "pop": -0.439922,
+      "persistence": 3,
+      "dispersion": 0.042113,
+      "breadth": 1.0,
+      "score": 0.796171,
+      "stance": "BUY",
+      "is_new": true,
+      "core_stocks": [
+        {
+          "code": "300244",
+          "name": "迪安诊断",
+          "ret": 0.2,
+          "core": 1.882636
         },
         {
-          "code": "300063",
-          "name": "天龙集团",
-          "ret": 0.1361,
-          "core": 2.484939
+          "code": "301117",
+          "name": "佳缘科技",
+          "ret": 0.093,
+          "core": 1.86058
+        },
+        {
+          "code": "603716",
+          "name": "塞力医疗",
+          "ret": 0.0649,
+          "core": 1.435122
         }
       ]
     },
@@ -441,12 +441,12 @@
       "code": "BK0972",
       "name": "快手概念",
       "type": "concept",
-      "ret": 0.0439,
-      "pop": -0.213308,
+      "ret": 0.0497,
+      "pop": -0.296391,
       "persistence": 3,
-      "dispersion": 0.041044,
+      "dispersion": 0.036012,
       "breadth": 1.0,
-      "score": 0.842518,
+      "score": 0.697678,
       "stance": "BUY",
       "is_new": false,
       "core_stocks": [
@@ -454,19 +454,19 @@
           "code": "301171",
           "name": "易点天下",
           "ret": 0.2,
-          "core": 3.231455
+          "core": 2.800343
         },
         {
           "code": "300058",
           "name": "蓝色光标",
-          "ret": 0.0969,
-          "core": 1.672221
+          "ret": 0.1282,
+          "core": 1.660078
         },
         {
-          "code": "300612",
-          "name": "宣亚国际",
-          "ret": 0.0594,
-          "core": 0.858546
+          "code": "002400",
+          "name": "省广集团",
+          "ret": 0.0997,
+          "core": 0.952125
         }
       ]
     },
@@ -474,65 +474,32 @@
       "code": "BK1172",
       "name": "AI语料",
       "type": "concept",
-      "ret": 0.0367,
-      "pop": -0.181471,
+      "ret": 0.0452,
+      "pop": -0.253332,
       "persistence": 3,
-      "dispersion": 0.029022,
+      "dispersion": 0.035071,
       "breadth": 1.0,
-      "score": 0.481347,
+      "score": 0.434621,
       "stance": "WATCH",
       "is_new": false,
       "core_stocks": [
         {
           "code": "301231",
           "name": "荣信文化",
-          "ret": 0.105,
-          "core": 1.575584
+          "ret": 0.1353,
+          "core": 1.612563
         },
         {
           "code": "300071",
           "name": "福石控股",
-          "ret": 0.1014,
-          "core": 1.322104
+          "ret": 0.121,
+          "core": 1.21839
         },
         {
           "code": "300418",
           "name": "昆仑万维",
-          "ret": 0.1068,
-          "core": 0.489204
-        }
-      ]
-    },
-    {
-      "code": "BK1110",
-      "name": "Web3.0",
-      "type": "concept",
-      "ret": 0.0359,
-      "pop": -0.022286,
-      "persistence": 3,
-      "dispersion": 0.038785,
-      "breadth": 1.0,
-      "score": 0.523952,
-      "stance": "BUY",
-      "is_new": true,
-      "core_stocks": [
-        {
-          "code": "300578",
-          "name": "会畅科技",
-          "ret": 0.1927,
-          "core": 2.587823
-        },
-        {
-          "code": "300058",
-          "name": "蓝色光标",
-          "ret": 0.0969,
-          "core": 1.673695
-        },
-        {
-          "code": "300071",
-          "name": "福石控股",
-          "ret": 0.1014,
-          "core": 1.322104
+          "ret": 0.151,
+          "core": 0.743732
         }
       ]
     },
@@ -540,32 +507,65 @@
       "code": "BK1151",
       "name": "短剧互动游戏",
       "type": "concept",
-      "ret": 0.0357,
-      "pop": -0.229226,
+      "ret": 0.0436,
+      "pop": -0.253332,
       "persistence": 3,
-      "dispersion": 0.022493,
+      "dispersion": 0.025529,
       "breadth": 1.0,
-      "score": 0.527481,
+      "score": 0.55698,
       "stance": "BUY",
       "is_new": true,
       "core_stocks": [
         {
           "code": "300058",
           "name": "蓝色光标",
-          "ret": 0.0969,
-          "core": 1.673695
+          "ret": 0.1282,
+          "core": 1.660078
+        },
+        {
+          "code": "300418",
+          "name": "昆仑万维",
+          "ret": 0.1502,
+          "core": 0.737765
         },
         {
           "code": "600986",
           "name": "浙文互联",
           "ret": 0.1003,
-          "core": 0.768054
+          "core": 0.481
+        }
+      ]
+    },
+    {
+      "code": "BK1110",
+      "name": "Web3.0",
+      "type": "concept",
+      "ret": 0.042,
+      "pop": -0.066742,
+      "persistence": 3,
+      "dispersion": 0.039268,
+      "breadth": 1.0,
+      "score": 0.474624,
+      "stance": "WATCH",
+      "is_new": true,
+      "core_stocks": [
+        {
+          "code": "300578",
+          "name": "会畅科技",
+          "ret": 0.1999,
+          "core": 2.492936
         },
         {
-          "code": "300418",
-          "name": "昆仑万维",
-          "ret": 0.1068,
-          "core": 0.489204
+          "code": "300058",
+          "name": "蓝色光标",
+          "ret": 0.1282,
+          "core": 1.660078
+        },
+        {
+          "code": "300071",
+          "name": "福石控股",
+          "ret": 0.1225,
+          "core": 1.230841
         }
       ]
     },
@@ -573,65 +573,32 @@
       "code": "BK1111",
       "name": "AIGC概念",
       "type": "concept",
-      "ret": 0.0337,
-      "pop": 0.980578,
+      "ret": 0.0406,
+      "pop": 0.894915,
       "persistence": 3,
-      "dispersion": 0.041523,
+      "dispersion": 0.037663,
       "breadth": 1.0,
-      "score": 2.288242,
+      "score": 2.309553,
       "stance": "STRONG_BUY",
       "is_new": true,
       "core_stocks": [
         {
+          "code": "300063",
+          "name": "天龙集团",
+          "ret": 0.2002,
+          "core": 3.418176
+        },
+        {
           "code": "301171",
           "name": "易点天下",
           "ret": 0.2,
-          "core": 3.231455
+          "core": 2.800343
         },
         {
           "code": "300578",
           "name": "会畅科技",
-          "ret": 0.1927,
-          "core": 2.587823
-        },
-        {
-          "code": "300063",
-          "name": "天龙集团",
-          "ret": 0.135,
-          "core": 2.47609
-        }
-      ]
-    },
-    {
-      "code": "BK0923",
-      "name": "抖音概念(字节概念)",
-      "type": "concept",
-      "ret": 0.0331,
-      "pop": 0.518943,
-      "persistence": 3,
-      "dispersion": 0.035898,
-      "breadth": 1.0,
-      "score": 1.397992,
-      "stance": "BUY",
-      "is_new": true,
-      "core_stocks": [
-        {
-          "code": "301171",
-          "name": "易点天下",
-          "ret": 0.2,
-          "core": 3.231455
-        },
-        {
-          "code": "300063",
-          "name": "天龙集团",
-          "ret": 0.135,
-          "core": 2.47609
-        },
-        {
-          "code": "300058",
-          "name": "蓝色光标",
-          "ret": 0.0963,
-          "core": 1.668466
+          "ret": 0.1999,
+          "core": 2.492936
         }
       ]
     },
@@ -639,32 +606,65 @@
       "code": "BK1182",
       "name": "智谱AI",
       "type": "concept",
-      "ret": 0.0321,
-      "pop": -0.101878,
+      "ret": 0.0397,
+      "pop": -0.210273,
       "persistence": 3,
-      "dispersion": 0.036399,
+      "dispersion": 0.030709,
       "breadth": 1.0,
-      "score": 0.055685,
+      "score": 0.16843,
       "stance": "WATCH",
       "is_new": false,
       "core_stocks": [
         {
           "code": "300785",
           "name": "值得买",
-          "ret": 0.1368,
-          "core": 2.344096
+          "ret": 0.1403,
+          "core": 2.088628
         },
         {
           "code": "300830",
           "name": "金现代",
-          "ret": 0.1483,
-          "core": 2.093566
+          "ret": 0.1474,
+          "core": 1.788022
         },
         {
           "code": "300058",
           "name": "蓝色光标",
-          "ret": 0.0963,
-          "core": 1.669203
+          "ret": 0.1255,
+          "core": 1.637665
+        }
+      ]
+    },
+    {
+      "code": "BK0923",
+      "name": "抖音概念(字节概念)",
+      "type": "concept",
+      "ret": 0.039,
+      "pop": 0.421263,
+      "persistence": 3,
+      "dispersion": 0.04175,
+      "breadth": 1.0,
+      "score": 1.170153,
+      "stance": "BUY",
+      "is_new": true,
+      "core_stocks": [
+        {
+          "code": "300063",
+          "name": "天龙集团",
+          "ret": 0.2002,
+          "core": 3.439763
+        },
+        {
+          "code": "301171",
+          "name": "易点天下",
+          "ret": 0.2,
+          "core": 2.800343
+        },
+        {
+          "code": "300058",
+          "name": "蓝色光标",
+          "ret": 0.1242,
+          "core": 1.627548
         }
       ]
     }
@@ -674,82 +674,82 @@
       "open": 461417.0,
       "high": 466324.0,
       "low": 460545.0,
-      "close": 463999.0,
-      "ret": 0.29,
-      "volume": 93947128.0,
-      "turnover": 271305589676.2
+      "close": 464429.0,
+      "ret": 0.39,
+      "volume": 99055040.0,
+      "turnover": 292507433893.4
     },
     "HS300": {
       "open": 472596.0,
       "high": 477143.0,
       "low": 471913.0,
-      "close": 474828.0,
-      "ret": 0.22,
-      "volume": 188810173.0,
-      "turnover": 495274928450.4
+      "close": 475339.0,
+      "ret": 0.33,
+      "volume": 200529741.0,
+      "turnover": 530700660405.1
     },
     "CSI500": {
       "open": 790785.0,
       "high": 806326.0,
       "low": 790785.0,
-      "close": 799143.0,
-      "ret": 1.23,
-      "volume": 239045363.0,
-      "turnover": 479347673757.9
+      "close": 802979.0,
+      "ret": 1.71,
+      "volume": 254007898.0,
+      "turnover": 512337144294.6
     },
     "CSI1000": {
       "open": 796919.0,
       "high": 811311.0,
       "low": 796919.0,
-      "close": 804715.0,
-      "ret": 0.95,
-      "volume": 280055821.0,
-      "turnover": 523991335614.2
+      "close": 808822.0,
+      "ret": 1.46,
+      "volume": 299429688.0,
+      "turnover": 560313332033.9
     },
     "CSI2000": {
       "open": 335899.0,
       "high": 340176.0,
       "low": 335899.0,
-      "close": 337814.0,
-      "ret": 0.63,
-      "volume": 334997077.0,
-      "turnover": 521451887957.0
+      "close": 339466.0,
+      "ret": 1.13,
+      "volume": 359691266.0,
+      "turnover": 559498323341.0
     },
     "SHCOMP": {
       "open": 408676.0,
       "high": 412170.0,
       "low": 408362.0,
-      "close": 410117.0,
-      "ret": 0.45,
-      "volume": 540272448.0,
-      "turnover": 955582454747.2
+      "close": 410997.0,
+      "ret": 0.66,
+      "volume": 576349542.0,
+      "turnover": 1028196890836.3
     },
     "hs300": {
       "open": 472596.0,
       "high": 477143.0,
       "low": 471913.0,
-      "close": 474828.0,
-      "ret": 0.22,
-      "volume": 188810173.0,
-      "turnover": 495274928450.4
+      "close": 475339.0,
+      "ret": 0.33,
+      "volume": 200529741.0,
+      "turnover": 530700660405.1
     },
     "csi1000": {
       "open": 796919.0,
       "high": 811311.0,
       "low": 796919.0,
-      "close": 804715.0,
-      "ret": 0.95,
-      "volume": 280055821.0,
-      "turnover": 523991335614.2
+      "close": 808822.0,
+      "ret": 1.46,
+      "volume": 299429688.0,
+      "turnover": 560313332033.9
     },
     "shcomp": {
       "open": 408676.0,
       "high": 412170.0,
       "low": 408362.0,
-      "close": 410117.0,
-      "ret": 0.45,
-      "volume": 540272448.0,
-      "turnover": 955582454747.2
+      "close": 410997.0,
+      "ret": 0.66,
+      "volume": 576349542.0,
+      "turnover": 1028196890836.3
     }
   },
   "market_indices": {
@@ -758,50 +758,50 @@
       "open": 4086.76,
       "high": 4121.7,
       "low": 4083.62,
-      "close": 4101.17,
-      "ret": 0.0045,
-      "volume": 540272448.0,
-      "turnover": 955582454747.2
+      "close": 4109.97,
+      "ret": 0.0066,
+      "volume": 576349542.0,
+      "turnover": 1028196890836.3
     },
     "SZCOMP": {
       "name": "深证成指",
       "open": 13917.78,
       "high": 14139.54,
       "low": 13917.78,
-      "close": 14052.32,
-      "ret": 0.0067,
-      "volume": 737444493.0,
-      "turnover": 1355350438005.8982
+      "close": 14089.16,
+      "ret": 0.0093,
+      "volume": 789111905.0,
+      "turnover": 1447244159255.3315
     },
     "CYBZ": {
       "name": "创业板指",
       "open": 3279.38,
       "high": 3327.52,
       "low": 3269.99,
-      "close": 3313.84,
-      "ret": 0.0035,
-      "volume": 249091495.0,
-      "turnover": 649685907895.2
+      "close": 3322.03,
+      "ret": 0.006,
+      "volume": 267229096.0,
+      "turnover": 694084508431.22
     },
     "KCB50": {
       "name": "科创50",
       "open": 1442.22,
-      "high": 1472.77,
+      "high": 1474.47,
       "low": 1437.58,
-      "close": 1464.66,
-      "ret": 0.0065,
-      "volume": 9652111.0,
-      "turnover": 65514177283.0
+      "close": 1473.46,
+      "ret": 0.0126,
+      "volume": 10429360.0,
+      "turnover": 73097324279.0
     },
     "BJ50": {
       "name": "北证50",
       "open": 1511.97,
       "high": 1547.75,
       "low": 1505.96,
-      "close": 1518.19,
-      "ret": 0.0065,
-      "volume": 8453072.0,
-      "turnover": 22592420946.0
+      "close": 1523.61,
+      "ret": 0.0101,
+      "volume": 8978243.0,
+      "turnover": 23958872773.0
     }
   },
   "disclaimer": "本页面仅为个人研究与技术演示，不构成投资建议。"
