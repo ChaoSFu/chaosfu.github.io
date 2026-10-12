@@ -1,0 +1,466 @@
+{
+  "date": "2026-10-12",
+  "market": {
+    "risk_on": false,
+    "broad_strength": 1.04,
+    "advice": "DEFENSE"
+  },
+  "industry_boards": [
+    {
+      "code": "BK1298",
+      "name": "文字媒体",
+      "type": "industry",
+      "ret": 0.0683,
+      "pop": -0.493197,
+      "persistence": 3,
+      "dispersion": 0.0315,
+      "breadth": 1.0,
+      "score": 1.821618,
+      "stance": "STRONG_BUY",
+      "is_new": true,
+      "core_stocks": [
+        {
+          "code": "300364",
+          "name": "中文在线",
+          "ret": 0.0368,
+          "core": 1.146874
+        },
+        {
+          "code": "603533",
+          "name": "掌阅科技",
+          "ret": 0.0998,
+          "core": 1.136712
+        }
+      ]
+    },
+    {
+      "code": "BK1296",
+      "name": "视频媒体",
+      "type": "industry",
+      "ret": 0.0487,
+      "pop": -0.518918,
+      "persistence": 3,
+      "dispersion": null,
+      "breadth": null,
+      "score": NaN,
+      "stance": "AVOID",
+      "is_new": false,
+      "core_stocks": []
+    },
+    {
+      "code": "BK1320",
+      "name": "逆变器",
+      "type": "industry",
+      "ret": 0.0436,
+      "pop": -0.28743,
+      "persistence": 3,
+      "dispersion": 0.05807,
+      "breadth": 1.0,
+      "score": 0.494122,
+      "stance": "WATCH",
+      "is_new": true,
+      "core_stocks": [
+        {
+          "code": "301658",
+          "name": "首航新能",
+          "ret": 0.2,
+          "core": 2.861615
+        },
+        {
+          "code": "300827",
+          "name": "上能电气",
+          "ret": 0.0894,
+          "core": 0.229306
+        },
+        {
+          "code": "605117",
+          "name": "德业股份",
+          "ret": 0.0566,
+          "core": -0.455855
+        }
+      ]
+    },
+    {
+      "code": "BK1299",
+      "name": "影视动漫制作",
+      "type": "industry",
+      "ret": 0.0427,
+      "pop": -0.28743,
+      "persistence": 3,
+      "dispersion": null,
+      "breadth": null,
+      "score": NaN,
+      "stance": "AVOID",
+      "is_new": true,
+      "core_stocks": []
+    },
+    {
+      "code": "BK1289",
+      "name": "大众出版",
+      "type": "industry",
+      "ret": 0.0401,
+      "pop": -0.210268,
+      "persistence": 3,
+      "dispersion": null,
+      "breadth": null,
+      "score": NaN,
+      "stance": "AVOID",
+      "is_new": false,
+      "core_stocks": []
+    },
+    {
+      "code": "BK1218",
+      "name": "出版",
+      "type": "industry",
+      "ret": 0.0398,
+      "pop": 0.04694,
+      "persistence": 3,
+      "dispersion": null,
+      "breadth": null,
+      "score": NaN,
+      "stance": "AVOID",
+      "is_new": false,
+      "core_stocks": []
+    },
+    {
+      "code": "BK1290",
+      "name": "教育出版",
+      "type": "industry",
+      "ret": 0.0391,
+      "pop": -0.28743,
+      "persistence": 3,
+      "dispersion": null,
+      "breadth": null,
+      "score": NaN,
+      "stance": "AVOID",
+      "is_new": false,
+      "core_stocks": []
+    },
+    {
+      "code": "BK1222",
+      "name": "影视院线",
+      "type": "industry",
+      "ret": 0.0388,
+      "pop": -0.184547,
+      "persistence": 3,
+      "dispersion": null,
+      "breadth": null,
+      "score": NaN,
+      "stance": "AVOID",
+      "is_new": true,
+      "core_stocks": []
+    },
+    {
+      "code": "BK1297",
+      "name": "图片媒体",
+      "type": "industry",
+      "ret": 0.0378,
+      "pop": -0.518918,
+      "persistence": 3,
+      "dispersion": null,
+      "breadth": null,
+      "score": NaN,
+      "stance": "AVOID",
+      "is_new": true,
+      "core_stocks": []
+    },
+    {
+      "code": "BK1519",
+      "name": "电动乘用车",
+      "type": "industry",
+      "ret": 0.0318,
+      "pop": -0.518918,
+      "persistence": 3,
+      "dispersion": null,
+      "breadth": null,
+      "score": NaN,
+      "stance": "AVOID",
+      "is_new": true,
+      "core_stocks": []
+    }
+  ],
+  "concept_boards": [
+    {
+      "code": "BK1675",
+      "name": "历史新高",
+      "type": "concept",
+      "ret": 0.0374,
+      "pop": -0.467476,
+      "persistence": 3,
+      "dispersion": 0.050404,
+      "breadth": 0.75,
+      "score": -0.248081,
+      "stance": "WATCH",
+      "is_new": false,
+      "core_stocks": [
+        {
+          "code": "301190",
+          "name": "善水科技",
+          "ret": 0.1021,
+          "core": 0.849507
+        },
+        {
+          "code": "301218",
+          "name": "华是科技",
+          "ret": -0.0372,
+          "core": 0.184999
+        },
+        {
+          "code": "301234",
+          "name": "五洲医疗",
+          "ret": 0.0558,
+          "core": -0.152381
+        }
+      ]
+    },
+    {
+      "code": "BK1172",
+      "name": "AI语料",
+      "type": "concept",
+      "ret": 0.0256,
+      "pop": 0.02122,
+      "persistence": 3,
+      "dispersion": 0.044425,
+      "breadth": 1.0,
+      "score": -0.018041,
+      "stance": "WATCH",
+      "is_new": true,
+      "core_stocks": [
+        {
+          "code": "301052",
+          "name": "果麦文化",
+          "ret": 0.2001,
+          "core": 2.972025
+        },
+        {
+          "code": "603533",
+          "name": "掌阅科技",
+          "ret": 0.0998,
+          "core": 1.136712
+        },
+        {
+          "code": "300413",
+          "name": "芒果超媒",
+          "ret": 0.0487,
+          "core": 0.697051
+        }
+      ]
+    },
+    {
+      "code": "BK1151",
+      "name": "短剧互动游戏",
+      "type": "concept",
+      "ret": 0.0246,
+      "pop": 0.278428,
+      "persistence": 3,
+      "dispersion": 0.020521,
+      "breadth": 1.0,
+      "score": 0.658771,
+      "stance": "BUY",
+      "is_new": true,
+      "core_stocks": [
+        {
+          "code": "000892",
+          "name": "欢瑞世纪",
+          "ret": 0.101,
+          "core": 2.021573
+        },
+        {
+          "code": "300781",
+          "name": "因赛集团",
+          "ret": 0.1194,
+          "core": 1.562267
+        },
+        {
+          "code": "603533",
+          "name": "掌阅科技",
+          "ret": 0.0998,
+          "core": 1.136712
+        }
+      ]
+    },
+    {
+      "code": "BK0839",
+      "name": "知识产权",
+      "type": "concept",
+      "ret": 0.0193,
+      "pop": 0.149824,
+      "persistence": 3,
+      "dispersion": null,
+      "breadth": null,
+      "score": NaN,
+      "stance": "AVOID",
+      "is_new": true,
+      "core_stocks": []
+    },
+    {
+      "code": "BK0847",
+      "name": "影视概念",
+      "type": "concept",
+      "ret": 0.0185,
+      "pop": 0.458474,
+      "persistence": 3,
+      "dispersion": null,
+      "breadth": null,
+      "score": NaN,
+      "stance": "AVOID",
+      "is_new": true,
+      "core_stocks": []
+    },
+    {
+      "code": "BK0959",
+      "name": "数字阅读",
+      "type": "concept",
+      "ret": 0.018,
+      "pop": -0.235989,
+      "persistence": 3,
+      "dispersion": null,
+      "breadth": null,
+      "score": NaN,
+      "stance": "AVOID",
+      "is_new": true,
+      "core_stocks": []
+    },
+    {
+      "code": "BK0718",
+      "name": "证金持股",
+      "type": "concept",
+      "ret": 0.0109,
+      "pop": 0.124103,
+      "persistence": 3,
+      "dispersion": null,
+      "breadth": null,
+      "score": NaN,
+      "stance": "AVOID",
+      "is_new": true,
+      "core_stocks": []
+    },
+    {
+      "code": "BK1637",
+      "name": "东方财富热股",
+      "type": "concept",
+      "ret": 0.01,
+      "pop": 0.844286,
+      "persistence": 3,
+      "dispersion": null,
+      "breadth": null,
+      "score": NaN,
+      "stance": "AVOID",
+      "is_new": true,
+      "core_stocks": []
+    },
+    {
+      "code": "BK1654",
+      "name": "文娱消费",
+      "type": "concept",
+      "ret": 0.0092,
+      "pop": 0.715682,
+      "persistence": 3,
+      "dispersion": null,
+      "breadth": null,
+      "score": NaN,
+      "stance": "AVOID",
+      "is_new": true,
+      "core_stocks": []
+    },
+    {
+      "code": "BK1110",
+      "name": "Web3.0",
+      "type": "concept",
+      "ret": 0.0087,
+      "pop": 0.149824,
+      "persistence": 3,
+      "dispersion": null,
+      "breadth": null,
+      "score": NaN,
+      "stance": "AVOID",
+      "is_new": true,
+      "core_stocks": []
+    }
+  ],
+  "indices": {
+    "CSI100": {
+      "open": 413689.0,
+      "high": 416957.0,
+      "low": 411080.0,
+      "close": 411564.0,
+      "ret": -0.81,
+      "volume": 70458692.0,
+      "turnover": 201103452713.3
+    },
+    "HS300": {
+      "open": 430591.0,
+      "high": 433429.0,
+      "low": 427971.0,
+      "close": 428410.0,
+      "ret": -0.77,
+      "volume": 178423102.0,
+      "turnover": 400401284637.0
+    },
+    "CSI500": {
+      "open": 722607.0,
+      "high": 723678.0,
+      "low": 708592.0,
+      "close": 709645.0,
+      "ret": -2.13,
+      "volume": 134640122.0,
+      "turnover": 254794611388.2
+    },
+    "CSI1000": {
+      "open": 713268.0,
+      "high": 714506.0,
+      "low": 701437.0,
+      "close": 702634.0,
+      "ret": -1.81,
+      "volume": 201014045.0,
+      "turnover": 307282018732.5
+    },
+    "CSI2000": {
+      "open": 305929.0,
+      "high": 306046.0,
+      "low": 300070.0,
+      "close": 300181.0,
+      "ret": -2.07,
+      "volume": 274678143.0,
+      "turnover": 337299547250.0
+    },
+    "SHCOMP": {
+      "open": 380698.0,
+      "high": 382822.0,
+      "low": 379100.0,
+      "close": 379460.0,
+      "ret": -0.5,
+      "volume": 456214791.0,
+      "turnover": 706702398990.6
+    },
+    "hs300": {
+      "open": 430591.0,
+      "high": 433429.0,
+      "low": 427971.0,
+      "close": 428410.0,
+      "ret": -0.77,
+      "volume": 178423102.0,
+      "turnover": 400401284637.0
+    },
+    "csi1000": {
+      "open": 713268.0,
+      "high": 714506.0,
+      "low": 701437.0,
+      "close": 702634.0,
+      "ret": -1.81,
+      "volume": 201014045.0,
+      "turnover": 307282018732.5
+    },
+    "shcomp": {
+      "open": 380698.0,
+      "high": 382822.0,
+      "low": 379100.0,
+      "close": 379460.0,
+      "ret": -0.5,
+      "volume": 456214791.0,
+      "turnover": 706702398990.6
+    }
+  },
+  "market_indices": {},
+  "disclaimer": "本页面仅为个人研究与技术演示，不构成投资建议。"
+}
