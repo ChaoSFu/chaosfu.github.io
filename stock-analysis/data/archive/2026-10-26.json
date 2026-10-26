@@ -1,0 +1,409 @@
+{
+  "date": "2026-10-26",
+  "market": {
+    "risk_on": false,
+    "broad_strength": 0.6299999999999999,
+    "advice": "DEFENSE"
+  },
+  "industry_boards": [
+    {
+      "code": "BK1295",
+      "name": "其他数字媒体",
+      "type": "industry",
+      "ret": 0.0877,
+      "pop": -0.503588,
+      "persistence": 3,
+      "dispersion": 0.0513,
+      "breadth": 1.0,
+      "score": 2.485443,
+      "stance": "STRONG_BUY",
+      "is_new": false,
+      "core_stocks": [
+        {
+          "code": "301313",
+          "name": "凡拓数创",
+          "ret": 0.1387,
+          "core": 1.482008
+        },
+        {
+          "code": "603466",
+          "name": "风语筑",
+          "ret": 0.0361,
+          "core": -0.003966
+        }
+      ]
+    },
+    {
+      "code": "BK1565",
+      "name": "会展服务",
+      "type": "industry",
+      "ret": 0.0833,
+      "pop": -0.474394,
+      "persistence": 3,
+      "dispersion": 0.037141,
+      "breadth": 1.0,
+      "score": 3.245456,
+      "stance": "STRONG_BUY",
+      "is_new": true,
+      "core_stocks": [
+        {
+          "code": "300860",
+          "name": "锋尚文化",
+          "ret": 0.1177,
+          "core": 0.405736
+        },
+        {
+          "code": "300795",
+          "name": "米奥会展",
+          "ret": 0.0317,
+          "core": -0.83594
+        },
+        {
+          "code": "600826",
+          "name": "兰生股份",
+          "ret": 0.1004,
+          "core": -1.047838
+        }
+      ]
+    },
+    {
+      "code": "BK1582",
+      "name": "烘焙食品",
+      "type": "industry",
+      "ret": 0.0453,
+      "pop": -0.299233,
+      "persistence": 3,
+      "dispersion": null,
+      "breadth": null,
+      "score": NaN,
+      "stance": "AVOID",
+      "is_new": true,
+      "core_stocks": []
+    },
+    {
+      "code": "BK1558",
+      "name": "学历教育",
+      "type": "industry",
+      "ret": 0.037,
+      "pop": -0.474394,
+      "persistence": 3,
+      "dispersion": null,
+      "breadth": null,
+      "score": NaN,
+      "stance": "AVOID",
+      "is_new": true,
+      "core_stocks": []
+    },
+    {
+      "code": "BK1296",
+      "name": "视频媒体",
+      "type": "industry",
+      "ret": 0.0349,
+      "pop": -0.532781,
+      "persistence": 3,
+      "dispersion": null,
+      "breadth": null,
+      "score": NaN,
+      "stance": "AVOID",
+      "is_new": false,
+      "core_stocks": []
+    },
+    {
+      "code": "BK1281",
+      "name": "休闲食品",
+      "type": "industry",
+      "ret": 0.0338,
+      "pop": 0.109476,
+      "persistence": 3,
+      "dispersion": null,
+      "breadth": null,
+      "score": NaN,
+      "stance": "AVOID",
+      "is_new": true,
+      "core_stocks": []
+    },
+    {
+      "code": "BK1301",
+      "name": "游戏Ⅲ",
+      "type": "industry",
+      "ret": 0.0332,
+      "pop": 0.021895,
+      "persistence": 3,
+      "dispersion": null,
+      "breadth": null,
+      "score": NaN,
+      "stance": "AVOID",
+      "is_new": false,
+      "core_stocks": []
+    },
+    {
+      "code": "BK1046",
+      "name": "游戏Ⅱ",
+      "type": "industry",
+      "ret": 0.0332,
+      "pop": 0.021895,
+      "persistence": 3,
+      "dispersion": null,
+      "breadth": null,
+      "score": NaN,
+      "stance": "AVOID",
+      "is_new": false,
+      "core_stocks": []
+    },
+    {
+      "code": "BK1568",
+      "name": "人力资源服务",
+      "type": "industry",
+      "ret": 0.0329,
+      "pop": -0.474394,
+      "persistence": 3,
+      "dispersion": null,
+      "breadth": null,
+      "score": NaN,
+      "stance": "AVOID",
+      "is_new": true,
+      "core_stocks": []
+    },
+    {
+      "code": "BK1606",
+      "name": "线下药店",
+      "type": "industry",
+      "ret": 0.0323,
+      "pop": -0.328427,
+      "persistence": 3,
+      "dispersion": null,
+      "breadth": null,
+      "score": NaN,
+      "stance": "AVOID",
+      "is_new": true,
+      "core_stocks": []
+    }
+  ],
+  "concept_boards": [
+    {
+      "code": "BK1147",
+      "name": "SPD概念",
+      "type": "concept",
+      "ret": 0.0292,
+      "pop": -0.211653,
+      "persistence": 3,
+      "dispersion": null,
+      "breadth": null,
+      "score": NaN,
+      "stance": "AVOID",
+      "is_new": true,
+      "core_stocks": []
+    },
+    {
+      "code": "BK1754",
+      "name": "2026三季报首亏",
+      "type": "concept",
+      "ret": 0.0286,
+      "pop": -0.445201,
+      "persistence": 3,
+      "dispersion": null,
+      "breadth": null,
+      "score": NaN,
+      "stance": "AVOID",
+      "is_new": false,
+      "core_stocks": []
+    },
+    {
+      "code": "BK1717",
+      "name": "题材股",
+      "type": "concept",
+      "ret": 0.0279,
+      "pop": 0.109476,
+      "persistence": 3,
+      "dispersion": null,
+      "breadth": null,
+      "score": NaN,
+      "stance": "AVOID",
+      "is_new": false,
+      "core_stocks": []
+    },
+    {
+      "code": "BK1637",
+      "name": "东方财富热股",
+      "type": "concept",
+      "ret": 0.0267,
+      "pop": 1.335603,
+      "persistence": 3,
+      "dispersion": null,
+      "breadth": null,
+      "score": NaN,
+      "stance": "AVOID",
+      "is_new": false,
+      "core_stocks": []
+    },
+    {
+      "code": "BK0959",
+      "name": "数字阅读",
+      "type": "concept",
+      "ret": 0.0214,
+      "pop": -0.27004,
+      "persistence": 3,
+      "dispersion": null,
+      "breadth": null,
+      "score": NaN,
+      "stance": "AVOID",
+      "is_new": false,
+      "core_stocks": []
+    },
+    {
+      "code": "BK0892",
+      "name": "乳业",
+      "type": "concept",
+      "ret": 0.0213,
+      "pop": 0.22625,
+      "persistence": 3,
+      "dispersion": null,
+      "breadth": null,
+      "score": NaN,
+      "stance": "AVOID",
+      "is_new": true,
+      "core_stocks": []
+    },
+    {
+      "code": "BK0990",
+      "name": "快递概念",
+      "type": "concept",
+      "ret": 0.0207,
+      "pop": 0.31383,
+      "persistence": 3,
+      "dispersion": null,
+      "breadth": null,
+      "score": NaN,
+      "stance": "AVOID",
+      "is_new": true,
+      "core_stocks": []
+    },
+    {
+      "code": "BK0853",
+      "name": "电子竞技",
+      "type": "concept",
+      "ret": 0.0206,
+      "pop": 0.167863,
+      "persistence": 3,
+      "dispersion": null,
+      "breadth": null,
+      "score": NaN,
+      "stance": "AVOID",
+      "is_new": true,
+      "core_stocks": []
+    },
+    {
+      "code": "BK0927",
+      "name": "免税概念",
+      "type": "concept",
+      "ret": 0.0194,
+      "pop": -0.036492,
+      "persistence": 3,
+      "dispersion": null,
+      "breadth": null,
+      "score": NaN,
+      "stance": "AVOID",
+      "is_new": true,
+      "core_stocks": []
+    },
+    {
+      "code": "BK1017",
+      "name": "资源开采概念",
+      "type": "concept",
+      "ret": 0.019,
+      "pop": 0.051089,
+      "persistence": 3,
+      "dispersion": null,
+      "breadth": null,
+      "score": NaN,
+      "stance": "AVOID",
+      "is_new": false,
+      "core_stocks": []
+    }
+  ],
+  "indices": {
+    "CSI100": {
+      "open": 390594.0,
+      "high": 393036.0,
+      "low": 388065.0,
+      "close": 391193.0,
+      "ret": -0.56,
+      "volume": 54775808.0,
+      "turnover": 182442522594.7
+    },
+    "HS300": {
+      "open": 407857.0,
+      "high": 410066.0,
+      "low": 405756.0,
+      "close": 408403.0,
+      "ret": -0.52,
+      "volume": 130873721.0,
+      "turnover": 325727751300.0
+    },
+    "CSI500": {
+      "open": 675646.0,
+      "high": 678732.0,
+      "low": 667440.0,
+      "close": 674072.0,
+      "ret": -1.08,
+      "volume": 102626229.0,
+      "turnover": 214985142696.2
+    },
+    "CSI1000": {
+      "open": 668493.0,
+      "high": 670468.0,
+      "low": 658913.0,
+      "close": 665710.0,
+      "ret": -1.15,
+      "volume": 158167071.0,
+      "turnover": 246422419954.4
+    },
+    "CSI2000": {
+      "open": 283379.0,
+      "high": 285330.0,
+      "low": 279882.0,
+      "close": 283075.0,
+      "ret": -0.89,
+      "volume": 204032841.0,
+      "turnover": 263146321274.0
+    },
+    "SHCOMP": {
+      "open": 367100.0,
+      "high": 369901.0,
+      "low": 366482.0,
+      "close": 368602.0,
+      "ret": -0.12,
+      "volume": 320309809.0,
+      "turnover": 556981331802.2
+    },
+    "hs300": {
+      "open": 407857.0,
+      "high": 410066.0,
+      "low": 405756.0,
+      "close": 408403.0,
+      "ret": -0.52,
+      "volume": 130873721.0,
+      "turnover": 325727751300.0
+    },
+    "csi1000": {
+      "open": 668493.0,
+      "high": 670468.0,
+      "low": 658913.0,
+      "close": 665710.0,
+      "ret": -1.15,
+      "volume": 158167071.0,
+      "turnover": 246422419954.4
+    },
+    "shcomp": {
+      "open": 367100.0,
+      "high": 369901.0,
+      "low": 366482.0,
+      "close": 368602.0,
+      "ret": -0.12,
+      "volume": 320309809.0,
+      "turnover": 556981331802.2
+    }
+  },
+  "market_indices": {},
+  "disclaimer": "本页面仅为个人研究与技术演示，不构成投资建议。"
+}
