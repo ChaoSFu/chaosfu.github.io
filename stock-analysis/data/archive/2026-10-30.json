@@ -1,0 +1,473 @@
+{
+  "date": "2026-10-30",
+  "market": {
+    "risk_on": false,
+    "broad_strength": 1.72,
+    "advice": "DEFENSE"
+  },
+  "industry_boards": [
+    {
+      "code": "BK1575",
+      "name": "白酒Ⅲ",
+      "type": "industry",
+      "ret": 0.0518,
+      "pop": -0.011323,
+      "persistence": 3,
+      "dispersion": 0.017751,
+      "breadth": 1.0,
+      "score": 2.712893,
+      "stance": "STRONG_BUY",
+      "is_new": true,
+      "core_stocks": [
+        {
+          "code": "000995",
+          "name": "皇台酒业",
+          "ret": 0.1001,
+          "core": 3.193489
+        },
+        {
+          "code": "000860",
+          "name": "顺鑫农业",
+          "ret": 0.0726,
+          "core": 0.81397
+        },
+        {
+          "code": "000596",
+          "name": "古井贡酒",
+          "ret": 0.1,
+          "core": 0.783352
+        }
+      ]
+    },
+    {
+      "code": "BK1277",
+      "name": "白酒Ⅱ",
+      "type": "industry",
+      "ret": 0.0518,
+      "pop": -0.011323,
+      "persistence": 3,
+      "dispersion": 0.017717,
+      "breadth": 1.0,
+      "score": 2.712893,
+      "stance": "STRONG_BUY",
+      "is_new": true,
+      "core_stocks": [
+        {
+          "code": "000995",
+          "name": "皇台酒业",
+          "ret": 0.1001,
+          "core": 3.193489
+        },
+        {
+          "code": "000860",
+          "name": "顺鑫农业",
+          "ret": 0.0726,
+          "core": 0.81397
+        },
+        {
+          "code": "000596",
+          "name": "古井贡酒",
+          "ret": 0.1,
+          "core": 0.783352
+        }
+      ]
+    },
+    {
+      "code": "BK1347",
+      "name": "纺织鞋类制造",
+      "type": "industry",
+      "ret": 0.0368,
+      "pop": -0.554851,
+      "persistence": 3,
+      "dispersion": 0.0,
+      "breadth": 1.0,
+      "score": 2.104537,
+      "stance": "STRONG_BUY",
+      "is_new": false,
+      "core_stocks": [
+        {
+          "code": "300979",
+          "name": "华利集团",
+          "ret": 0.0366,
+          "core": -0.420099
+        }
+      ]
+    },
+    {
+      "code": "BK1548",
+      "name": "综合电商",
+      "type": "industry",
+      "ret": 0.0354,
+      "pop": -0.524655,
+      "persistence": 3,
+      "dispersion": null,
+      "breadth": null,
+      "score": NaN,
+      "stance": "AVOID",
+      "is_new": true,
+      "core_stocks": []
+    },
+    {
+      "code": "BK1600",
+      "name": "医疗研发外包",
+      "type": "industry",
+      "ret": 0.0348,
+      "pop": 0.079264,
+      "persistence": 3,
+      "dispersion": null,
+      "breadth": null,
+      "score": NaN,
+      "stance": "AVOID",
+      "is_new": false,
+      "core_stocks": []
+    },
+    {
+      "code": "BK1560",
+      "name": "酒店",
+      "type": "industry",
+      "ret": 0.0263,
+      "pop": -0.464263,
+      "persistence": 3,
+      "dispersion": null,
+      "breadth": null,
+      "score": NaN,
+      "stance": "AVOID",
+      "is_new": true,
+      "core_stocks": []
+    },
+    {
+      "code": "BK1583",
+      "name": "零食",
+      "type": "industry",
+      "ret": 0.0259,
+      "pop": -0.343479,
+      "persistence": 3,
+      "dispersion": null,
+      "breadth": null,
+      "score": NaN,
+      "stance": "AVOID",
+      "is_new": true,
+      "core_stocks": []
+    },
+    {
+      "code": "BK1586",
+      "name": "软饮料",
+      "type": "industry",
+      "ret": 0.021,
+      "pop": -0.373675,
+      "persistence": 3,
+      "dispersion": null,
+      "breadth": null,
+      "score": NaN,
+      "stance": "AVOID",
+      "is_new": true,
+      "core_stocks": []
+    },
+    {
+      "code": "BK1482",
+      "name": "航运",
+      "type": "industry",
+      "ret": 0.018,
+      "pop": -0.101911,
+      "persistence": 3,
+      "dispersion": null,
+      "breadth": null,
+      "score": NaN,
+      "stance": "AVOID",
+      "is_new": true,
+      "core_stocks": []
+    },
+    {
+      "code": "BK1606",
+      "name": "线下药店",
+      "type": "industry",
+      "ret": 0.0172,
+      "pop": -0.434067,
+      "persistence": 3,
+      "dispersion": null,
+      "breadth": null,
+      "score": NaN,
+      "stance": "AVOID",
+      "is_new": false,
+      "core_stocks": []
+    }
+  ],
+  "concept_boards": [
+    {
+      "code": "BK0477",
+      "name": "酿酒概念",
+      "type": "concept",
+      "ret": 0.0286,
+      "pop": 0.320832,
+      "persistence": 3,
+      "dispersion": null,
+      "breadth": null,
+      "score": NaN,
+      "stance": "AVOID",
+      "is_new": true,
+      "core_stocks": []
+    },
+    {
+      "code": "BK0899",
+      "name": "CRO",
+      "type": "concept",
+      "ret": 0.0207,
+      "pop": 0.381224,
+      "persistence": 3,
+      "dispersion": null,
+      "breadth": null,
+      "score": NaN,
+      "stance": "AVOID",
+      "is_new": false,
+      "core_stocks": []
+    },
+    {
+      "code": "BK0896",
+      "name": "白酒",
+      "type": "concept",
+      "ret": 0.0188,
+      "pop": 0.10946,
+      "persistence": 3,
+      "dispersion": null,
+      "breadth": null,
+      "score": NaN,
+      "stance": "AVOID",
+      "is_new": true,
+      "core_stocks": []
+    },
+    {
+      "code": "BK0811",
+      "name": "超级品牌",
+      "type": "concept",
+      "ret": 0.0134,
+      "pop": 0.10946,
+      "persistence": 3,
+      "dispersion": null,
+      "breadth": null,
+      "score": NaN,
+      "stance": "AVOID",
+      "is_new": true,
+      "core_stocks": []
+    },
+    {
+      "code": "BK1146",
+      "name": "减肥药",
+      "type": "concept",
+      "ret": 0.0123,
+      "pop": 0.200048,
+      "persistence": 3,
+      "dispersion": null,
+      "breadth": null,
+      "score": NaN,
+      "stance": "AVOID",
+      "is_new": false,
+      "core_stocks": []
+    },
+    {
+      "code": "BK0986",
+      "name": "CAR-T细胞疗法",
+      "type": "concept",
+      "ret": 0.011,
+      "pop": -0.101911,
+      "persistence": 3,
+      "dispersion": null,
+      "breadth": null,
+      "score": NaN,
+      "stance": "AVOID",
+      "is_new": false,
+      "core_stocks": []
+    },
+    {
+      "code": "BK1063",
+      "name": "重组蛋白",
+      "type": "concept",
+      "ret": 0.0071,
+      "pop": -0.101911,
+      "persistence": 3,
+      "dispersion": null,
+      "breadth": null,
+      "score": NaN,
+      "stance": "AVOID",
+      "is_new": false,
+      "core_stocks": []
+    },
+    {
+      "code": "BK0944",
+      "name": "肝素概念",
+      "type": "concept",
+      "ret": 0.007,
+      "pop": -0.373675,
+      "persistence": 3,
+      "dispersion": null,
+      "breadth": null,
+      "score": NaN,
+      "stance": "AVOID",
+      "is_new": true,
+      "core_stocks": []
+    },
+    {
+      "code": "BK0996",
+      "name": "毛发医疗",
+      "type": "concept",
+      "ret": 0.0063,
+      "pop": -0.252891,
+      "persistence": 3,
+      "dispersion": null,
+      "breadth": null,
+      "score": NaN,
+      "stance": "AVOID",
+      "is_new": true,
+      "core_stocks": []
+    },
+    {
+      "code": "BK0818",
+      "name": "可燃冰",
+      "type": "concept",
+      "ret": 0.0062,
+      "pop": -0.434067,
+      "persistence": 3,
+      "dispersion": null,
+      "breadth": null,
+      "score": NaN,
+      "stance": "AVOID",
+      "is_new": false,
+      "core_stocks": []
+    }
+  ],
+  "indices": {
+    "CSI100": {
+      "open": 382190.0,
+      "high": 388382.0,
+      "low": 380126.0,
+      "close": 382939.0,
+      "ret": -1.27,
+      "volume": 68547895.0,
+      "turnover": 221826675977.6
+    },
+    "HS300": {
+      "open": 398524.0,
+      "high": 404687.0,
+      "low": 396886.0,
+      "close": 399256.0,
+      "ret": -1.22,
+      "volume": 176662910.0,
+      "turnover": 421318389461.8
+    },
+    "CSI500": {
+      "open": 631816.0,
+      "high": 648301.0,
+      "low": 628219.0,
+      "close": 629428.0,
+      "ret": -2.47,
+      "volume": 147880871.0,
+      "turnover": 267701804324.7
+    },
+    "CSI1000": {
+      "open": 624398.0,
+      "high": 642858.0,
+      "low": 618029.0,
+      "close": 619151.0,
+      "ret": -2.94,
+      "volume": 223061874.0,
+      "turnover": 319967525268.4
+    },
+    "CSI2000": {
+      "open": 265680.0,
+      "high": 274609.0,
+      "low": 262514.0,
+      "close": 262805.0,
+      "ret": -3.0,
+      "volume": 284201872.0,
+      "turnover": 342271156226.0
+    },
+    "SHCOMP": {
+      "open": 360565.0,
+      "high": 366021.0,
+      "low": 359526.0,
+      "close": 360544.0,
+      "ret": -1.26,
+      "volume": 465968758.0,
+      "turnover": 714508121974.6
+    },
+    "hs300": {
+      "open": 398524.0,
+      "high": 404687.0,
+      "low": 396886.0,
+      "close": 399256.0,
+      "ret": -1.22,
+      "volume": 176662910.0,
+      "turnover": 421318389461.8
+    },
+    "csi1000": {
+      "open": 624398.0,
+      "high": 642858.0,
+      "low": 618029.0,
+      "close": 619151.0,
+      "ret": -2.94,
+      "volume": 223061874.0,
+      "turnover": 319967525268.4
+    },
+    "shcomp": {
+      "open": 360565.0,
+      "high": 366021.0,
+      "low": 359526.0,
+      "close": 360544.0,
+      "ret": -1.26,
+      "volume": 465968758.0,
+      "turnover": 714508121974.6
+    }
+  },
+  "market_indices": {
+    "SHCOMP": {
+      "name": "上证指数",
+      "open": 3605.65,
+      "high": 3660.21,
+      "low": 3595.26,
+      "close": 3605.44,
+      "ret": -0.0126,
+      "volume": 465968758.0,
+      "turnover": 714508121974.6
+    },
+    "SZCOMP": {
+      "name": "深证成指",
+      "open": 10871.13,
+      "high": 11171.58,
+      "low": 10853.6,
+      "close": 10880.64,
+      "ret": -0.0231,
+      "volume": 573061967.0,
+      "turnover": 855709766112.8438
+    },
+    "CYBZ": {
+      "name": "创业板指",
+      "open": 2434.8,
+      "high": 2518.24,
+      "low": 2423.72,
+      "close": 2428.46,
+      "ret": -0.0354,
+      "volume": 186909688.0,
+      "turnover": 426225662591.15
+    },
+    "KCB50": {
+      "name": "科创50",
+      "open": 1190.95,
+      "high": 1218.8,
+      "low": 1164.04,
+      "close": 1169.65,
+      "ret": -0.0476,
+      "volume": 7926406.0,
+      "turnover": 65077038204.2
+    },
+    "BJ50": {
+      "name": "北证50",
+      "open": 893.56,
+      "high": 924.96,
+      "low": 887.15,
+      "close": 889.3,
+      "ret": -0.0228,
+      "volume": 6878554.0,
+      "turnover": 12611942777.0
+    }
+  },
+  "disclaimer": "本页面仅为个人研究与技术演示，不构成投资建议。"
+}
